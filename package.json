@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-wdzeng",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "wdzeng's eslint rule presets.",
   "author": "hyperbola",
   "main": "index.js",
