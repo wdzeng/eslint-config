@@ -1,0 +1,29 @@
+name: Publish
+
+on:
+  workflow_dispatch: ~
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    name: Add tags to repository
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get tags
+        id: version
+        uses: wdzeng/version@v1
+        with:
+          prefix: v
+      - name: Push tags
+        run: |
+          git tag -f ${{ steps.version.outputs.major }} main
+          git tag -f ${{ steps.version.outputs.minor }} main
+          git tag -f ${{ steps.version.outputs.version }} main
+          git push -f origin \
+            ${{ steps.version.outputs.major }} \
+            ${{ steps.version.outputs.minor }} \
+            ${{ steps.version.outputs.version }}
