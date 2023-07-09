@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-const { rules } = require('./index.cjs')
+const { rules } = require('./index.js')
 
 const overriddenRules = {
   'unicorn/prefer-module': 'off',
