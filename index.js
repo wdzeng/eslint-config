@@ -103,8 +103,39 @@ const unicornRules = {
   'unicorn/throw-new-error': 'warn'
 }
 
+const importRules = {
+  'import/first': 'warn',
+  'import/newline-after-import': ['warn', { considerComments: false, count: 1 }],
+  'import/order': [
+    'warn',
+    {
+      'alphabetize': {
+        caseInsensitive: false,
+        order: 'asc',
+        orderImportKind: 'asc'
+      },
+      'groups': [
+        'builtin',
+        'external',
+        ['internal', 'parent', 'sibling', 'index'],
+        ['object', 'type']
+      ],
+      'newlines-between': 'always',
+      'pathGroups': [{ group: 'internal', pattern: '@/**' }]
+    }
+  ],
+  'sort-imports': [
+    'warn',
+    {
+      ignoreCase: false,
+      ignoreDeclarationSort: true, // This is handled by import/order.
+      ignoreMemberSort: false
+    }
+  ]
+}
+
 module.exports = {
-  extends: ['eslint:recommended'],
-  plugins: ['unicorn'],
-  rules: Object.assign(basicRules, unicornRules)
+  extends: ['eslint:recommended', 'plugin:import/recommended'],
+  plugins: ['unicorn', 'import'],
+  rules: Object.assign(basicRules, unicornRules, importRules)
 }

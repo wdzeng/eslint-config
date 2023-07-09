@@ -10,7 +10,7 @@ const overriddenRules = {
 module.exports = {
   root: true,
   extends: ['plugin:prettier/recommended'],
-  plugins: ['unicorn'],
+  plugins: ['unicorn', 'import'],
   env: {
     browser: false,
     es2022: true,
