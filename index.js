@@ -80,7 +80,7 @@ const unicornRules = {
   'unicorn/prefer-module': 'error',
   'unicorn/prefer-native-coercion-functions': 'warn',
   'unicorn/prefer-negative-index': 'warn',
-  'unicorn/prefer-node-protocol': 'error',
+  'unicorn/prefer-node-protocol': 'warn',
   'unicorn/prefer-number-properties': 'error',
   'unicorn/prefer-object-from-entries': 'warn',
   'unicorn/prefer-optional-catch-binding': 'warn',
