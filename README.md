@@ -35,7 +35,6 @@ code:
 module.exports = {
   root: true,
   extends: ['wdzeng', 'plugin:prettier/recommended'],
-  plugins: ['unicorn'],
   env: {
     browser: false,
     es2022: true,
@@ -68,7 +67,6 @@ code:
 module.exports = {
   root: true,
   extends: ['wdzeng', 'wdzeng/typescript', 'plugin:prettier/recommended'],
-  plugins: ['unicorn'],
   env: {
     browser: false,
     es2022: true,
