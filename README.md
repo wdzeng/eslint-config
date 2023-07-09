@@ -21,7 +21,7 @@ incorporating ESLint.
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-unicorn eslint-plugin-import prettier@^2 github:wdzeng/eslint-config
+pnpm add -D eslint prettier@^2 github:wdzeng/eslint-config
 ```
 
 Note that do not install latest `prettier` as v3 is conflicted with latest
@@ -56,7 +56,7 @@ module.exports = {
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D typescript eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-unicorn @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-import eslint-import-resolver-typescript prettier@^2 github:wdzeng/eslint-config
+pnpm add -D typescript eslint prettier@^2 github:wdzeng/eslint-config
 ```
 
 Declare a `.eslintrc.cjs` file in your project and add the following JavaScript
