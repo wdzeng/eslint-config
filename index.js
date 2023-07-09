@@ -1,5 +1,5 @@
 const basicRules = {
-  'capitalized-comments': 'warn',
+  'capitalized-comments': ['warn', 'always', { ignoreConsecutiveComments: true }],
   'consistent-return': 'warn',
   'curly': ['warn', 'all'],
   'default-case-last': 'error',
