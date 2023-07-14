@@ -5,5 +5,5 @@ const unicornSelections = require('./presets/unicorn-selections.js')
 module.exports = {
   extends: ['eslint:recommended', 'plugin:import/recommended'],
   plugins: ['unicorn', 'import'],
-  rules: Object.assign(recommendedOverrides, unicornSelections, importOverrides)
+  rules: Object.assign({}, recommendedOverrides, unicornSelections, importOverrides)
 }

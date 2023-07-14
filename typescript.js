@@ -14,6 +14,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['unicorn', 'import', '@typescript-eslint'],
   rules: Object.assign(
+    {},
     recommendedOverrides,
     typescriptOverrides,
     unicornSelections,

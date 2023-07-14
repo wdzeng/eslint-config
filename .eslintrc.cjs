@@ -20,5 +20,5 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'commonjs'
   },
-  rules: Object.assign(rules, overriddenRules)
+  rules: Object.assign({}, rules, overriddenRules),
 }
