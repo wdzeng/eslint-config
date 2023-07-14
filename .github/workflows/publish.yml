@@ -20,6 +20,7 @@ jobs:
         run: pnpm test
   tag:
     name: Add tags to repository
+    needs: unittests
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
