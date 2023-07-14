@@ -3,6 +3,7 @@
 module.exports = {
   'unicorn/consistent-function-scoping': 'warn',
   'unicorn/new-for-builtins': 'warn',
+  'unicorn/no-array-for-each': 'warn',
   'unicorn/no-array-method-this-argument': 'error',
   'unicorn/no-await-expression-member': 'warn',
   'unicorn/no-console-spaces': 'warn',
