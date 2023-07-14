@@ -1,11 +1,4 @@
-const conflictedJavascriptRules = {
-  // JavaScript no-shadow rule doesn't work with TypeScript.
-  'no-shadow': 'off'
-}
-
-const typescriptRules = {
-  '@typescript-eslint/no-shadow': 'error'
-}
+const typescriptOverrides = require('./presets/typescript-overrides.js')
 
 module.exports = {
   extends: [
@@ -15,7 +8,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  rules: Object.assign(conflictedJavascriptRules, typescriptRules),
+  rules: Object.assign(typescriptOverrides),
   settings: {
     // https://github.com/import-js/eslint-plugin-import/tree/main#typescript
     'import/resolver': {
