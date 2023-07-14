@@ -31,7 +31,8 @@ module.exports = {
   'no-useless-call': 'warn',
   'no-useless-return': 'warn',
   'no-var': 'warn',
-  'no-void': 'warn',
+  // Allow fire and forget promises.
+  'no-void': ['warn', { allowAsStatement: true }],
   'prefer-const': 'warn',
   'prefer-promise-reject-errors': 'warn',
   'prefer-template': 'warn',
