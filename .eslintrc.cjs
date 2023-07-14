@@ -19,7 +19,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: 'commonjs',
+    sourceType: 'module',
     project: './tsconfig.json'
   },
   rules: Object.assign({}, rules, overriddenRules),
