@@ -27,7 +27,10 @@ module.exports = {
   'no-tabs': 'warn',
   'no-throw-literal': 'warn',
   'no-unused-expressions': 'warn',
-  'no-unused-vars': 'warn',
+  // Allow unused arguments. This is useful for overriding functions or implementing event
+  // listeners. However, tsc still complain this unless the argument name has prefixed with
+  // underscore; therefore align the ESLint rule with tsc.
+  'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   'no-useless-call': 'warn',
   'no-useless-return': 'warn',
   'no-var': 'warn',
