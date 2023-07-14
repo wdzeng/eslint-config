@@ -3,10 +3,16 @@
 
 /* eslint-disable sort-keys */
 
-module.exports = {
-  // JavaScript no-shadow rule doesn't work with TypeScript.
-  'no-shadow': 'off',
-  '@typescript-eslint/no-shadow': 'error',
-  'no-unused-vars': 'off',
-  '@typescript-eslint/no-unused-vars': 'warn'
-}
+const jsRules = require('./recommended-overrides')
+
+const overriddenRules = ['no-shadow']
+
+module.exports = Object.assign(
+  {},
+  ...overriddenRules.map((rule) => {
+    const ret = {}
+    ret[rule] = 'off'
+    ret[`@typescript-eslint/${rule}`] = jsRules[rule]
+    return ret
+  })
+)
