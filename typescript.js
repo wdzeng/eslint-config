@@ -4,12 +4,15 @@ const conflictedJavascriptRules = {
 }
 
 const typescriptRules = {
-  '@typescript-eslint/no-implicit-any-catch': 'warn',
   '@typescript-eslint/no-shadow': 'error'
 }
 
 module.exports = {
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:import/typescript'],
+  extends: [
+    'plugin:@typescript-eslint/strict-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
+    'plugin:import/typescript'
+  ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   rules: Object.assign(conflictedJavascriptRules, typescriptRules),
