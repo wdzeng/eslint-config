@@ -4,5 +4,6 @@
 
 module.exports = {
   'curly': ['warn', 'all'],
-  'no-tabs': ['warn', { allowIndentationTabs: false }]
+  'no-tabs': ['warn', { allowIndentationTabs: false }],
+  'quotes': ['warn', 'single', { allowTemplateLiterals: false, avoidEscape: true }]
 }
