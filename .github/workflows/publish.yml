@@ -5,11 +5,22 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
+  unittests:
+    name: Run unittests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+      - name: Run unittests
+        run: pnpm test
   tag:
     name: Add tags to repository
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
