@@ -21,11 +21,8 @@ incorporating ESLint.
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D eslint prettier@^2 github:wdzeng/eslint-config
+pnpm add -D eslint prettier github:wdzeng/eslint-config
 ```
-
-Note that do not install latest `prettier` as v3 is conflicted with latest
-ESLint.
 
 Declare a `.eslintrc.cjs` file in your project and add the following JavaScript
 code:
@@ -34,7 +31,7 @@ code:
 /* eslint-env node */
 module.exports = {
   root: true,
-  extends: ['wdzeng', 'plugin:prettier/recommended'],
+  extends: ['wdzeng'],
   env: {
     browser: false,
     es2022: true,
@@ -56,7 +53,7 @@ module.exports = {
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D typescript eslint prettier@^2 github:wdzeng/eslint-config
+pnpm add -D typescript eslint prettier github:wdzeng/eslint-config
 ```
 
 Declare a `.eslintrc.cjs` file in your project and add the following JavaScript
@@ -66,7 +63,7 @@ code:
 /* eslint-env node */
 module.exports = {
   root: true,
-  extends: ['wdzeng', 'wdzeng/typescript', 'plugin:prettier/recommended'],
+  extends: ['wdzeng/typescript'],
   env: {
     browser: false,
     es2022: true,
@@ -74,7 +71,8 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: 'module'
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   rules: {
     // Your custom rules go here ...
