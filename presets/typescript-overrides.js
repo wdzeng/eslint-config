@@ -5,7 +5,7 @@
 
 const jsRules = require('./recommended-overrides')
 
-const overriddenRules = ['no-shadow', 'no-unused-vars']
+const overriddenRules = ['no-shadow', 'no-unused-expressions', 'no-unused-vars']
 
 module.exports = Object.assign(
   {},
