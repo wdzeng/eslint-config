@@ -39,6 +39,7 @@ module.exports = {
   'prefer-const': 'warn',
   'prefer-promise-reject-errors': 'warn',
   'prefer-template': 'warn',
+  'quote-props': ['warn', 'consistent-as-needed'],
   'require-await': 'warn',
   'sort-keys': ['warn', 'asc', { caseSensitive: true, natural: true }],
   'spaced-comment': 'warn'
