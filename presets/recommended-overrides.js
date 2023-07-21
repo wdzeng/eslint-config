@@ -41,6 +41,10 @@ module.exports = {
   'prefer-template': 'warn',
   'quote-props': ['warn', 'consistent-as-needed'],
   'require-await': 'warn',
-  'sort-keys': ['warn', 'asc', { caseSensitive: true, natural: true }],
+  'sort-keys': [
+    'warn',
+    'asc',
+    { allowLineSeparatedGroups: true, caseSensitive: true, minKeys: 4, natural: true }
+  ],
   'spaced-comment': 'warn'
 }
