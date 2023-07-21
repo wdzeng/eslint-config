@@ -5,14 +5,30 @@
 
 const jsRules = require('./recommended-overrides')
 
-const overriddenRules = ['no-shadow', 'no-unused-expressions', 'no-unused-vars']
+const overriddenRules = {
+  'no-empty-function': [
+    'warn',
+    {
+      allow: [
+        'private-constructors',
+        'protected-constructors',
+        'overrideMethods',
+        'decoratedFunctions'
+      ]
+    }
+  ],
+  'no-shadow': undefined,
+  'no-unused-expressions': undefined,
+  'no-unused-vars': undefined
+}
 
 module.exports = Object.assign(
   {},
-  ...overriddenRules.map((rule) => {
+  ...Object.entries(overriddenRules).map((entry) => {
+    const [ruleName, settings] = entry
     const ret = {}
-    ret[rule] = 'off'
-    ret[`@typescript-eslint/${rule}`] = jsRules[rule]
+    ret[ruleName] = 'off'
+    ret[`@typescript-eslint/${ruleName}`] = settings ?? jsRules[ruleName]
     return ret
   })
 )
