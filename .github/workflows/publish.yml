@@ -35,7 +35,4 @@ jobs:
           git tag -f ${{ steps.version.outputs.major }} main
           git tag -f ${{ steps.version.outputs.minor }} main
           git tag -f ${{ steps.version.outputs.version }} main
-          git push -f origin \
-            ${{ steps.version.outputs.major }} \
-            ${{ steps.version.outputs.minor }} \
-            ${{ steps.version.outputs.version }}
+          git push -f origin ${{ steps.version.outputs.version }}
