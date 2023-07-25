@@ -16,9 +16,9 @@
   },
   "scripts": {
     "lint": "eslint --fix index.js presets",
-    "regen-testcases": "pnpm regen-testcases:js && pnpm regen-testcases:ts",
-    "regen-testcases:js": "cp -r tests/js/in tests/js/out && eslint --config tests/js/.eslintrc.test.cjs --no-ignore --fix tests/js/out >/dev/null",
-    "regen-testcases:ts": "cp -Lr tests/ts/in tests/ts/out && eslint --config tests/ts/.eslintrc.test.cjs --no-ignore --fix tests/ts/out >/dev/null",
+    "regen-testcases": "pnpm regen-testcases:js; pnpm regen-testcases:ts",
+    "regen-testcases:js": "rm -rf tests/js/out && cp -r tests/js/in tests/js/out && eslint --config tests/js/.eslintrc.test.cjs --no-ignore --fix tests/js/out >/dev/null",
+    "regen-testcases:ts": "rm -rf tests/ts/out && cp -Lr tests/ts/in tests/ts/out && REGEN_TESTCASES=1 eslint --config tests/ts/.eslintrc.test.cjs --no-ignore --fix tests/ts/out >/dev/null",
     "test": "cp -r tests/js/in tests/js/tmp && cp -Lr tests/ts/in tests/ts/tmp && ava; pnpm clean",
     "clean": "rm -rf tests/js/tmp tests/ts/tmp"
   },
@@ -33,6 +33,7 @@
     "eslint-plugin-unicorn": "^48.0.1"
   },
   "devDependencies": {
+    "@types/eslint": "^8.44.1",
     "@types/node": "^18.16.19",
     "ava": "^5.3.1",
     "eslint": "^8.45.0",
