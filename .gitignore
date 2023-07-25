@@ -130,6 +130,4 @@ dist
 .pnp.*
 
 # Exclude in/out directories in testcases
-tests/**/.in
-!tests/**/in
-!tests/**/out
+tests/js/tmp

@@ -11,9 +11,9 @@
   },
   "scripts": {
     "lint": "eslint --fix index.js presets",
-    "regen-testcases": "rm -rf tests/js/out && cp -r tests/js/in tests/js/out && eslint --config tests/js/.eslintrc.cjs --fix tests/js/out >/dev/null",
-    "test": "cp -r tests/js/in tests/js/.in && ava; rm -rf tests/js/in && mv tests/js/.in tests/js/in",
-    "clean": "rm -rf tests/js/.in"
+    "regen-testcases": "cp -r tests/js/in tests/js/out && eslint --config tests/js/.eslintrc.cjs --fix tests/js/out >/dev/null",
+    "test": "cp -r tests/js/in tests/js/tmp && ava; pnpm clean",
+    "clean": "rm -rf tests/js/tmp"
   },
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.2.0",

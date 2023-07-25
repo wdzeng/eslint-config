@@ -8,7 +8,7 @@ import test from 'ava'
 import eslint from 'eslint'
 
 const currentDir = path.dirname(url.fileURLToPath(import.meta.url))
-const inputPattern = path.resolve(currentDir, 'in', '*.js')
+const inputPattern = path.resolve(currentDir, 'tmp', '*.js')
 const linter = new eslint.ESLint({ fix: true })
 const results = await linter.lintFiles([inputPattern])
 await eslint.ESLint.outputFixes(results)
