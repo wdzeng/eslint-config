@@ -2,21 +2,16 @@
 
 These are my custom rules for [ESLint](https://eslint.org/).
 
-This configuration extends the
-[`eslint:recommended`](https://github.com/eslint/eslint/blob/main/packages/js/src/configs/eslint-recommended.js)
-preset and includes certain rules from the
-[`unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn) plugin.
-However, it does not extend the
-[`unicorn:recommended`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/configs/recommended.js)
-preset because some of its rules are too strict.
+This configuration contains rules from the following presets and plugins.
 
-To make the most of [Prettier](https://prettier.io/), it is advisable to utilize
-the
-[eslint prettier plugin](https://github.com/prettier/eslint-plugin-prettier).
-This plugin enables you to format and lint your code simultaneously by
-incorporating ESLint.
+- [`eslint:recommended`](https://github.com/eslint/eslint/blob/main/packages/js/src/configs/eslint-recommended.js)
+- [`typescript-eslint`](https://typescript-eslint.io/)
+- [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n)
+- [`unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn)
+- [`import`](https://github.com/import-js/eslint-plugin-import)
+- [`prettier`](https://github.com/prettier/eslint-plugin-prettier)
 
-## Usage (JavaScript Project)
+## Setup with JavaScript Project
 
 Install the required packages by running the following command in your shell:
 
@@ -24,11 +19,9 @@ Install the required packages by running the following command in your shell:
 pnpm add -D eslint prettier github:wdzeng/eslint-config
 ```
 
-Declare a `.eslintrc.cjs` file in your project and add the following JavaScript
-code:
+Declare a `.eslintrc.cjs` file in your project and add the following JavaScript code:
 
 ```js
-/* eslint-env node */
 module.exports = {
   root: true,
   extends: ['wdzeng'],
@@ -48,7 +41,16 @@ module.exports = {
 }
 ```
 
-## Usage (TypeScript Project)
+Lint your codebase using ESLint:
+
+```shell
+npx eslint --fix
+```
+
+> [!NOTE]  
+> Also add a .prettierrc in your project. Prettier rules are also selected.
+
+## Setup with TypeScript Project
 
 Install the required packages by running the following command in your shell:
 
@@ -56,11 +58,9 @@ Install the required packages by running the following command in your shell:
 pnpm add -D typescript eslint prettier github:wdzeng/eslint-config
 ```
 
-Declare a `.eslintrc.cjs` file in your project and add the following JavaScript
-code:
+Declare a `.eslintrc.cjs` file in your project and add the following JavaScript code:
 
 ```js
-/* eslint-env node */
 module.exports = {
   root: true,
   extends: ['wdzeng/typescript'],
