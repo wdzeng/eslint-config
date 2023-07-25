@@ -10,7 +10,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 13,
     sourceType: 'module',
-    project: './tsconfig.json'
+    project: './ts/tsconfig.test.json'
   },
   rules: {
     // Your custom rules go here ...
