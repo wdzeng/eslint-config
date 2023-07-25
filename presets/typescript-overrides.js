@@ -5,8 +5,10 @@
 
 const jsRules = require('./recommended-overrides')
 
-const overriddenRules = {
-  'no-empty-function': [
+module.exports = {
+  // Rules in eslint:recommended that conflict with @typescript-eslint/no-shadow.
+  'no-empty-function': 'off',
+  '@typescript-eslint/no-empty-function': [
     'warn',
     {
       allow: [
@@ -17,18 +19,14 @@ const overriddenRules = {
       ]
     }
   ],
-  'no-shadow': undefined,
-  'no-unused-expressions': undefined,
-  'no-unused-vars': undefined
-}
+  'no-shadow': 'off',
+  '@typescript-eslint/no-shadow': jsRules['no-shadow'],
+  'no-unused-expressions': 'off',
+  '@typescript-eslint/no-unused-expressions': jsRules['no-unused-expressions'],
+  'no-unused-vars': 'off',
+  '@typescript-eslint/no-unused-vars': jsRules['no-unused-vars'],
 
-module.exports = Object.assign(
-  {},
-  ...Object.entries(overriddenRules).map((entry) => {
-    const [ruleName, settings] = entry
-    const ret = {}
-    ret[ruleName] = 'off'
-    ret[`@typescript-eslint/${ruleName}`] = settings ?? jsRules[ruleName]
-    return ret
-  })
-)
+  // These two rules do not handle path aliases, so disable.
+  'n/no-missing-requires': 'off',
+  'n/no-missing-imports': 'off'
+}
