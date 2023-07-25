@@ -10,7 +10,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: 'module'
+    sourceType: 'script'
   },
   rules: {
     'unicorn/prefer-module': 'off',
@@ -18,10 +18,9 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.cjs'],
+      files: ['**/*.mjs'],
       parserOptions: {
-        ecmaVersion: 13,
-        sourceType: 'script'
+        sourceType: 'module'
       }
     }
   ]
