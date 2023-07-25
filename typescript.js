@@ -1,4 +1,5 @@
 const importOverrides = require('./presets/import-overrides.js')
+const nSelections = require('./presets/n-selections.js')
 const prettierOverrides = require('./presets/prettier-overrides.js')
 const recommendedOverrides = require('./presets/recommended-overrides.js')
 const typescriptOverrides = require('./presets/typescript-overrides.js')
@@ -14,10 +15,11 @@ module.exports = {
     'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['unicorn', 'import', '@typescript-eslint', 'prettier'],
+  plugins: ['n', 'unicorn', 'import', '@typescript-eslint', 'prettier'],
   rules: Object.assign(
     {},
     recommendedOverrides,
+    nSelections,
     typescriptOverrides,
     unicornSelections,
     importOverrides,

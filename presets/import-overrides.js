@@ -4,6 +4,9 @@
 module.exports = {
   'import/first': 'warn',
   'import/newline-after-import': ['warn', { considerComments: false, count: 1 }],
+  // This rule has too many false positives. See
+  // https://github.com/import-js/eslint-plugin-import/issues/2132.
+  'import/no-unresolved': 'off',
   'import/order': [
     'warn',
     {
@@ -22,6 +25,8 @@ module.exports = {
       'pathGroups': [{ group: 'internal', pattern: '@/**' }]
     }
   ],
+  // Though this rule is built-in to eslint, it's included here since import/order is overriding its
+  // default.
   'sort-imports': [
     'warn',
     {
