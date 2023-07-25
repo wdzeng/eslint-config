@@ -1,9 +1,4 @@
-# Project configuration
-.eslintrc.cjs
-ava.config.mjs
-
 # Test configuration and data
-.eslintrc.test.cjs
 tests/js/in
 tests/js/out
 tests/js/tmp

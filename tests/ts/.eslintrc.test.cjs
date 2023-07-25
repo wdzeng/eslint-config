@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 module.exports = {
   root: true,
   extends: ['../../typescript'],
@@ -9,7 +11,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 13,
     sourceType: 'module',
-    project: process.env.REGEN_TESTCASES ? './tests/ts/tsconfig.regen.json' : './tests/ts/tsconfig.test.json'
+    project: process.env.REGEN_TESTCASES
+      ? './tests/ts/tsconfig.regen.json'
+      : './tests/ts/tsconfig.test.json'
   },
   rules: {
     // Your custom rules go here ...

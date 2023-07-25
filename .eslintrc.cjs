@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 module.exports = {
   root: true,
   extends: ['./index'],
@@ -8,11 +10,19 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: 'module',
-    project: './tsconfig.json'
+    sourceType: 'module'
   },
   rules: {
     'unicorn/prefer-module': 'off',
     'prettier/prettier': 'warn'
-  }
+  },
+  overrides: [
+    {
+      files: ['**/*.cjs'],
+      parserOptions: {
+        ecmaVersion: 13,
+        sourceType: 'script'
+      }
+    }
+  ]
 }

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 module.exports = {
   root: true,
   extends: ['../../index'],
@@ -11,7 +13,6 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    // Your custom rules go here ...
     'prettier/prettier': 'warn'
   }
 }
