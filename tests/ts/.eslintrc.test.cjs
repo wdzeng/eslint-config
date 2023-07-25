@@ -16,7 +16,6 @@ module.exports = {
       : './tests/ts/tsconfig.test.json'
   },
   rules: {
-    // Your custom rules go here ...
     'prettier/prettier': 'warn'
   }
 }
