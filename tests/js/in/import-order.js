@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-
 import localA from './local-a'
 import externalB from 'external-b'
 import path from 'node:path'
