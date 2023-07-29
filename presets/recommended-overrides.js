@@ -21,7 +21,9 @@ module.exports = {
   'no-new-func': 'error',
   'no-new-object': 'warn',
   'no-new-wrappers': 'warn',
-  'no-return-await': 'warn',
+  // Rule `no-return-await` is deprecated in ESLint v8.46.0; see
+  // https://github.com/eslint/eslint/releases/tag/v8.46.0
+  // 'no-return-await': 'warn',
   'no-sequences': 'warn',
   'no-shadow': 'error',
   'no-tabs': 'warn',
