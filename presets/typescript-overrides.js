@@ -27,6 +27,6 @@ module.exports = {
   '@typescript-eslint/no-unused-vars': jsRules['no-unused-vars'],
 
   // These two rules do not handle path aliases, so disable.
-  'n/no-missing-requires': 'off',
-  'n/no-missing-imports': 'off'
+  'n/no-missing-require': 'off',
+  'n/no-missing-import': 'off'
 }
