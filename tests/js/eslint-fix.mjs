@@ -7,7 +7,11 @@ import eslint from 'eslint'
 
 const currentDir = path.dirname(url.fileURLToPath(import.meta.url))
 const inputPattern = path.resolve(currentDir, 'tmp', '*.js')
-const linter = new eslint.ESLint({ fix: true, ignore: false })
+const linter = new eslint.ESLint({
+  fix: true,
+  ignore: false,
+  overrideConfigFile: path.resolve(currentDir, '.eslintrc.test.cjs')
+})
 const results = await linter.lintFiles([inputPattern])
 await eslint.ESLint.outputFixes(results)
 
