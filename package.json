@@ -3,8 +3,9 @@
   "version": "0.4.3",
   "description": "wdzeng's ESLint rule presets",
   "author": "hyperbola",
+  "license": "MIT",
   "main": "index.js",
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.0",
   "files": [
     "index.js",
     "typescript.js",
@@ -34,11 +35,25 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
-    "@types/node": "^18.17.11",
+    "@types/node": "^16.18.46",
     "ava": "^5.3.1",
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "prettier": "^3.0.2",
     "typescript": "^5.2.2"
   },
-  "license": "MIT"
+  "engines" : {
+    "node" : ">=16"
+  },
+  "pnpm": {
+    "overrides": {
+      "array-includes": "npm:@nolyfill/array-includes@latest",
+      "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
+      "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
+      "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@latest",
+      "has": "npm:@nolyfill/has@latest",
+      "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
+      "object.groupby": "npm:@nolyfill/object.groupby@latest",
+      "object.values": "npm:@nolyfill/object.values@latest"
+    }
+  }
 }
