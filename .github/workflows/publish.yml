@@ -35,5 +35,5 @@ jobs:
           prefix: v
       - name: Push tags
         run: |
-          git tag -f ${{ steps.version.outputs.version }} main
-          git push -f origin ${{ steps.version.outputs.version }}
+          git tag ${{ steps.version.outputs.version }} main
+          git push origin ${{ steps.version.outputs.version }}
