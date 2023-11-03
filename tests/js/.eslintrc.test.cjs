@@ -14,5 +14,13 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'warn'
-  }
+  },
+  overrides: [
+    {
+      files: ['import-order.js'],
+      rules: {
+        'n/no-missing-import': 'off'
+      }
+    }
+  ]
 }

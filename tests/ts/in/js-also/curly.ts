@@ -1,0 +1,1 @@
+../../../js/in/ts-also/curly.js

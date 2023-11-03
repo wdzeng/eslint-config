@@ -1,0 +1,1 @@
+../../../js/ans/ts-also/for-loop.js

@@ -1,1 +1,0 @@
-../../js/in/quote-prop.js
