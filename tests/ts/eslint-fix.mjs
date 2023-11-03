@@ -6,7 +6,7 @@ import test from 'ava'
 import eslint from 'eslint'
 
 const currentDir = path.dirname(url.fileURLToPath(import.meta.url))
-const inputPattern = path.resolve(currentDir, 'tmp', '*.ts')
+const inputPattern = path.resolve(currentDir, 'out', '*.ts')
 const linter = new eslint.ESLint({
   fix: true,
   ignore: false,
@@ -19,7 +19,7 @@ for (const result of results) {
   const testName = path.basename(result.filePath, '.ts')
   test(`ts/${testName}`, async (t) => {
     const expectedFixResult = await fs.readFile(
-      path.resolve(currentDir, 'out', `${testName}.ts`),
+      path.resolve(currentDir, 'ans', `${testName}.ts`),
       'utf8'
     )
     const realFixResult = result.output

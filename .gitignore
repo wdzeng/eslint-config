@@ -128,9 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Exclude in/out directories in testcases
-tests/js/tmp
-tests/ts/tmp
-!tests/js/out
-!tests/ts/out

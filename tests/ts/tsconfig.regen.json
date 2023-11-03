@@ -32,5 +32,5 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["out/*.ts"]
+  "include": ["ans/*.ts"]
 }

@@ -18,10 +18,10 @@
   "scripts": {
     "lint": "eslint --fix",
     "regen-testcases": "pnpm regen-testcases:js; pnpm regen-testcases:ts",
-    "regen-testcases:js": "rm -rf tests/js/out && cp -r tests/js/in tests/js/out && eslint --config tests/js/.eslintrc.test.cjs --no-ignore --fix tests/js/out >/dev/null",
-    "regen-testcases:ts": "rm -rf tests/ts/out && cp -Lr tests/ts/in tests/ts/out && REGEN_TESTCASES=1 eslint --config tests/ts/.eslintrc.test.cjs --no-ignore --fix tests/ts/out >/dev/null",
-    "test": "cp -r tests/js/in tests/js/tmp && cp -Lr tests/ts/in tests/ts/tmp && ava; pnpm clean",
-    "clean": "rm -rf tests/js/tmp tests/ts/tmp"
+    "regen-testcases:js": "rm -rf tests/js/ans && cp -r tests/js/in tests/js/ans && (eslint --config tests/js/.eslintrc.test.cjs --no-ignore --fix tests/js/ans >/dev/null || true)",
+    "regen-testcases:ts": "rm -rf tests/ts/ans && cp -Lr tests/ts/in tests/ts/ans && (REGEN_TESTCASES=1 eslint --config tests/ts/.eslintrc.test.cjs --no-ignore --fix tests/ts/ans >/dev/null || true)",
+    "test": "cp -r tests/js/in tests/js/out && cp -Lr tests/ts/in tests/ts/out && ava; pnpm clean",
+    "clean": "rm -rf tests/js/out tests/ts/out"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.9.1",
