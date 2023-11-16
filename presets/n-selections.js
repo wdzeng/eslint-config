@@ -6,7 +6,7 @@ module.exports = {
   'n/no-extraneous-require': 'error',
   'n/no-missing-import': 'error',
   'n/no-missing-require': 'error',
-  'n/no-unpublished-import': 'error',
+  'n/no-unpublished-import': ['error', { ignoreTypeImport: true }],
   'n/no-unpublished-require': 'error',
   'n/no-unsupported-features/es-builtins': 'error',
   'n/no-unsupported-features/es-syntax': 'error',
