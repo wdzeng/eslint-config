@@ -1,3 +1,5 @@
+// Redundant `else` and `else if` should be removed.
+
 export function isEven(a) {
   if (a % 2 === 0) {
     return true

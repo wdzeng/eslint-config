@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-// Just use fs so ESLint does not complain.
-console.log(fs)
+import fs from 'node:fs'

@@ -17,13 +17,5 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'warn'
-  },
-  overrides: [
-    {
-      files: ['import-order.ts'],
-      rules: {
-        'n/no-missing-import': 'off'
-      }
-    }
-  ]
+  }
 }

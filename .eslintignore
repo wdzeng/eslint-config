@@ -1,7 +1,5 @@
 # Test configuration and data
-tests/js/in
 tests/js/ans
 tests/js/out
-tests/ts/in
 tests/ts/ans
 tests/ts/out
