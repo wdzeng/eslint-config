@@ -18,6 +18,7 @@
   "scripts": {
     "lint": "eslint --fix",
     "test": "cp -r tests/js/in tests/js/out && cp -Lr tests/ts/in tests/ts/out && ava; pnpm clean",
+    "regen": "tests/regen.sh",
     "clean": "rm -rf tests/js/out tests/ts/out"
   },
   "dependencies": {
