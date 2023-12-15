@@ -1,0 +1,1 @@
+../../../js/ans/ts-also/no-negated-condition.js

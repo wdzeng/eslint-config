@@ -25,6 +25,8 @@ module.exports = {
   '@typescript-eslint/no-unused-expressions': jsRules['no-unused-expressions'],
   'no-unused-vars': 'off',
   '@typescript-eslint/no-unused-vars': jsRules['no-unused-vars'],
+  'dot-notation': 'off',
+  '@typescript-eslint/dot-notation': jsRules['dot-notation'],
 
   // These two rules do not handle path aliases, so disable.
   'n/no-missing-require': 'off',
