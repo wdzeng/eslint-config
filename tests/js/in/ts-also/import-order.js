@@ -1,5 +1,6 @@
 /* eslint-disable n/no-missing-import */
 /* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import localA from './a'
 import externalB from 'b'

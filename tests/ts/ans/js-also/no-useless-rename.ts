@@ -1,0 +1,1 @@
+../../../js/ans/ts-also/no-useless-rename.js
