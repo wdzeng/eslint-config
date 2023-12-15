@@ -13,10 +13,10 @@ npx eslint --config js/.eslintrc.test.cjs --no-ignore --fix 'js/ans/**/*.js'
 rm -rf ts/in/js-also
 mkdir -p ts/in/js-also ts/ans/js-also
 for f in js/in/ts-also/*.js; do
-  ln -s "../../../$f" "ts/in/js-also/$(basename ${f%.js}).ts"
+  ln -s "../../../$f" "ts/in/js-also/$(basename "${f%.js}").ts"
 done
 for f in js/ans/ts-also/*.js; do
-  ln -s "../../../$f" "ts/ans/js-also/$(basename ${f%.js}).ts"
+  ln -s "../../../$f" "ts/ans/js-also/$(basename "${f%.js}").ts"
 done
 
 # Lint TS
