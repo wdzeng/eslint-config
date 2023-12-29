@@ -62,7 +62,7 @@ module.exports = {
   'unicorn/prefer-ternary': 'warn',
   'unicorn/prefer-top-level-await': 'warn',
   'unicorn/prefer-type-error': 'warn',
-  'unicorn/switch-case-braces': 'warn',
+  'unicorn/switch-case-braces': ['warn', 'avoid'],
   'unicorn/text-encoding-identifier-case': 'warn',
   'unicorn/throw-new-error': 'warn'
 }
