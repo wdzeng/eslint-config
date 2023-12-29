@@ -1,1 +1,0 @@
-../../../js/ans/ts-also/no-else-return.js

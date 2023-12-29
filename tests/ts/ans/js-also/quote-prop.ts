@@ -1,1 +1,0 @@
-../../../js/ans/ts-also/quote-prop.js
