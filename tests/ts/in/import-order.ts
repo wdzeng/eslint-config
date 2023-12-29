@@ -3,10 +3,11 @@
 /* eslint-disable n/no-missing-import */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import localA from './a'
-import externalB from 'b'
+import type { r, q, p } from 'blah'
+import Corge from './corge'
+import Bar from 'bar'
 import path from 'node:path'
-import localB from './b'
-import externalA from 'a'
+import Quux from './quux'
+import Foo from 'foo'
 import fs from 'node:fs'
-import { z, y, x } from 'node:url'
+import { z, y, x } from 'qux'

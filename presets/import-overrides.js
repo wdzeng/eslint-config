@@ -7,6 +7,8 @@ module.exports = {
   // This rule has too many false positives. See
   // https://github.com/import-js/eslint-plugin-import/issues/2132.
   'import/no-unresolved': 'off',
+  // Note that ordering types are not supported so far. See
+  // https://github.com/import-js/eslint-plugin-import/issues/2441.
   'import/order': [
     'warn',
     {
