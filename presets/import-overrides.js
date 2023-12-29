@@ -36,5 +36,10 @@ module.exports = {
       ignoreDeclarationSort: true, // This is handled by import/order.
       ignoreMemberSort: false
     }
-  ]
+  ],
+  'import/consistent-type-specifier-style': ['warn', 'prefer-top-level'],
+
+  // import/no-duplicates takes over ESLint builtin no-duplicate-imports.
+  'no-duplicate-imports': 'off',
+  'import/no-duplicates': ['warn', { 'considerQueryString': true, 'prefer-inline': false }]
 }

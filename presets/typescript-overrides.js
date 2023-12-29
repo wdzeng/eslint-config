@@ -42,4 +42,6 @@ module.exports = {
 
   // Other customizations.
   '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
+  '@typescript-eslint/consistent-type-imports': 'error',
+  '@typescript-eslint/no-import-type-side-effects': 'warn',
 }
