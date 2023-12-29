@@ -1,1 +1,0 @@
-../../../js/ans/ts-also/dot-notation.js
