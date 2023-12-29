@@ -38,5 +38,8 @@ module.exports = {
   '@typescript-eslint/no-unnecessary-qualifier': 'warn',
   '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
   '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-  '@typescript-eslint/no-unnecessary-type-constraint': 'warn'
+  '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
+
+  // Other customizations.
+  '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
 }
