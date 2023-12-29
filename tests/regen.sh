@@ -1,5 +1,7 @@
 #!/usr/bin/bash -ex
 
+# This scripts regenerate the test cases under tests/ directory.
+
 cd "$(dirname "$0")"
 
 # Clear ans
