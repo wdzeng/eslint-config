@@ -32,7 +32,7 @@ module.exports = {
   'n/no-missing-require': 'off',
   'n/no-missing-import': 'off',
 
-  // Mark no-unnecessary-* rules to warning level
+  // Mark no-unnecessary-* rules to warning level.
   '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
   '@typescript-eslint/no-unnecessary-condition': 'warn',
   '@typescript-eslint/no-unnecessary-qualifier': 'warn',

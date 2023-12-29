@@ -1,4 +1,4 @@
-// These rule overrides eslint:recommended. See https://eslint.org/docs/latest/rules/ for all rules
+// These rules override eslint:recommended. See https://eslint.org/docs/latest/rules/ for all rules
 // in that preset.
 
 module.exports = {
