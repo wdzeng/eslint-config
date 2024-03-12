@@ -22,8 +22,8 @@
     "clean": "rm -rf tests/js/out tests/ts/out"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
@@ -32,15 +32,15 @@
     "eslint-plugin-unicorn": "^51.0.1"
   },
   "devDependencies": {
-    "@types/eslint": "^8.56.2",
-    "@types/node": "^20.11.17",
-    "ava": "^6.1.1",
-    "eslint": "^8.56.0",
+    "@types/eslint": "^8.56.5",
+    "@types/node": "^20.11.26",
+    "ava": "^6.1.2",
+    "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
-  "engines" : {
-    "node" : ">=20"
+  "engines": {
+    "node": ">=20"
   },
   "pnpm": {
     "overrides": {
@@ -51,7 +51,8 @@
       "has": "npm:@nolyfill/has@latest",
       "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
       "object.groupby": "npm:@nolyfill/object.groupby@latest",
-      "object.values": "npm:@nolyfill/object.values@latest"
+      "object.values": "npm:@nolyfill/object.values@latest",
+      "hasown": "npm:@nolyfill/hasown@latest"
     }
   }
 }
