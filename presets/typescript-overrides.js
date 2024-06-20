@@ -46,4 +46,8 @@ module.exports = {
   '@typescript-eslint/consistent-type-imports': 'error',
   '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
   '@typescript-eslint/no-import-type-side-effects': 'warn',
+  '@typescript-eslint/restrict-template-expressions': [
+    'warn',
+    { allowBoolean: true, allowNumber: true }
+  ]
 }
