@@ -6,7 +6,7 @@
 const jsRules = require('./recommended-overrides')
 
 module.exports = {
-  // Rules in eslint:recommended that conflict with @typescript-eslint/no-shadow.
+  // Rules in eslint that conflict with typescript-eslint.
   'no-empty-function': 'off',
   '@typescript-eslint/no-empty-function': [
     'warn',
@@ -43,7 +43,7 @@ module.exports = {
   '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
 
   // Other customizations.
-  '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
   '@typescript-eslint/consistent-type-imports': 'error',
+  '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
   '@typescript-eslint/no-import-type-side-effects': 'warn',
 }
