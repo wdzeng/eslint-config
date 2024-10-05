@@ -1,6 +1,6 @@
 // See https://github.com/sindresorhus/eslint-plugin-unicorn#rules for rules.
 
-module.exports = {
+export default {
   'unicorn/consistent-function-scoping': 'warn',
   'unicorn/new-for-builtins': 'warn',
   'unicorn/no-array-for-each': 'warn',

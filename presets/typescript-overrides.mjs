@@ -3,9 +3,9 @@
 
 /* eslint-disable sort-keys */
 
-const jsRules = require('./recommended-overrides')
+import jsRules from './recommended-overrides'
 
-module.exports = {
+export default {
   // Rules in eslint that conflict with typescript-eslint.
   'no-empty-function': 'off',
   '@typescript-eslint/no-empty-function': [

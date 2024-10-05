@@ -1,7 +1,7 @@
 // These rules override eslint:recommended. See https://eslint.org/docs/latest/rules/ for all rules
 // in that preset.
 
-module.exports = {
+export default {
   'capitalized-comments': ['warn', 'always', { ignoreConsecutiveComments: true }],
   'consistent-return': 'warn',
   'curly': ['warn', 'all'],

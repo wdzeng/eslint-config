@@ -2,7 +2,7 @@
 // https://github.com/prettier/eslint-config-prettier#special-rules for rules that should be
 // overridden.
 
-module.exports = {
+export default {
   'curly': ['warn', 'all'],
   'no-tabs': ['warn', { allowIndentationTabs: false }],
   'quotes': ['warn', 'single', { allowTemplateLiterals: false, avoidEscape: true }]

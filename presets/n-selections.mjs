@@ -1,6 +1,6 @@
 // https://github.com/eslint-community/eslint-plugin-n#-rules
 
-module.exports = {
+export default {
   'n/no-deprecated-api': 'warn',
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',

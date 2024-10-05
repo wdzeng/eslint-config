@@ -1,7 +1,7 @@
 // These rules override plugin:import/recommended. See
 // https://github.com/import-js/eslint-plugin-import#rules for all rules in that preset.
 
-module.exports = {
+export default {
   'import/first': 'warn',
   'import/newline-after-import': ['warn', { considerComments: false, count: 1 }],
   // This rule has too many false positives. See
