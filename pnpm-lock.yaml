@@ -19,6 +19,9 @@ importers:
 
   .:
     dependencies:
+      '@eslint/js':
+        specifier: ^9.12.0
+        version: 9.12.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.8.0
         version: 8.8.0(@typescript-eslint/parser@8.8.0(eslint@9.12.0)(typescript@5.5.4))(eslint@9.12.0)(typescript@5.5.4)
@@ -43,10 +46,13 @@ importers:
       eslint-plugin-unicorn:
         specifier: ^56.0.0
         version: 56.0.0(eslint@9.12.0)
+      globals:
+        specifier: ^15.10.0
+        version: 15.10.0
+      typescript-eslint:
+        specifier: ^8.8.0
+        version: 8.8.0(eslint@9.12.0)(typescript@5.5.4)
     devDependencies:
-      '@eslint/js':
-        specifier: ^9.12.0
-        version: 9.12.0
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -68,9 +74,6 @@ importers:
       typescript:
         specifier: ~5.5.4
         version: 5.5.4
-      typescript-eslint:
-        specifier: 8.8.0
-        version: 8.8.0(eslint@9.12.0)(typescript@5.5.4)
 
 packages:
 

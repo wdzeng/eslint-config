@@ -9,7 +9,7 @@ rm -rf js/ans ts/ans
 
 # Lint JS
 cp -r js/in js/ans
-npx eslint --config js/.eslintrc.test.cjs --no-ignore --fix 'js/ans/*.js'
+npx eslint --config js/eslint.config.mjs --no-ignore --fix 'js/ans/*.js'
 
 # Lint TS
 cp -r ts/in ts/ans
