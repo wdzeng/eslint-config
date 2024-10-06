@@ -24,23 +24,25 @@ const FLAT_CONFIGS_BEFORE_TS = [
   { plugins: { n: eslintPluginN }, rules: nSelections }
 ]
 
-const FLAT_CONFIGS_FOR_TS = tsEslint.config({
-  extends: [...tsEslint.configs.strict, ...tsEslint.configs.stylistic],
-  languageOptions: {
-    parserOptions: {
-      // https://typescript-eslint.io/getting-started/typed-linting/
-      projectService: true,
-      tsconfigRootDir: import.meta.dirname
-    }
-  },
-  rules: tsRecommendedRulesOverrides,
-  // The `settings` is an object containing name-value pairs of information that should be
-  // available to all rules. Act as labels. Add a `ts-only` label so that users can do custom
-  // settings on theses rules.
-  //
-  // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
-  settings: { tsOnly: true }
-})
+function getFlatConfigsForTs(tsconfigRootDir) {
+  return tsEslint.config({
+    extends: [...tsEslint.configs.strict, ...tsEslint.configs.stylistic],
+    languageOptions: {
+      parserOptions: {
+        // https://typescript-eslint.io/getting-started/typed-linting/
+        projectService: true,
+        tsconfigRootDir
+      }
+    },
+    rules: tsRecommendedRulesOverrides,
+    // The `settings` is an object containing name-value pairs of information that should be
+    // available to all rules. Act as labels. Add a `ts-only` label so that users can do custom
+    // settings on theses rules.
+    //
+    // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
+    settings: { tsOnly: true }
+  })
+}
 
 const FLAT_CONFIGS_AFTER_TS = [
   // Unicorn
@@ -130,7 +132,7 @@ export function getConfigForTs(customRules, options) {
 
   const rules = [
     ...FLAT_CONFIGS_BEFORE_TS,
-    ...FLAT_CONFIGS_FOR_TS,
+    ...getFlatConfigsForTs(options.projectRoot),
     ...FLAT_CONFIGS_AFTER_TS,
     customRules ?? {},
     { rules: { 'prettier/prettier': 'warn' } }
