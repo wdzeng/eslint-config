@@ -55,6 +55,13 @@
   "engines": {
     "node": ">=20"
   },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^20.12 || ^21.2 || >=22",
+      "onFailer": "error"
+    }
+  },
   "pnpm": {
     "overrides": {
       "array-includes": "npm:@nolyfill/array-includes@latest",

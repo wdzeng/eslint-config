@@ -1,18 +1,16 @@
 import { readFileSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import url from 'node:url'
 
 import test from 'ava'
 import eslint from 'eslint'
 
-const currentDir = path.dirname(url.fileURLToPath(import.meta.url))
-const outDir = path.resolve(currentDir, 'out')
+const outDir = path.resolve(import.meta.dirname, 'out')
 const inputPattern = path.resolve(outDir, '**/*.ts')
 const linter = new eslint.ESLint({
   fix: true,
   ignore: false,
-  overrideConfigFile: path.resolve(currentDir, 'eslint.config.test.mjs')
+  overrideConfigFile: path.resolve(import.meta.dirname, 'eslint.config.test.mjs')
 })
 const results = await linter.lintFiles([inputPattern])
 await eslint.ESLint.outputFixes(results)
@@ -27,7 +25,7 @@ for (const result of results) {
 
   test(testName, async (t) => {
     const expectedFixResult = await fs.readFile(
-      path.resolve(currentDir, 'ans', relTestPath),
+      path.resolve(import.meta.dirname, 'ans', relTestPath),
       'utf8'
     )
     let realFixResult = result.output
