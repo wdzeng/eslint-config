@@ -2,6 +2,8 @@
 // https://github.com/import-js/eslint-plugin-import#rules for all rules in that preset. The rules
 // here are all JS/TS insensitive.
 
+/* eslint sort-keys: off */
+
 export default {
   'import/first': 'warn',
   'import/newline-after-import': ['warn', { considerComments: false, count: 1 }],
@@ -28,8 +30,9 @@ export default {
       'pathGroups': [{ group: 'internal', pattern: '@/**' }]
     }
   ],
-  // Though this rule is built-in to eslint, it's included here since import/order is overriding its
-  // default.
+
+  // Though this rule is from ESLint's built-ins, it's included here since import/order is
+  // overriding its default behavior.
   'sort-imports': [
     'warn',
     {
@@ -40,7 +43,7 @@ export default {
   ],
   'import/consistent-type-specifier-style': ['warn', 'prefer-top-level'],
 
-  // import/no-duplicates takes over ESLint builtin no-duplicate-imports.
+  // Import/no-duplicates takes over ESLint's built-in no-duplicate-imports.
   'no-duplicate-imports': 'off',
   'import/no-duplicates': ['warn', { 'considerQueryString': true, 'prefer-inline': false }]
 }
