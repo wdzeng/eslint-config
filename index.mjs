@@ -57,6 +57,24 @@ const FLAT_CONFIGS_AFTER_TS = [
   { rules: prettierRecommendedRulesOverrides }
 ]
 
+function getFlatConfigForConfigFilesInTsProject(tsconfigRootDir) {
+  return {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir,
+        projectService: {
+          allowDefaultProject: [
+            // Can match eslint, prettier, jest, ava, vitest, webpack, and etc. These also match
+            // files under sub-directories.
+            '*.config.{js,cjs,mjs,ts,cts,mts}',
+            '.*rc.{js,cjs,mjs,ts,cts,mts}'
+          ]
+        }
+      }
+    }
+  }
+}
+
 const DEFAULT_JS_OPTIONS = {
   browser: false,
   ecmaVersion: 2022,
@@ -134,6 +152,7 @@ export function getConfigForTs(customRules, options) {
     ...FLAT_CONFIGS_BEFORE_TS,
     ...getFlatConfigsForTs(options.projectRoot),
     ...FLAT_CONFIGS_AFTER_TS,
+    getFlatConfigForConfigFilesInTsProject(options.projectRoot),
     customRules ?? {},
     { rules: { 'prettier/prettier': 'warn' } }
   ]
