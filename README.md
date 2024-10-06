@@ -19,26 +19,20 @@ Install the required packages by running the following command in your shell:
 pnpm add -D eslint prettier github:wdzeng/eslint-config
 ```
 
-Declare a `.eslintrc.cjs` file in your project and add the following JavaScript code:
+Declare a `eslint.config.mjs` file in your project and add the following JavaScript code:
 
 ```js
-module.exports = {
-  root: true,
-  extends: ['wdzeng'],
-  env: {
-    browser: false,
-    es2022: true,
-    node: true
-  },
-  parserOptions: {
-    ecmaVersion: 13,
-    sourceType: 'module'
-  },
-  rules: {
-    // Your custom rules go here ...
-    'prettier/prettier': 'warn'
+import  { getConfigForJs } from 'eslint-config-wdzeng'
+
+export default getConfigForJs(
+  { 'my-custom-rule-1': 'warn', 'my-custom-rule-2': 'warn' }, // custom rules
+  {
+    node: true, // whether in Node.js
+    browser: false, // whether in browser
+    ecmaVersion: 2022, // ECMAScript version
+    ignores: ['build', 'dist', 'test/examples/**/*.js'] // ignore files
   }
-}
+)
 ```
 
 Lint your codebase using ESLint:
@@ -48,35 +42,31 @@ npx eslint --fix
 ```
 
 > [!NOTE]  
-> Also add a .prettierrc in your project. Prettier rules are also selected.
+> Also add a .prettierrc in your project. Prettier rules are also applied.
 
 ## Setup with TypeScript Project
 
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D typescript eslint prettier github:wdzeng/eslint-config
+pnpm add -D typescript@~5.5 eslint prettier github:wdzeng/eslint-config
 ```
 
-Declare a `.eslintrc.cjs` file in your project and add the following JavaScript code:
+> [!NOTE]  
+> TypeScript 5.6 is not supported, as an dependency conflicts with it.
+
+Declare a `eslint.config.mjs` file in your project and add the following JavaScript code:
 
 ```js
-module.exports = {
-  root: true,
-  extends: ['wdzeng/typescript'],
-  env: {
-    browser: false,
-    es2022: true,
-    node: true
-  },
-  parserOptions: {
-    ecmaVersion: 13,
-    sourceType: 'module',
-    project: './tsconfig.json'
-  },
-  rules: {
-    // Your custom rules go here ...
-    'prettier/prettier': 'warn'
+import { getConfigForTs } from 'eslint-config-wdzeng'
+
+export default getConfigForTs(
+  { 'my-custom-rule-1': 'warn', 'my-custom-rule-2': 'warn' }, // Custom rules
+    {
+    node: true, // whether in Node.js
+    browser: false, // whether in browser
+    ecmaVersion: 2022, // ECMAScript version
+    ignores: ['build', 'dist', 'test/examples/**/*.ts'] // ignore files
   }
-}
+)
 ```
