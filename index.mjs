@@ -62,6 +62,14 @@ const defaultJsOptions = {
   node: false
 }
 
+const defaultTsOptions = {
+  browser: false,
+  ecmaVersion: 2022,
+  ignores: undefined,
+  node: false,
+  projectRoot: undefined
+}
+
 function getConfig(extended, options) {
   options = { ...defaultJsOptions, ...options }
 
@@ -89,7 +97,21 @@ function getConfig(extended, options) {
   return tsEslint.config(config)
 }
 
+function requireAllowedKeys(obj, allowedKeys) {
+  const unknownKeys = []
+  for (const [k, v] of Object.entries(obj)) {
+    if (!allowedKeys.includes(k) && v !== undefined) {
+      unknownKeys.push(k)
+    }
+  }
+  if (unknownKeys.length > 0) {
+    throw new TypeError(`Unknown options: ${unknownKeys.join(', ')}`)
+  }
+}
+
 export function getConfigForJs(customRules, options) {
+  requireAllowedKeys(options, Object.keys(defaultJsOptions))
+
   const rules = [
     ...flatConfigsBeforeTs,
     ...flatConfigsAfterTs,
@@ -101,6 +123,11 @@ export function getConfigForJs(customRules, options) {
 }
 
 export function getConfigForTs(customRules, options) {
+  requireAllowedKeys(options, Object.keys(defaultTsOptions))
+  if (!options.projectRoot) {
+    throw new TypeError('The `projectRoot` option is required.')
+  }
+
   const rules = [
     ...flatConfigsBeforeTs,
     ...flatConfigsForTs,
