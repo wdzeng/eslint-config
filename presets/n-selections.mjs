@@ -3,9 +3,7 @@
 // Require at least eslint-plugin-n@^17 for n/hashbang rules.
 
 export default {
-  // cspell:ignore hashbang
-  'n/hashbang': 'warn',
-  'n/no-deprecated-api': 'warn',
+  // Import/export-related.
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',
   'n/no-missing-import': 'error',
@@ -13,6 +11,12 @@ export default {
   'n/no-unpublished-import': ['error', { ignoreTypeImport: true }],
   'n/no-unpublished-require': 'error',
   'n/no-unsupported-features/es-builtins': 'error',
+
+  // Others
+
+  // cspell:ignore hashbang
+  'n/hashbang': 'warn',
+  'n/no-deprecated-api': 'warn',
   'n/no-unsupported-features/es-syntax': 'error',
   'n/no-unsupported-features/node-builtins': 'error',
   'n/prefer-global/buffer': ['warn', 'always'],
