@@ -1,6 +1,10 @@
 // https://github.com/eslint-community/eslint-plugin-n#-rules
+//
+// Require at least eslint-plugin-n@^17 for n/hashbang rules.
 
 export default {
+  // cspell:ignore hashbang
+  'n/hashbang': 'warn',
   'n/no-deprecated-api': 'warn',
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',
@@ -18,6 +22,5 @@ export default {
   'n/prefer-global/text-encoder': ['warn', 'always'],
   'n/prefer-global/url': ['warn', 'always'],
   'n/prefer-global/url-search-params': ['warn', 'always'],
-  'n/process-exit-as-throw': 'warn',
-  'n/shebang': 'warn'
+  'n/process-exit-as-throw': 'warn'
 }
