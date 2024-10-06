@@ -3,7 +3,7 @@
 
 /* eslint-disable sort-keys */
 
-import jsRules from './recommended-overrides'
+import jsRules from './recommended-overrides.mjs'
 
 export default {
   // Rules in eslint that conflict with typescript-eslint.

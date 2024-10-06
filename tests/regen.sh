@@ -13,4 +13,4 @@ npx eslint --config js/eslint.config.mjs --no-ignore --fix 'js/ans/*.js'
 
 # Lint TS
 cp -r ts/in ts/ans
-npx eslint --config ts/.eslintrc.test.cjs --no-ignore --fix 'ts/ans/*.ts'
+npx eslint --config ts/eslint.config.mjs --no-ignore --fix 'ts/ans/*.ts'

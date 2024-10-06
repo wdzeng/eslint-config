@@ -13,14 +13,36 @@ import importRecommendedRulesOverrides from './presets/import-overrides.mjs'
 import nSelections from './presets/n-selections.mjs'
 import prettierRecommendedRulesOverrides from './presets/prettier-overrides.mjs'
 import eslintRecommendedRulesOverrides from './presets/recommended-overrides.mjs'
+import tsRecommendedRulesOverrides from './presets/typescript-overrides.mjs'
 import unicornSelections from './presets/unicorn-selections.mjs'
 
-const flatConfigs = [
+const flatConfigsBeforeTs = [
   // ESLint built-ins
   eslint.configs.recommended,
   { rules: eslintRecommendedRulesOverrides },
   // The n plugin
-  { plugins: { n: eslintPluginN }, rules: nSelections },
+  { plugins: { n: eslintPluginN }, rules: nSelections }
+]
+
+const flatConfigsForTs = tsEslint.config({
+  extends: [...tsEslint.configs.strict, ...tsEslint.configs.stylistic],
+  languageOptions: {
+    parserOptions: {
+      // https://typescript-eslint.io/getting-started/typed-linting/
+      projectService: true,
+      tsconfigRootDir: import.meta.dirname
+    }
+  },
+  rules: tsRecommendedRulesOverrides,
+  // The `settings` is an object containing name-value pairs of information that should be
+  // available to all rules. Act as labels. Add a `ts-only` label so that users can do custom
+  // settings on theses rules.
+  //
+  // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
+  settings: { tsOnly: true }
+})
+
+const flatConfigsAfterTs = [
   // Unicorn
   { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
   // Import
@@ -39,7 +61,7 @@ const defaultJsOptions = {
   node: false
 }
 
-export function getConfigForJs(customRules, options) {
+function getConfig(extended, options) {
   options = { ...defaultJsOptions, ...options }
 
   const languageOptions = { sourceType: 'module', globals: {} }
@@ -51,16 +73,37 @@ export function getConfigForJs(customRules, options) {
     Object.assign(languageOptions.globals, globals.browser)
   }
 
-  const configs = [...flatConfigs, customRules ?? {}, { rules: { 'prettier/prettier': 'warn' } }]
-
   // We use the helper function `tsEslint.config` so that we can add the `languageOptions` to all
   // extended rules. Note that this helper function is nothing related to TypeScript, though it
   // comes from the typescript-eslint package. See
   // https://eslint.org/docs/latest/use/configure/combine-configs and
   // https://typescript-eslint.io/packages/typescript-eslint#flat-config-extends.
   const config = {
-    extends: configs,
+    extends: extended,
     languageOptions
   }
   return tsEslint.config(config)
+}
+
+export function getConfigForJs(customRules, options) {
+  const rules = [
+    ...flatConfigsBeforeTs,
+    ...flatConfigsAfterTs,
+    customRules ?? {},
+    { rules: { 'prettier/prettier': 'warn' } }
+  ]
+
+  return getConfig(rules, options)
+}
+
+export function getConfigForTs(customRules, options) {
+  const rules = [
+    ...flatConfigsBeforeTs,
+    ...flatConfigsForTs,
+    ...flatConfigsAfterTs,
+    customRules ?? {},
+    { rules: { 'prettier/prettier': 'warn' } }
+  ]
+
+  return getConfig(rules, options)
 }

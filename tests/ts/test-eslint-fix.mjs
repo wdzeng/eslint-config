@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import url from 'node:url'
@@ -11,7 +12,7 @@ const inputPattern = path.resolve(outDir, '**/*.ts')
 const linter = new eslint.ESLint({
   fix: true,
   ignore: false,
-  overrideConfigFile: path.resolve(currentDir, '.eslintrc.test.cjs')
+  overrideConfigFile: path.resolve(currentDir, 'eslint.config.test.mjs')
 })
 const results = await linter.lintFiles([inputPattern])
 await eslint.ESLint.outputFixes(results)
@@ -29,7 +30,11 @@ for (const result of results) {
       path.resolve(currentDir, 'ans', relTestPath),
       'utf8'
     )
-    const realFixResult = result.output
+    let realFixResult = result.output
+    if (realFixResult === undefined) {
+      // If ESLint does not produce the result, it means it thinks the file is already correct.
+      realFixResult = readFileSync(result.filePath, 'utf8')
+    }
     t.is(realFixResult, expectedFixResult)
   })
 }

@@ -7,7 +7,6 @@
   "main": "index.mjs",
   "files": [
     "index.mjs",
-    "typescript.js",
     "presets/**/*.mjs"
   ],
   "repository": {
@@ -22,8 +21,6 @@
   },
   "dependencies": {
     "@eslint/js": "^9.12.0",
-    "@typescript-eslint/eslint-plugin": "^8.8.0",
-    "@typescript-eslint/parser": "^8.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "^2.31.0",
