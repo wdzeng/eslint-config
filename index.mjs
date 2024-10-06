@@ -58,6 +58,7 @@ const flatConfigsAfterTs = [
 const defaultJsOptions = {
   browser: false,
   ecmaVersion: 2022,
+  ignores: undefined,
   node: false
 }
 
@@ -81,6 +82,9 @@ function getConfig(extended, options) {
   const config = {
     extends: extended,
     languageOptions
+  }
+  if (options.ignores) {
+    config.ignores = options.ignores
   }
   return tsEslint.config(config)
 }
