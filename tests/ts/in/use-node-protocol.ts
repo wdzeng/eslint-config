@@ -1,6 +1,5 @@
 // Please also update JS/TS test if you are changing this file.
 
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 // Should import from `node:fs`.
