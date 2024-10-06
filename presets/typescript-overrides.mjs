@@ -3,8 +3,6 @@
 
 /* eslint-disable sort-keys */
 
-import jsRules from './recommended-overrides.mjs'
-
 export default {
   // Rules in eslint that conflict with typescript-eslint.
   'no-empty-function': 'off',
@@ -20,15 +18,15 @@ export default {
     }
   ],
   'no-shadow': 'off',
-  '@typescript-eslint/no-shadow': jsRules['no-shadow'],
+  '@typescript-eslint/no-shadow': 'warn',
   'no-unused-expressions': 'off',
-  '@typescript-eslint/no-unused-expressions': jsRules['no-unused-expressions'],
+  '@typescript-eslint/no-unused-expressions': 'warn',
   'no-unused-vars': 'off',
-  '@typescript-eslint/no-unused-vars': jsRules['no-unused-vars'],
+  '@typescript-eslint/no-unused-vars': 'warn',
   'dot-notation': 'off',
-  '@typescript-eslint/dot-notation': jsRules['dot-notation'],
+  '@typescript-eslint/dot-notation': 'warn',
   'require-await': 'off',
-  '@typescript-eslint/require-await': jsRules['require-await'],
+  '@typescript-eslint/require-await': 'warn',
 
   // These two rules do not handle path aliases, so disable.
   'n/no-missing-require': 'off',
