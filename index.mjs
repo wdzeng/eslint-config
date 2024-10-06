@@ -16,7 +16,7 @@ import eslintRecommendedRulesOverrides from './presets/recommended-overrides.mjs
 import tsRecommendedRulesOverrides from './presets/typescript-overrides.mjs'
 import unicornSelections from './presets/unicorn-selections.mjs'
 
-const flatConfigsBeforeTs = [
+const FLAT_CONFIGS_BEFORE_TS = [
   // ESLint built-ins
   eslint.configs.recommended,
   { rules: eslintRecommendedRulesOverrides },
@@ -24,7 +24,7 @@ const flatConfigsBeforeTs = [
   { plugins: { n: eslintPluginN }, rules: nSelections }
 ]
 
-const flatConfigsForTs = tsEslint.config({
+const FLAT_CONFIGS_FOR_TS = tsEslint.config({
   extends: [...tsEslint.configs.strict, ...tsEslint.configs.stylistic],
   languageOptions: {
     parserOptions: {
@@ -42,7 +42,7 @@ const flatConfigsForTs = tsEslint.config({
   settings: { tsOnly: true }
 })
 
-const flatConfigsAfterTs = [
+const FLAT_CONFIGS_AFTER_TS = [
   // Unicorn
   { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
   // Import
@@ -55,14 +55,14 @@ const flatConfigsAfterTs = [
   { rules: prettierRecommendedRulesOverrides }
 ]
 
-const defaultJsOptions = {
+const DEFAULT_JS_OPTIONS = {
   browser: false,
   ecmaVersion: 2022,
   ignores: undefined,
   node: false
 }
 
-const defaultTsOptions = {
+const DEFAULT_TS_OPTIONS = {
   browser: false,
   ecmaVersion: 2022,
   ignores: undefined,
@@ -71,7 +71,7 @@ const defaultTsOptions = {
 }
 
 function getConfig(extended, options) {
-  options = { ...defaultJsOptions, ...options }
+  options = { ...DEFAULT_JS_OPTIONS, ...options }
 
   const languageOptions = { sourceType: 'module', globals: {} }
   languageOptions.ecmaVersion = options.ecmaVersion
@@ -110,11 +110,11 @@ function requireAllowedKeys(obj, allowedKeys) {
 }
 
 export function getConfigForJs(customRules, options) {
-  requireAllowedKeys(options, Object.keys(defaultJsOptions))
+  requireAllowedKeys(options, Object.keys(DEFAULT_JS_OPTIONS))
 
   const rules = [
-    ...flatConfigsBeforeTs,
-    ...flatConfigsAfterTs,
+    ...FLAT_CONFIGS_BEFORE_TS,
+    ...FLAT_CONFIGS_AFTER_TS,
     customRules ?? {},
     { rules: { 'prettier/prettier': 'warn' } }
   ]
@@ -123,15 +123,15 @@ export function getConfigForJs(customRules, options) {
 }
 
 export function getConfigForTs(customRules, options) {
-  requireAllowedKeys(options, Object.keys(defaultTsOptions))
+  requireAllowedKeys(options, Object.keys(DEFAULT_TS_OPTIONS))
   if (!options.projectRoot) {
     throw new TypeError('The `projectRoot` option is required.')
   }
 
   const rules = [
-    ...flatConfigsBeforeTs,
-    ...flatConfigsForTs,
-    ...flatConfigsAfterTs,
+    ...FLAT_CONFIGS_BEFORE_TS,
+    ...FLAT_CONFIGS_FOR_TS,
+    ...FLAT_CONFIGS_AFTER_TS,
     customRules ?? {},
     { rules: { 'prettier/prettier': 'warn' } }
   ]
