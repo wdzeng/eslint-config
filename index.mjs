@@ -1,6 +1,9 @@
 // Hint: we cannot write this file in TypeScript because eslint-plugin-import is not typed as of
 // v2.31.
 
+import fs from 'node:fs'
+import path from 'node:path'
+
 import eslint from '@eslint/js'
 import eslintPluginImport from 'eslint-plugin-import'
 import eslintPluginN from 'eslint-plugin-n'
@@ -75,23 +78,50 @@ function getFlatConfigForConfigFilesInTsProject(tsconfigRootDir) {
   }
 }
 
-const DEFAULT_JS_OPTIONS = {
+function getFlatConfigsAtEnd(projectRoot) {
+  const ret = []
+
+  // Enable n/no-unpublished-import in production files only. If the project has a "src" directory
+  // at the root, we believe files under that are production files. Otherwise, we exclude test and
+  // configuration files only.
+  if (fs.existsSync(path.join(projectRoot, 'tsconfig.json'))) {
+    ret.push({
+      files: ['src/**/*.{js,cjs,mjs,ts,cts,mts}'],
+      rules: { 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }] }
+    })
+  } else {
+    ret.push(
+      { rules: { 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }] } },
+      {
+        files: [
+          'test/**/*.{js,cjs,mjs,ts,cts,mts}',
+          'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
+          '**/*.test.{js,cjs,mjs,ts,cts,mts}',
+          '*.config.{js,cjs,mjs,ts,cts,mts}',
+          '.*rc.{js,cjs,mjs,ts,cts,mts}'
+        ],
+        rules: { 'n/no-unpublished-import': 'off' }
+      }
+    )
+  }
+
+  // Let ESLint work with prettier.
+  ret.push({
+    rules: { 'prettier/prettier': 'warn' }
+  })
+
+  return ret
+}
+
+const DEFAULT_OPTIONS = {
   browser: false,
   ecmaVersion: 2022,
   ignores: undefined,
   node: false
 }
 
-const DEFAULT_TS_OPTIONS = {
-  browser: false,
-  ecmaVersion: 2022,
-  ignores: undefined,
-  node: false,
-  projectRoot: undefined
-}
-
 function getConfig(extended, options) {
-  options = { ...DEFAULT_JS_OPTIONS, ...options }
+  options = { ...DEFAULT_OPTIONS, ...options }
 
   const languageOptions = { sourceType: 'module', globals: {} }
   languageOptions.ecmaVersion = options.ecmaVersion
@@ -117,33 +147,45 @@ function getConfig(extended, options) {
   return tsEslint.config(config)
 }
 
-function requireAllowedKeys(obj, allowedKeys) {
+function requireValidOptions(options) {
+  const allowedKeys = new Set(['browser', 'ecmaVersion', 'ignores', 'node', 'projectRoot'])
   const unknownKeys = []
-  for (const [k, v] of Object.entries(obj)) {
-    if (!allowedKeys.includes(k) && v !== undefined) {
+  for (const [k, v] of Object.entries(options)) {
+    if (!allowedKeys.has(k) && v !== undefined) {
       unknownKeys.push(k)
     }
   }
   if (unknownKeys.length > 0) {
     throw new TypeError(`Unknown options: ${unknownKeys.join(', ')}`)
   }
+
+  const requiredKeys = ['projectRoot']
+  const missingKeys = []
+  for (const k of requiredKeys) {
+    if (!(k in options) || options[k] === undefined) {
+      missingKeys.push(k)
+    }
+  }
+  if (missingKeys.length > 0) {
+    throw new TypeError(`Missing required options: ${missingKeys.join(', ')}`)
+  }
 }
 
 export function getConfigForJs(customRules, options) {
-  requireAllowedKeys(options, Object.keys(DEFAULT_JS_OPTIONS))
+  requireValidOptions(options)
 
   const rules = [
     ...FLAT_CONFIGS_BEFORE_TS,
     ...FLAT_CONFIGS_AFTER_TS,
     customRules ?? {},
-    { rules: { 'prettier/prettier': 'warn' } }
+    ...getFlatConfigsAtEnd(options.projectRoot)
   ]
 
   return getConfig(rules, options)
 }
 
 export function getConfigForTs(customRules, options) {
-  requireAllowedKeys(options, Object.keys(DEFAULT_TS_OPTIONS))
+  requireValidOptions(options)
   if (!options.projectRoot) {
     throw new TypeError('The `projectRoot` option is required.')
   }
@@ -154,7 +196,7 @@ export function getConfigForTs(customRules, options) {
     ...FLAT_CONFIGS_AFTER_TS,
     getFlatConfigForConfigFilesInTsProject(options.projectRoot),
     customRules ?? {},
-    { rules: { 'prettier/prettier': 'warn' } }
+    ...getFlatConfigsAtEnd(options.projectRoot)
   ]
 
   return getConfig(rules, options)

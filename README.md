@@ -30,7 +30,8 @@ export default getConfigForJs(
     node: true, // whether in Node.js
     browser: false, // whether in browser
     ecmaVersion: 2022, // ECMAScript version
-    ignores: ['build', 'dist', 'test/examples/**/*.js'] // ignore files
+    ignores: ['build', 'dist', 'test/examples/**/*.js'], // ignore files
+    projectRoot: import.meta.dirname // project root dir
   }
 )
 ```
@@ -66,7 +67,8 @@ export default getConfigForTs(
     node: true, // whether in Node.js
     browser: false, // whether in browser
     ecmaVersion: 2022, // ECMAScript version
-    ignores: ['build', 'dist', 'test/examples/**/*.ts'] // ignore files
+    ignores: ['build', 'dist', 'test/examples/**/*.ts'], // ignore files
+    projectRoot: import.meta.dirname // project root dir
   }
 )
 ```

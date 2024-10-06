@@ -13,6 +13,7 @@ export default getConfigForJs(
       'tests/ts/ans',
       'tests/ts/out'
     ],
-    node: true
+    node: true,
+    projectRoot: import.meta.dirname
   }
 )
