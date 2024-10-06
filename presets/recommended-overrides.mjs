@@ -2,7 +2,11 @@
 // in that preset.
 
 export default {
-  'capitalized-comments': ['warn', 'always', { ignoreConsecutiveComments: true }],
+  'capitalized-comments': [
+    'warn',
+    'always',
+    { ignoreConsecutiveComments: true, ignorePattern: 'cspell:' }
+  ],
   'consistent-return': 'warn',
   'curly': ['warn', 'all'],
   'default-case-last': 'error',
