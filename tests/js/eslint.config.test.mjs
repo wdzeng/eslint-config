@@ -3,8 +3,9 @@ import { getConfigForJs } from '../../index.mjs'
 export default getConfigForJs(
   {}, // No custom rules.
   {
-    node: true,
     browser: false,
-    ecmaVersion: 2022
+    ecmaVersion: 2022,
+    node: true,
+    projectRoot: import.meta.dirname
   }
 )

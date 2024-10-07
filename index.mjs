@@ -19,132 +19,12 @@ import eslintRecommendedRulesOverrides from './presets/recommended-overrides.mjs
 import tsRecommendedRulesOverrides from './presets/typescript-overrides.mjs'
 import unicornSelections from './presets/unicorn-selections.mjs'
 
-const FLAT_CONFIGS_BEFORE_TS = [
-  // ESLint built-ins
-  eslint.configs.recommended,
-  { rules: eslintRecommendedRulesOverrides },
-  // The n plugin
-  { plugins: { n: eslintPluginN }, rules: nSelections }
-]
-
-function getFlatConfigsForTs(tsconfigRootDir) {
-  return tsEslint.config({
-    extends: [...tsEslint.configs.strict, ...tsEslint.configs.stylistic],
-    languageOptions: {
-      parserOptions: {
-        // https://typescript-eslint.io/getting-started/typed-linting/
-        projectService: true,
-        tsconfigRootDir
-      }
-    },
-    rules: tsRecommendedRulesOverrides,
-    // The `settings` is an object containing name-value pairs of information that should be
-    // available to all rules. Act as labels. Add a `ts-only` label so that users can do custom
-    // settings on theses rules.
-    //
-    // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
-    settings: { tsOnly: true }
-  })
-}
-
-const FLAT_CONFIGS_AFTER_TS = [
-  // Unicorn
-  { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
-  // Import
-  // https://github.com/import-js/eslint-plugin-import?tab=readme-ov-file#config---flat-eslintconfigjs
-  eslintPluginImport.flatConfigs.recommended,
-  { rules: importRecommendedRulesOverrides },
-  // Prettier
-  // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  eslintPluginPrettierRecommended,
-  { rules: prettierRecommendedRulesOverrides }
-]
-
-function getFlatConfigForConfigFilesInTsProject(tsconfigRootDir) {
-  return {
-    languageOptions: {
-      parserOptions: {
-        tsconfigRootDir,
-        projectService: {
-          allowDefaultProject: [
-            // Can match eslint, prettier, jest, ava, vitest, webpack, and etc. These also match
-            // files under sub-directories.
-            '*.config.{js,cjs,mjs,ts,cts,mts}',
-            '.*rc.{js,cjs,mjs,ts,cts,mts}'
-          ]
-        }
-      }
-    }
-  }
-}
-
-function getFlatConfigsAtEnd(projectRoot) {
-  const ret = []
-
-  // Enable n/no-unpublished-import in production files only. If the project has a "src" directory
-  // at the root, we believe files under that are production files. Otherwise, we exclude test and
-  // configuration files only.
-  if (fs.existsSync(path.join(projectRoot, 'tsconfig.json'))) {
-    ret.push({
-      files: ['src/**/*.{js,cjs,mjs,ts,cts,mts}'],
-      rules: { 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }] }
-    })
-  } else {
-    ret.push(
-      { rules: { 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }] } },
-      {
-        files: [
-          'test/**/*.{js,cjs,mjs,ts,cts,mts}',
-          'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
-          '**/*.test.{js,cjs,mjs,ts,cts,mts}',
-          '*.config.{js,cjs,mjs,ts,cts,mts}',
-          '.*rc.{js,cjs,mjs,ts,cts,mts}'
-        ],
-        rules: { 'n/no-unpublished-import': 'off' }
-      }
-    )
-  }
-
-  // Let ESLint work with prettier.
-  ret.push({
-    rules: { 'prettier/prettier': 'warn' }
-  })
-
-  return ret
-}
 
 const DEFAULT_OPTIONS = {
   browser: false,
   ecmaVersion: 2022,
-  ignores: undefined,
-  node: false
-}
-
-function getConfig(extended, options) {
-  options = { ...DEFAULT_OPTIONS, ...options }
-
-  const languageOptions = { sourceType: 'module', globals: {} }
-  languageOptions.ecmaVersion = options.ecmaVersion
-  if (options.node) {
-    Object.assign(languageOptions.globals, globals.node)
-  }
-  if (options.browser) {
-    Object.assign(languageOptions.globals, globals.browser)
-  }
-
-  // We use the helper function `tsEslint.config` so that we can add the `languageOptions` to all
-  // extended rules. Note that this helper function is nothing related to TypeScript, though it
-  // comes from the typescript-eslint package. See
-  // https://eslint.org/docs/latest/use/configure/combine-configs and
-  // https://typescript-eslint.io/packages/typescript-eslint#flat-config-extends.
-  const config = {
-    extends: extended,
-    languageOptions
-  }
-  if (options.ignores) {
-    config.ignores = options.ignores
-  }
-  return tsEslint.config(config)
+  ignores: ['out/**', 'dist/**', 'build/**', 'coverage/**'],
+  node: true
 }
 
 function requireValidOptions(options) {
@@ -171,33 +51,169 @@ function requireValidOptions(options) {
   }
 }
 
-export function getConfigForJs(customRules, options) {
-  requireValidOptions(options)
-
-  const rules = [
-    ...FLAT_CONFIGS_BEFORE_TS,
-    ...FLAT_CONFIGS_AFTER_TS,
-    customRules ?? {},
-    ...getFlatConfigsAtEnd(options.projectRoot)
-  ]
-
-  return getConfig(rules, options)
-}
-
-export function getConfigForTs(customRules, options) {
-  requireValidOptions(options)
-  if (!options.projectRoot) {
-    throw new TypeError('The `projectRoot` option is required.')
+function getConfigForNonProductionFiles(projectRoot) {
+  // Enable n/no-unpublished-import in production files only. If the project has a "src" directory
+  // at the root, we believe files under that are production files. Otherwise, we exclude test and
+  // configuration files only.
+  if (fs.existsSync(path.join(projectRoot, 'src'))) {
+    return {
+      name: 'non-production-files',
+      files: ['src/**/*.{js,cjs,mjs,ts,cts,mts}'],
+      rules: {
+        'n/no-unpublished-import': ['error', { ignoreTypeImport: true }]
+      }
+    }
   }
 
-  const rules = [
-    ...FLAT_CONFIGS_BEFORE_TS,
-    ...getFlatConfigsForTs(options.projectRoot),
-    ...FLAT_CONFIGS_AFTER_TS,
-    getFlatConfigForConfigFilesInTsProject(options.projectRoot),
-    customRules ?? {},
-    ...getFlatConfigsAtEnd(options.projectRoot)
-  ]
+  return {
+    name: 'non-production-files',
+    ignores: [
+      // test files
+      'test/**/*.{js,cjs,mjs,ts,cts,mts}',
+      'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
+      '**/*.test.{js,cjs,mjs,ts,cts,mts}',
+      // config files
+      '*.config.{js,cjs,mjs,ts,cts,mts}',
+      '.*rc.{js,cjs,mjs,ts,cts,mts}'
+    ],
+    rules: { 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }] }
+  }
+}
 
-  return getConfig(rules, options)
+export function getConfigForJs(userRules, options) {
+  requireValidOptions(options)
+  options = { ...DEFAULT_OPTIONS, ...options }
+
+  const languageOptions = {
+    globals: {},
+    parserOptions:{
+      ecmaVersion: options.ecmaVersion,
+    },
+    sourceType: 'module',
+  }
+  if (options.node) {
+    Object.assign(languageOptions.globals, globals.node)
+  }
+  if (options.browser) {
+    Object.assign(languageOptions.globals, globals.browser)
+  }
+
+  // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
+  return [
+    // Ignores
+    {
+      name: 'ignores',
+      ignores: options.ignores
+    },
+    // Language options
+    {
+      name: 'language-options',
+      languageOptions
+    },
+    // ESLint built-ins
+    ...tsEslint.config({
+      extends: [eslint.configs.recommended],
+      rules: eslintRecommendedRulesOverrides
+    }),
+    // The n plugin
+    { plugins: { n: eslintPluginN }, rules: nSelections },
+    // Unicorn
+    { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
+    // Import
+    ...tsEslint.config({
+      extends: [eslintPluginImport.flatConfigs.recommended],
+      rules: importRecommendedRulesOverrides,
+    }),
+    // Prettier
+    ...tsEslint.config({
+      extends: [eslintPluginPrettierRecommended],
+      rules: prettierRecommendedRulesOverrides ,
+    }),
+    // User's custom rules
+    {
+      name: 'user-rules',
+      rules: userRules ?? {}
+    },
+    // Non-production files
+    getConfigForNonProductionFiles(options.projectRoot),
+    // Put warning prettier errors ar the end
+    {
+      name: 'prettier-warnings',
+      rules: { 'prettier/prettier': 'warn' }
+    }
+  ]
+}
+
+export function getConfigForTs(userRules, options) {
+  requireValidOptions(options)
+  options = { ...DEFAULT_OPTIONS, ...options }
+
+  const languageOptions = {
+    globals: {},
+    parserOptions: {
+      ecmaVersion: options.ecmaVersion,
+      tsconfigRootDir: options.projectRoot,
+      projectService: true
+    },
+    sourceType: 'module',
+  }
+  if (options.node) {
+    Object.assign(languageOptions.globals, globals.node)
+  }
+  if (options.browser) {
+    Object.assign(languageOptions.globals, globals.browser)
+  }
+
+  // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
+  return [
+    // Ignores
+    {
+      name: 'ignores',
+      ignores: options.ignores
+    },
+    // Language options
+    {
+      name: 'language-options',
+      languageOptions
+    },
+    // ESLint built-ins and TypeScript
+    ...tsEslint.config({
+      extends: [
+        tsEslint.configs.eslintRecommended,
+        ...tsEslint.configs.strictTypeChecked,
+        ...tsEslint.configs.stylisticTypeChecked
+      ],
+      rules: Object.assign(
+        {},
+        eslintRecommendedRulesOverrides,
+        tsRecommendedRulesOverrides,
+      )
+    }),
+    // The n plugin
+    { plugins: { n: eslintPluginN }, rules: nSelections },
+    // Unicorn
+    { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
+    // Import
+    ...tsEslint.config({
+      extends: [eslintPluginImport.flatConfigs.recommended],
+      rules: importRecommendedRulesOverrides,
+    }),
+    // Prettier
+    ...tsEslint.config({
+      extends: [eslintPluginPrettierRecommended],
+      rules: prettierRecommendedRulesOverrides,
+    }),
+    // User's custom rules
+    {
+      name: 'user-rules',
+      rules: userRules ?? {}
+    },
+    // Non-production files
+    getConfigForNonProductionFiles(options.projectRoot),
+    // Put warning prettier errors ar the end
+    {
+      name: 'prettier-warnings',
+      rules: { 'prettier/prettier': 'warn' }
+    }
+  ]
 }

@@ -1,25 +1,20 @@
+import assert from 'node:assert'
+
 import { getConfigForTs } from '../../index.mjs'
 
-let config = getConfigForTs(
+const config = getConfigForTs(
   {}, // No custom rules.
   {
-    node: true,
     browser: false,
-    ecmaVersion: 2022
+    ecmaVersion: 2022,
+    node: true,
+    projectRoot: import.meta.dirname
   }
 )
 
-config = config.map((e) => {
-  if (e.settings && e.settings.tsOnly) {
-    if (!e.languageOptions) {
-      e.languageOptions = {}
-    }
-    e.languageOptions.parserOptions = {
-      project: ['./tsconfig.test.json'],
-      tsconfigRootDir: import.meta.dirname
-    }
-  }
-  return e
-})
+assert.equal(config[1].name, 'language-options')
+config[1].languageOptions.parserOptions.tsconfigRootDir = import.meta.dirname
+config[1].languageOptions.parserOptions.project = './tsconfig.test.json'
+delete config[1].languageOptions.parserOptions.projectService
 
 export default config
