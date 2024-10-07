@@ -28,10 +28,6 @@ export default {
   'require-await': 'off',
   '@typescript-eslint/require-await': 'warn',
 
-  // These two rules do not handle path aliases, so disable.
-  'n/no-missing-require': 'off',
-  'n/no-missing-import': 'off',
-
   // Mark no-unnecessary-* rules to warning level.
   '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
   '@typescript-eslint/no-unnecessary-condition': 'warn',

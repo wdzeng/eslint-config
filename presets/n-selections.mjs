@@ -2,12 +2,10 @@
 //
 // Require at least eslint-plugin-n@^17 for n/hashbang rules.
 
-export default {
+const DEFAULT_RULES = {
   // Import/export-related.
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',
-  'n/no-missing-import': 'error',
-  'n/no-missing-require': 'error',
   // Only enable this rule in production files. Add this in the index.mjs.
   // 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }],
   'n/no-unpublished-require': 'error',
@@ -29,3 +27,12 @@ export default {
   'n/prefer-global/url-search-params': ['warn', 'always'],
   'n/process-exit-as-throw': 'warn'
 }
+
+const JS_ONLY_RULES = {
+  'n/no-missing-import': 'error',
+  'n/no-missing-require': 'error'
+}
+
+export const nSelectionsForJs = Object.assign({}, DEFAULT_RULES, JS_ONLY_RULES)
+
+export const nSelectionsForTs = DEFAULT_RULES
