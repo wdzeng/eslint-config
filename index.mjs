@@ -59,6 +59,13 @@ function getConfigForNonProductionFiles(projectRoot) {
     return {
       name: 'non-production-files',
       files: ['src/**/*.{js,cjs,mjs,ts,cts,mts}'],
+      ignores: [
+        // test files
+        '**/*.test.{js,cjs,mjs,ts,cts,mts}',
+        // config files
+        '*.config.{js,cjs,mjs,ts,cts,mts}',
+        '.*rc.{js,cjs,mjs,ts,cts,mts}'
+      ],
       rules: {
         'n/no-unpublished-import': ['error', { ignoreTypeImport: true }]
       }
