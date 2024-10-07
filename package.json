@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-wdzeng",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "wdzeng's ESLint rule presets",
   "author": "hyperbola",
   "license": "MIT",
