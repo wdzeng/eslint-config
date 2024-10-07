@@ -25,7 +25,12 @@ Declare a `eslint.config.mjs` file in your project and add the following JavaScr
 import  { getConfigForJs } from 'eslint-config-wdzeng'
 
 export default getConfigForJs(
-  { 'my-custom-rule-1': 'warn', 'my-custom-rule-2': 'warn' }, // custom rules
+  // custom rules
+  {
+    'my-custom-rule-1': 'warn',
+    'my-custom-rule-2': 'warn'
+  },
+  // options
   {
     node: true, // whether in Node.js
     browser: false, // whether in browser
@@ -62,8 +67,13 @@ Declare a `eslint.config.mjs` file in your project and add the following JavaScr
 import { getConfigForTs } from 'eslint-config-wdzeng'
 
 export default getConfigForTs(
-  { 'my-custom-rule-1': 'warn', 'my-custom-rule-2': 'warn' }, // Custom rules
-    {
+  // custom rules
+  {
+    'my-custom-rule-1': 'warn',
+    'my-custom-rule-2': 'warn'
+  },
+  // options
+  {
     node: true, // whether in Node.js
     browser: false, // whether in browser
     ecmaVersion: 2022, // ECMAScript version
