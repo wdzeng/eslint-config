@@ -18,6 +18,7 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v3
         with:
+          version: '^9.12.1'
           run_install: true
       - name: Run unittests
         run: pnpm test
