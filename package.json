@@ -43,7 +43,7 @@
   "peerDependencies": {
     "eslint": ">=9",
     "eslint-plugin-import": ">=2.31",
-    "eslint-plugin-n": ">=17",
+    "eslint-plugin-n": ">=17.11",
     "eslint-plugin-prettier": ">=5.1",
     "eslint-plugin-unicorn": ">=56",
     "prettier": ">=3",
