@@ -6,15 +6,15 @@ const DEFAULT_RULES = {
   // Import/export-related.
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',
-  'n/no-missing-import': ['error', { ignoreTypeImport: true }],
-  'n/no-missing-require': 'error',
-  'n/no-unpublished-require': 'error',
-  'n/no-unsupported-features/es-builtins': 'error',
   // Only enable this rule in production files. Add this in the index.mjs.
   // 'n/no-unpublished-import': ['error', { ignoreTypeImport: true }],
+  'n/no-unpublished-require': 'error',
+  'n/no-unsupported-features/es-builtins': 'error',
 
   // Others
-  'n/hashbang': 'warn', // cspell:ignore hashbang
+
+  // cspell:ignore hashbang
+  'n/hashbang': 'warn',
   'n/no-deprecated-api': 'warn',
   'n/no-unsupported-features/es-syntax': 'error',
   'n/no-unsupported-features/node-builtins': 'error',
@@ -28,4 +28,11 @@ const DEFAULT_RULES = {
   'n/process-exit-as-throw': 'warn'
 }
 
-export default DEFAULT_RULES
+const JS_ONLY_RULES = {
+  'n/no-missing-import': 'error',
+  'n/no-missing-require': 'error'
+}
+
+export const nSelectionsForJs = Object.assign({}, DEFAULT_RULES, JS_ONLY_RULES)
+
+export const nSelectionsForTs = DEFAULT_RULES
