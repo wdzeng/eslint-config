@@ -13,7 +13,7 @@ import globals from 'globals'
 import tsEslint from 'typescript-eslint'
 
 import importRecommendedRulesOverrides from './presets/import-overrides.mjs'
-import nSelections from './presets/n-selections.mjs'
+import { nSelectionsForJs, nSelectionsForTs } from './presets/n-selections.mjs'
 import prettierRecommendedRulesOverrides from './presets/prettier-overrides.mjs'
 import eslintRecommendedRulesOverrides from './presets/recommended-overrides.mjs'
 import tsRecommendedRulesOverrides from './presets/typescript-overrides.mjs'
@@ -123,7 +123,7 @@ export function getConfigForJs(userRules, options) {
       rules: eslintRecommendedRulesOverrides
     }),
     // The n plugin
-    { plugins: { n: eslintPluginN }, rules: nSelections },
+    { plugins: { n: eslintPluginN }, rules: nSelectionsForJs },
     // Unicorn
     { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
     // Import
@@ -197,7 +197,7 @@ export function getConfigForTs(userRules, options) {
       )
     }),
     // The n plugin
-    { plugins: { n: eslintPluginN }, rules: nSelections },
+    { plugins: { n: eslintPluginN }, rules: nSelectionsForTs },
     // Unicorn
     { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
     // Import
