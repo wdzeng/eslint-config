@@ -27,7 +27,8 @@ const staticAnalysis = {
   'import-x/no-relative-packages': 'warn',
   'import-x/no-relative-parent-imports': 'warn',
   'import-x/no-self-import': 'error',
-  'import-x/no-unresolved': 'error',
+  // This rule has some false positive. n/no-missing-import is a more powerful version of this rule.
+  // 'import-x/no-unresolved': 'error',
   'import-x/no-useless-path-segments': 'warn'
 }
 
