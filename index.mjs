@@ -5,20 +5,21 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import eslint from '@eslint/js'
-import eslintPluginImport from 'eslint-plugin-import'
+import tsParser from '@typescript-eslint/parser'
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
+import eslintPluginImportX from 'eslint-plugin-import-x'
 import eslintPluginN from 'eslint-plugin-n'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import tsEslint from 'typescript-eslint'
 
-import importRecommendedRulesOverrides from './presets/import-overrides.mjs'
+import importXSelections from './presets/import-x-selections.mjs'
 import { nSelectionsForJs, nSelectionsForTs } from './presets/n-selections.mjs'
 import prettierRecommendedRulesOverrides from './presets/prettier-overrides.mjs'
 import eslintRecommendedRulesOverrides from './presets/recommended-overrides.mjs'
 import tsRecommendedRulesOverrides from './presets/typescript-overrides.mjs'
 import unicornSelections from './presets/unicorn-selections.mjs'
-
 
 const DEFAULT_OPTIONS = {
   browser: false,
@@ -126,11 +127,8 @@ export function getConfigForJs(userRules, options) {
     { plugins: { n: eslintPluginN }, rules: nSelectionsForJs },
     // Unicorn
     { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
-    // Import
-    ...tsEslint.config({
-      extends: [eslintPluginImport.flatConfigs.recommended],
-      rules: importRecommendedRulesOverrides,
-    }),
+    // Import-x
+    { plugins: { 'import-x': eslintPluginImportX }, rules: importXSelections },
     // Prettier
     ...tsEslint.config({
       extends: [eslintPluginPrettierRecommended],
@@ -200,10 +198,20 @@ export function getConfigForTs(userRules, options) {
     { plugins: { n: eslintPluginN }, rules: nSelectionsForTs },
     // Unicorn
     { plugins: { unicorn: eslintPluginUnicorn }, rules: unicornSelections },
-    // Import
+    // Import-x
     ...tsEslint.config({
-      extends: [eslintPluginImport.flatConfigs.recommended],
-      rules: importRecommendedRulesOverrides,
+      plugins: { 'import-x': eslintPluginImportX },
+      rules: importXSelections,
+      // eslint-disable-next-line sort-keys
+      languageOptions: {
+        parser: tsParser
+      },
+      settings: {
+        // Neither eslint-plugin-import nor eslint-plugin-import-x can resolve TypeScript path
+        // aliases defined in tsconfig.json. We need to use the eslint-import-resolver-typescript
+        // plugin to resolve them.
+        'import-x/resolver-next': [createTypeScriptImportResolver({ project: options.projectRoot })]
+      }
     }),
     // Prettier
     ...tsEslint.config({
