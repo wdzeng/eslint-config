@@ -165,7 +165,10 @@ export function getConfigForTs(userRules, options) {
     parserOptions: {
       ecmaVersion: options.ecmaVersion,
       tsconfigRootDir: options.projectRoot,
-      projectService: true
+      projectService: {
+        // Use allowDefaultProject so that it does not give false errors for JS files.
+        allowDefaultProject: ['*.js', '*.mjs', '*.cjs']
+      }
     },
     sourceType: 'module'
   }
