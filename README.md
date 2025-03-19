@@ -1,14 +1,15 @@
 # eslint-config
 
-These are my custom rules for [ESLint](https://eslint.org/).
+These are my custom rules for [ESLint](https://eslint.org/). Run linter + formatter (ESLint +
+Prettier) two in one.
 
-This configuration contains rules from the following presets and plugins.
+This configuration selects rules from the following plugins.
 
-- [`eslint:recommended`](https://github.com/eslint/eslint/blob/main/packages/js/src/configs/eslint-recommended.js)
+- [`eslint`](https://eslint.org/)
 - [`typescript-eslint`](https://typescript-eslint.io/)
 - [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n)
 - [`unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn)
-- [`import`](https://github.com/import-js/eslint-plugin-import)
+- [`import-x`](https://github.com/import-js/eslint-plugin-import-x)
 - [`prettier`](https://github.com/prettier/eslint-plugin-prettier)
 
 ## Setup with JavaScript Project
@@ -82,3 +83,29 @@ export default getConfigForTs(
   }
 )
 ```
+
+## Dependencies and Requirements
+
+You only need to install `eslint`, `prettier`, and `typescript` manually. Other dependencies come
+along with the package.
+
+### Requirements
+
+- Node.js ^20.18.3 || ^22.12.0 || >=v23.1.0: to support [importing JSON
+  modules](https://nodejs.org/api/esm.html#json-modules) so as to suppress linting warning messages
+  (this is not a essential requirement though).
+- (dev) Node.js ^20.18.3 || ^22.12.0 || >=v23.1.0: to support the use pf
+  [`import.meta.dirname`](https://nodejs.org/docs/latest-v23.x/api/esm.html#importmetadirname).
+- `eslint` >=9.20.0: to meet minimum version requirement of unicorn v57.
+- `prettier` >=3: to meet minimum version requirement of `eslint-plugin-prettier` v3.1.
+- `typescript` >=5: not tested what will happen for <5.
+
+### Peer Dependencies
+
+- `typescript-eslint` >=8.3: to support the `@typescript-eslint/no-deprecated` rule.
+- `eslint-plugin-n` >=17: to support the `n/hashbang` rule.
+- `eslint-plugin-import-x` >=4: to meet minimum version requirement of `typescript-eslint` v8.3.
+- `eslint-plugin-unicorn` >=57: to support the `eslint-plugin-unicorn/consistent-date-clone`,
+  `eslint-plugin-unicorn/no-accessor-recursion`, `eslint-plugin-unicorn/no-named-default`, and
+  `eslint-plugin-unicorn/no-instanceof-builtins` rules.
+- `eslint-plugin-prettier` >=5.1: to use the provided recommended rule set.

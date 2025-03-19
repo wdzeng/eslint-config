@@ -1,7 +1,6 @@
 // @ts-check
 
-// See https://github.com/eslint-community/eslint-plugin-n#-rules. Require at least
-// eslint-plugin-n@^17 for n/hashbang rules.
+// See https://github.com/eslint-community/eslint-plugin-n#-rules.
 
 import n from 'eslint-plugin-n'
 
