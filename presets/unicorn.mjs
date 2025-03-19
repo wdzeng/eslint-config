@@ -1,6 +1,14 @@
+// @ts-check
+
 // See https://github.com/sindresorhus/eslint-plugin-unicorn#rules for rules.
 
-export default {
+// The import-x plugin fails to parse a file that imports JSON, so suppress the following rules.
+// eslint-disable-next-line import-x/namespace, import-x/default, import-x/no-named-as-default, import-x/no-named-as-default-member
+import unicorn from 'eslint-plugin-unicorn'
+import globals from 'globals'
+
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const DEFAULT_RULES = /** @type {const} */ {
   // Array-related.
   'unicorn/consistent-existence-index-check': 'warn',
   'unicorn/explicit-length-check': 'warn',
@@ -110,3 +118,16 @@ export default {
   'unicorn/prefer-structured-clone': 'warn',
   'unicorn/text-encoding-identifier-case': 'warn'
 }
+
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
+const config = {
+  // Add this language options according to the docs. See
+  // https://github.com/sindresorhus/eslint-plugin-unicorn?tab=readme-ov-file#usage/
+  languageOptions: {
+    globals: globals.builtin
+  },
+  plugins: { unicorn },
+  rules: DEFAULT_RULES
+}
+
+export default config
