@@ -2,6 +2,8 @@
 
 /* eslint-disable sort-keys */
 
+import { parseArgs } from 'node:util'
+
 import eslint from '@eslint/js'
 import tsEslint from 'typescript-eslint'
 
@@ -113,7 +115,7 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'no-unused-expressions': 'off',
   '@typescript-eslint/no-unused-expressions': 'warn',
   'no-unused-vars': 'off',
-  '@typescript-eslint/no-unused-vars': 'warn',
+  '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   'dot-notation': 'off',
   '@typescript-eslint/dot-notation': 'warn',
   'require-await': 'off',
