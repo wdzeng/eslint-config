@@ -116,19 +116,11 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'require-await': 'off',
   '@typescript-eslint/require-await': 'warn',
 
-  // Mark no-unnecessary-* rules to warning level.
-  '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
-  '@typescript-eslint/no-unnecessary-condition': 'warn',
-  '@typescript-eslint/no-unnecessary-qualifier': 'warn',
-  '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
-  '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-  '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
-  '@typescript-eslint/no-non-null-assertion': 'off', // It's OK to use ! for non-null assertion
-
   // Other customizations.
   '@typescript-eslint/consistent-type-imports': 'error',
   '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
   '@typescript-eslint/no-import-type-side-effects': 'warn',
+  '@typescript-eslint/no-non-null-assertion': 'off', // It's OK to use ! for non-null assertion
   '@typescript-eslint/restrict-template-expressions': [
     'warn',
     { allowBoolean: true, allowNumber: true }
@@ -136,23 +128,27 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
 }
 
 /**
- * @param {import('typescript-eslint').ConfigArray} configs
+ * @param {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config | import('typescript-eslint').ConfigArray} c
+ * @param {string} [prefix]
  * @returns {import('typescript-eslint').ConfigArray}
  */
-function toWarningRules(configs) {
+function toWarningRules(c, prefix) {
   const ret = {}
+  const configs = Array.isArray(c) ? c : [c]
   for (const config of configs) {
     const { rules } = config
     if (!rules) {
       continue
     }
     for (const [k, v] of Object.entries(rules)) {
-      if (Array.isArray(v)) {
-        if (v[0] !== 'off') {
-          ret[k] = ['warn', ...v.slice(1)]
+      if (!prefix || k.startsWith(prefix)) {
+        if (Array.isArray(v)) {
+          if (v[0] === 'error' || v[0] === 2) {
+            ret[k] = ['warn', ...v.slice(1)]
+          }
+        } else if (v === 'error' || v === 2) {
+          ret[k] = 'warn'
         }
-      } else if (v !== 'off') {
-        ret[k] = 'warn'
       }
     }
   }
@@ -161,8 +157,7 @@ function toWarningRules(configs) {
 
 /** @return {import('typescript-eslint').ConfigArray} */
 export function getJsConfigs() {
-  return tsEslint.config({
-    extends: [eslint.configs.recommended],
+  return tsEslint.config(toWarningRules(eslint.configs.recommended, 'no-unnecessary-'), {
     rules: ESLINT_RECOMMENDED_OVERRIDE_RULES
   })
 }
@@ -172,8 +167,8 @@ export function getTsConfigs() {
   return tsEslint.config({
     extends: [
       getJsConfigs(),
-      tsEslint.configs.eslintRecommended,
-      tsEslint.configs.strictTypeChecked,
+      toWarningRules(tsEslint.configs.eslintRecommended, '@typescript-eslint/no-unnecessary-'),
+      toWarningRules(tsEslint.configs.strictTypeChecked, '@typescript-eslint/no-unnecessary-'),
       toWarningRules(tsEslint.configs.stylisticTypeChecked)
     ],
     rules: TS_RECOMMENDED_OVERRIDE_RULES
