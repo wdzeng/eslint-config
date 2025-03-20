@@ -1,0 +1,11 @@
+// Please also update JS/TS test if you are changing this file.
+console.log('abc', 'def')
+console.log('abc', 'def')
+console.debug('abc', 'def')
+console.debug('abc', 'def')
+console.info('abc', 'def')
+console.info('abc', 'def')
+console.warn('abc', 'def')
+console.warn('abc', 'def')
+console.error('abc', 'def')
+console.error('abc', 'def')
