@@ -42,7 +42,10 @@ const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   // implementing event listeners. However, tsc still complain this unless the argument name has
   // prefixed with underscore; therefore align the ESLint rule with tsc.
   'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-  'no-use-before-define': ['error', { allowNamedExports: true }],
+  'no-use-before-define': [
+    'error',
+    { allowNamedExports: true, functions: false, variables: true, classes: false }
+  ],
   'no-var': 'warn',
   'prefer-const': 'warn',
 
@@ -115,6 +118,18 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   '@typescript-eslint/dot-notation': 'warn',
   'require-await': 'off',
   '@typescript-eslint/require-await': 'warn',
+  'no-use-before-define': 'off',
+  '@typescript-eslint/no-use-before-define': [
+    'error',
+    {
+      functions: false,
+      classes: false,
+      variables: true,
+      allowNamedExports: true,
+      typedefs: false,
+      ignoreTypeReferences: true
+    }
+  ],
 
   // Other customizations.
   '@typescript-eslint/consistent-type-imports': 'error',
