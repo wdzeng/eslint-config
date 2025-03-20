@@ -43,7 +43,7 @@ const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   // Allow unused arguments that start with underscore. This is useful for overriding functions or
   // implementing event listeners. However, tsc still complain this unless the argument name has
   // prefixed with underscore; therefore align the ESLint rule with tsc.
-  'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+  'no-unused-vars': ['warn', { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_' }],
   'no-use-before-define': [
     'error',
     { allowNamedExports: true, functions: false, variables: true, classes: false }
@@ -115,7 +115,10 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'no-unused-expressions': 'off',
   '@typescript-eslint/no-unused-expressions': 'warn',
   'no-unused-vars': 'off',
-  '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+  '@typescript-eslint/no-unused-vars': [
+    'warn',
+    { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_' }
+  ],
   'dot-notation': 'off',
   '@typescript-eslint/dot-notation': 'warn',
   'require-await': 'off',
