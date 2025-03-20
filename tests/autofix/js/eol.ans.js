@@ -1,1 +1,1 @@
-console.log('Should add newline at the end of the file.')
+// Please also update JS/TS test if you are changing this file.
