@@ -75,7 +75,7 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/prefer-node-protocol': 'warn',
 
   // Set-related.
-  'unicorn/prefer-set-has': 'warn',
+  // 'unicorn/prefer-set-has': 'warn', // this may impact performance
   'unicorn/prefer-set-size': 'warn',
 
   // Date-related.
