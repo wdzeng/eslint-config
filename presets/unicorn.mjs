@@ -110,7 +110,7 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/no-this-assignment': 'error',
   'unicorn/no-typeof-undefined': 'warn',
   'unicorn/no-useless-switch-case': 'warn',
-  'unicorn/number-literal-case': ['warn', { hexaDecimalValue: 'lower' }],
+  'unicorn/number-literal-case': ['warn', { hexadecimalValue: 'lowercase' }], // TODO: this rule is not auto-fixable; currently the problem is fixed by prettier.
   'unicorn/prefer-blob-reading-methods': 'warn',
   'unicorn/prefer-json-parse-buffer': 'warn',
   'unicorn/prefer-keyboard-event-key': 'warn',
