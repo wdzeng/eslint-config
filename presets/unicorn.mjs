@@ -10,14 +10,10 @@ import globals from 'globals'
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
   // Array-related.
-  'unicorn/consistent-existence-index-check': 'warn',
-  'unicorn/explicit-length-check': 'warn',
   'unicorn/no-array-for-each': 'warn',
   'unicorn/no-array-method-this-argument': 'error',
   'unicorn/no-array-push-push': 'warn',
-  'unicorn/no-await-expression-member': 'warn',
   'unicorn/no-for-loop': 'warn',
-  'unicorn/no-instanceof-array': 'warn',
   'unicorn/no-new-array': 'warn',
   'unicorn/no-useless-length-check': 'warn',
   'unicorn/no-useless-spread': 'warn',
@@ -33,18 +29,21 @@ const DEFAULT_RULES = /** @type {const} */ {
 
   // String-related.
   'unicorn/prefer-code-point': 'error',
-  'unicorn/prefer-string-replace-all': 'error',
+  'unicorn/prefer-string-replace-all': 'warn',
   'unicorn/prefer-string-slice': 'warn',
   'unicorn/prefer-string-starts-ends-with': 'warn',
-  'unicorn/prefer-string-trim-start-end': 'warn',
+  // String.trimLeft|trimRight are deprecated. We don't need to enable rules for deprecated
+  // functions.
+  // 'unicorn/prefer-string-trim-start-end': 'warn'
 
   // Error-related.
   'unicorn/prefer-optional-catch-binding': 'warn',
   'unicorn/prefer-type-error': 'warn',
-  'unicorn/throw-new-error': 'warn',
+  // 'unicorn/throw-new-error': 'warn', // covered by unicorn/new-for-builtins
 
   // Promise-related.
   'unicorn/no-await-in-promise-methods': 'warn',
+  'unicorn/no-named-default': 'warn',
   'unicorn/no-single-promise-in-promise-methods': 'warn',
   'unicorn/no-thenable': 'error',
   'unicorn/no-unnecessary-await': 'error',
@@ -80,9 +79,11 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/prefer-set-size': 'warn',
 
   // Date-related.
+  'unicorn/consistent-date-clone': 'warn',
   'unicorn/prefer-date-now': 'warn',
 
   // Styles.
+  'unicorn/no-await-expression-member': 'warn',
   'unicorn/no-empty-file': 'warn',
   'unicorn/no-lonely-if': 'warn',
   'unicorn/no-negated-condition': 'warn',
@@ -97,7 +98,9 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/consistent-function-scoping': 'warn',
   'unicorn/new-for-builtins': 'warn',
   'unicorn/no-abusive-eslint-disable': 'warn',
+  'unicorn/no-accessor-recursion': 'error',
   'unicorn/no-console-spaces': 'warn',
+  'unicorn/no-instanceof-builtins': 'warn',
   'unicorn/no-invalid-fetch-options': 'warn',
   'unicorn/no-new-buffer': 'warn',
   'unicorn/no-null': 'warn',
@@ -107,13 +110,13 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/no-this-assignment': 'error',
   'unicorn/no-typeof-undefined': 'warn',
   'unicorn/no-useless-switch-case': 'warn',
-  'unicorn/number-literal-case': 'warn',
+  'unicorn/number-literal-case': ['warn', { hexaDecimalValue: 'lower' }],
   'unicorn/prefer-blob-reading-methods': 'warn',
   'unicorn/prefer-json-parse-buffer': 'warn',
   'unicorn/prefer-keyboard-event-key': 'warn',
-  'unicorn/prefer-number-properties': 'error',
+  'unicorn/prefer-number-properties': ['error', { checkInfinity: true, checkNaN: true }],
   'unicorn/prefer-object-from-entries': 'warn',
-  'unicorn/prefer-prototype-methods': 'warn',
+  'unicorn/prefer-prototype-methods': 'error',
   'unicorn/prefer-reflect-apply': 'warn',
   'unicorn/prefer-structured-clone': 'warn',
   'unicorn/text-encoding-identifier-case': 'warn'

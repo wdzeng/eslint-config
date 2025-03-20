@@ -70,6 +70,7 @@ const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'no-lonely-if': 'warn',
   'no-new': 'error',
   'no-new-func': 'error',
+  'no-new-native-nonconstructor': 'off', // Covered by unicorn/new-for-builtins
   'no-new-object': 'warn',
   'no-new-wrappers': 'warn',
   'no-self-compare': 'warn',
@@ -79,6 +80,7 @@ const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'no-useless-call': 'warn',
   'no-useless-rename': 'warn',
   'no-useless-return': 'warn',
+  'prefer-exponentiation-operator': 'warn',
   'prefer-template': 'warn'
 }
 
@@ -132,6 +134,30 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   ]
 }
 
+/**
+ * @param {import('typescript-eslint').ConfigArray} configs
+ * @returns {import('typescript-eslint').ConfigArray}
+ */
+function toWarningRules(configs) {
+  const ret = {}
+  for (const config of configs) {
+    const { rules } = config
+    if (!rules) {
+      continue
+    }
+    for (const [k, v] of Object.entries(rules)) {
+      if (Array.isArray(v)) {
+        if (v[0] !== 'off') {
+          ret[k] = ['warn', ...v.slice(1)]
+        }
+      } else if (v !== 'off') {
+        ret[k] = 'warn'
+      }
+    }
+  }
+  return tsEslint.config(configs, { rules: ret })
+}
+
 /** @return {import('typescript-eslint').ConfigArray} */
 export function getJsConfigs() {
   return tsEslint.config({
@@ -147,7 +173,7 @@ export function getTsConfigs() {
       getJsConfigs(),
       tsEslint.configs.eslintRecommended,
       tsEslint.configs.strictTypeChecked,
-      tsEslint.configs.stylisticTypeChecked
+      toWarningRules(tsEslint.configs.stylisticTypeChecked)
     ],
     rules: TS_RECOMMENDED_OVERRIDE_RULES
   })
