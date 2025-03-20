@@ -134,7 +134,7 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   ],
 
   // Other customizations.
-  '@typescript-eslint/consistent-type-imports': 'error',
+  '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
   '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
   '@typescript-eslint/no-import-type-side-effects': 'warn',
   '@typescript-eslint/no-non-null-assertion': 'off', // It's OK to use ! for non-null assertion

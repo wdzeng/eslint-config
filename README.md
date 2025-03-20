@@ -104,7 +104,7 @@ along with the package.
 
 - `typescript-eslint` >=8.3: to support the `@typescript-eslint/no-deprecated` rule.
 - `eslint-plugin-n` >=17: to support the `n/hashbang` rule.
-- `eslint-plugin-import-x` >=4: to meet minimum version requirement of `typescript-eslint` v8.3.
+- `eslint-plugin-import-x` >=4.9: to support latest options of the rule `import-x/order`.
 - `eslint-plugin-unicorn` >=57: to support the `eslint-plugin-unicorn/consistent-date-clone`,
   `eslint-plugin-unicorn/no-accessor-recursion`, `eslint-plugin-unicorn/no-named-default`, and
   `eslint-plugin-unicorn/no-instanceof-builtins` rules.

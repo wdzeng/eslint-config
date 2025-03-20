@@ -1,4 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-import-type-side-effects */
 
-import { type A, type B, type C } from '@/helper'
-import { Foo, type Bar } from '@/utils'
+import { type E } from 'foo'

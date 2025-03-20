@@ -1,5 +1,3 @@
-import { Foo } from './utils'
+import { PathLike } from 'node:fs'
 
-export function isFoo(f: Foo | undefined): boolean {
-  return f !== undefined
-}
+export const foo = (p: PathLike) => p

@@ -44,6 +44,8 @@ const STATIC_ANALYSIS_RULES = /** @type {const} */ {
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const STYLE_GUIDE_RULES = /** @type {const} */ {
+  // ❌ import { type T } from 'module'
+  // ✅ import type { T } from 'module'
   'import-x/consistent-type-specifier-style': ['warn', 'prefer-top-level'],
   // Don't add extensions to JS and TS files.
   'import-x/extensions': [
@@ -59,36 +61,44 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
     }
   ],
   'import-x/first': 'warn',
-  // TODO: should we set considerComments to true and count to 2?
+  // Hint: we can only set the new line count to 1, or else the it will conflict with prettier.
   'import-x/newline-after-import': ['warn', { count: 1, considerComments: false }],
   // Import/no-duplicates takes over ESLint's built-in no-duplicate-imports.
   'no-duplicate-imports': 'off',
   'import-x/no-duplicates': ['warn', { 'prefer-inline': false }],
-  // Though this rule is from ESLint's built-ins, it's included here since import-x/order
-  // is overriding its default behavior.
-  'sort-imports': [
-    'warn',
-    {
-      ignoreCase: false,
-      ignoreDeclarationSort: true, // This is handled by import/order.
-      ignoreMemberSort: false
-    }
-  ],
+
+  'sort-imports': 'off', // Prevent conflict.
   'import-x/order': [
     'warn',
     {
       'groups': [
         'builtin',
         'external',
-        ['internal', 'parent', 'sibling', 'index'],
-        ['object', 'type']
+        ['internal', 'parent', 'index', 'sibling'],
+        'object',
+        'type'
       ],
       'newlines-between': 'always',
+
+      // TODO: This should be set to never, but it fails to create an empty line between non-type and type imports.
+      'newlines-between-types': 'always',
+
+      // ❌ import { Y, X } from 'module'
+      // ✅ import { X, Y } from 'module'
+      'named': true,
+
+      // ❌ A, a, B, b, C, c
+      // ❌ a, A, b, B, c, C
+      // ✅ A, B, C, a, b, c
       'alphabetize': {
         caseInsensitive: false,
         order: 'asc',
         orderImportKind: 'asc'
-      }
+      },
+
+      // This property is noted as `sortTypesAmongThemselves` in v4.9.0. But it seems to be wrong
+      // (should be `sortTypesGroup`). Check if this is fixed in the future release.
+      'sortTypesGroup': true
     }
   ]
 }
@@ -146,14 +156,15 @@ function getTsRules(tsConfigJsonPath) {
 export function getTsConfig(projectRoot) {
   return {
     plugins: { 'import-x': importX },
-    rules: getTsRules(path.join(projectRoot, 'tsconfig.json')),
+    rules: DEFAULT_RULES,
     languageOptions: {
       parser: tsParser
     },
     // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
     // We need to use the eslint-import-resolver-typescript plugin to resolve them.
     settings: {
-      'import-x/resolver-next': [createTypeScriptImportResolver({ project: projectRoot })]
+      'import-x/resolver-next': [createTypeScriptImportResolver({ project: projectRoot })],
+      'import-x/internal-regex': '^@/'
     }
   }
 }
