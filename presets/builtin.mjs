@@ -123,6 +123,7 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
   '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
   '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
+  '@typescript-eslint/no-non-null-assertion': 'off', // It's OK to use ! for non-null assertion
 
   // Other customizations.
   '@typescript-eslint/consistent-type-imports': 'error',
