@@ -66,6 +66,8 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
   'import-x/order': [
     'warn',
     {
+      // General order: builtin, external, internal, and type. I seldom use object, so just put it
+      // behind internal.
       'groups': [
         'builtin',
         'external',
@@ -73,10 +75,6 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
         'object',
         'type'
       ],
-      'newlines-between': 'always',
-
-      // TODO: This should be set to never, but it fails to create an empty line between non-type and type imports.
-      'newlines-between-types': 'always',
 
       // ❌ import { Y, X } from 'module'
       // ✅ import { X, Y } from 'module'
@@ -93,7 +91,13 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
 
       // This property is noted as `sortTypesAmongThemselves` in v4.9.0. But it seems to be wrong
       // (should be `sortTypesGroup`). Check if this is fixed in the future release.
-      'sortTypesGroup': true
+      'sortTypesGroup': true,
+      // Hint: we can set `newlines-between` to `always`. But we need to add a blank line between
+      // non-type imports and type imports. According the documentation, the solution is to set this
+      // field to `always-and-inside-groups`, and set `consolidateIslands` to `inside-groups`.
+      'newlines-between': 'always-and-inside-groups',
+      'newlines-between-types': 'never',
+      'consolidateIslands': 'inside-groups'
     }
   ]
 }
