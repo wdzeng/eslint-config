@@ -43,9 +43,13 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
   // ✅ import type { T } from 'module'
   'import-x/consistent-type-specifier-style': ['warn', 'prefer-top-level'],
   // Don't add extensions to JS and TS files.
+  //
+  // TODO: this rule does not work well if an import is not found. E.g. we want that this rule
+  // forbids the use of .js extension. But if ./foo is not found, this rule will want to fix `import
+  // Foo from './foo'` to `import Foo from './foo.js'`.
   'import-x/extensions': [
     'error',
-    'always',
+    'ignorePackages',
     {
       js: 'never',
       cjs: 'never',
