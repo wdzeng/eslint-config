@@ -7,5 +7,5 @@ import External from 'external'
 
 import Index from '.'
 import Sibling from './sibling'
-import GrandParent from '../grand-parent-module'
+import GrandParent from '../grand-parent'
 import Parent from '../parent'
