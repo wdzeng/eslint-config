@@ -2,17 +2,17 @@
 
 import { getConfigForJs } from './index.mjs'
 
-/** @satisfies {import('eslint').Linter.RulesRecord} */
-export const DEFAULT_RULES = /** @type {const} */ {
-  // We add file extensions to import JS and TS files in this project.
-  'import-x/extensions': ['error', 'ignorePackages']
-}
-
 /** @returns {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
-export default getConfigForJs(DEFAULT_RULES, {
-  browser: false,
-  ecmaVersion: 2022,
-  ignores: ['tests/**/*.js', 'tests/**/*.ts'],
-  node: true,
-  projectRoot: import.meta.dirname
-})
+export default getConfigForJs(
+  {
+    // We add file extensions to import JS and TS files in this project.
+    'import-x/extensions': ['error', 'ignorePackages']
+  },
+  {
+    browser: false,
+    ecmaVersion: 2022,
+    ignores: ['tests/**/*.js', 'tests/**/*.ts'],
+    node: true,
+    projectRoot: import.meta.dirname
+  }
+)
