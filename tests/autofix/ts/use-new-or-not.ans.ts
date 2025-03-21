@@ -1,19 +1,18 @@
 // Please also update JS/TS test if you are changing this file.
 /* eslint-disable capitalized-comments */
-// TODO: check some example can be fixable in the future release of eslint-plugin-unicorn.
 
 export function* shouldAddNew() {
-  // yield Object() // unrealistic
-  // yield Array() // unrealistic
+  // yield Object() // Don't need to autofix this; it's unrealistic
+  // yield Array() // Don't need to autofix this; it's unrealistic
   yield new ArrayBuffer()
   yield new BigInt64Array()
   yield new BigUint64Array()
   yield new DataView(new ArrayBuffer())
-  // yield Date() // not working
+  yield String(new Date()) // TODO: wrong auto-fixing result; check if it will be fixed in the future.
   yield new Error()
   yield new Float32Array()
   yield new Float64Array()
-  // yield Function() // unrealistic
+  // yield Function() // Don't need to autofix this; it's unrealistic
   yield new Int8Array()
   yield new Int16Array()
   yield new Int32Array()
@@ -38,7 +37,8 @@ export function* noNew() {
   yield Symbol()
   yield BigInt(0)
 
-  yield Buffer.from('7468697320697320612074c3a97374', 'hex')
-  yield Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
-  yield Buffer.alloc(10)
+  // Don't need to test deprecated APIs.
+  // yield new Buffer('7468697320697320612074c3a97374', 'hex')
+  // yield new Buffer([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
+  // yield new Buffer(10)
 }
