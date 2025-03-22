@@ -6,8 +6,6 @@ import tsParser from '@typescript-eslint/parser'
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 import importX from 'eslint-plugin-import-x'
 
-/* eslint sort-keys: off */
-
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const HELPFUL_WARNING_RULES = /** @type {const} */ {
   'import-x/export': 'error',

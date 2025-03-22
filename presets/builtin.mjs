@@ -1,7 +1,5 @@
 // @ts-check
 
-/* eslint-disable sort-keys */
-
 import eslint from '@eslint/js'
 import tsEslint from 'typescript-eslint'
 
@@ -25,11 +23,6 @@ const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   'no-negated-condition': 'warn',
   'no-tabs': 'warn',
   'quote-props': ['warn', 'consistent-as-needed'],
-  'sort-keys': [
-    'warn',
-    'asc',
-    { allowLineSeparatedGroups: true, caseSensitive: true, minKeys: 4, natural: true }
-  ],
   'spaced-comment': 'warn',
 
   // Error-related.
