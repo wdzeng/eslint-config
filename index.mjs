@@ -13,6 +13,7 @@ import {
   getTsConfigs as getImportXTsConfigs
 } from './presets/import-x.mjs'
 import { getJsConfigs as getNJsConfigs, getTsConfigs as getNTsConfigs } from './presets/n.mjs'
+import { getConfigs as getPathAliasConfigs } from './presets/path-alias.mjs'
 import prettierConfigs from './presets/prettier.mjs'
 import { getConfigs as getUnicornConfigs } from './presets/unicorn.mjs'
 
@@ -171,10 +172,17 @@ export function getConfigForTs(userRules, options) {
   const [builtinConfigs, builtinDevConfigs] = getTsConfigs(options)
   const [nConfigs, nDevConfigs] = getNTsConfigs(options)
   const [importXConfigs, importXDevConfigs] = getImportXTsConfigs(options)
+  const [pathAliasConfigs, pathAliasDevConfigs] = getPathAliasConfigs(options)
   const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
   const userCustomConfig = userRules ? { rules: userRules } : {}
   const nonProductionFilesConfig = tsEslint.config({
-    extends: [builtinDevConfigs, nDevConfigs, importXDevConfigs, unicornDevConfigs],
+    extends: [
+      builtinDevConfigs,
+      nDevConfigs,
+      importXDevConfigs,
+      pathAliasDevConfigs,
+      unicornDevConfigs
+    ],
     files: getNonProductionFilePaths(options.projectRoot)
   })
 
@@ -185,6 +193,7 @@ export function getConfigForTs(userRules, options) {
     builtinConfigs,
     nConfigs,
     importXConfigs,
+    pathAliasConfigs,
     unicornConfigs,
     userCustomConfig,
     nonProductionFilesConfig,
