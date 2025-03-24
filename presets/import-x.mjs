@@ -1,5 +1,4 @@
 // @ts-check
-
 // https://github.com/un-ts/eslint-plugin-import-x?tab=readme-ov-file#rules
 
 import tsParser from '@typescript-eslint/parser'
@@ -7,21 +6,21 @@ import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescrip
 import importX from 'eslint-plugin-import-x'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
-const HELPFUL_WARNING_RULES = /** @type {const} */ {
+const DEFAULT_RULES = /** @type {const} */ {
+  // Helpful warnings.
+
   'import-x/export': 'error',
   'import-x/no-empty-named-blocks': 'warn',
   'import-x/no-extraneous-dependencies': 'error',
   'import-x/no-mutable-exports': 'warn',
   'import-x/no-named-as-default': 'warn',
   'import-x/no-named-as-default-member': 'warn',
-  'import-x/no-unused-modules': 'warn'
-}
+  'import-x/no-unused-modules': 'warn',
 
-/** @satisfies {import('eslint').Linter.RulesRecord} */
-const MODULE_SYSTEM_RULES = /** @type {const} */ {}
+  // Module system (none).
 
-/** @satisfies {import('eslint').Linter.RulesRecord} */
-const STATIC_ANALYSIS_RULES = /** @type {const} */ {
+  // Static analysis.
+
   'import-x/default': 'error',
   'import-x/named': 'error',
   'import-x/namespace': 'error',
@@ -32,13 +31,14 @@ const STATIC_ANALYSIS_RULES = /** @type {const} */ {
   'import-x/no-self-import': 'error',
   // This rule has some false positive. n/no-missing-import is a more powerful version of this rule.
   // 'import-x/no-unresolved': 'error',
-  'import-x/no-useless-path-segments': 'warn'
-}
+  'import-x/no-useless-path-segments': 'warn',
 
-/** @satisfies {import('eslint').Linter.RulesRecord} */
-const STYLE_GUIDE_RULES = /** @type {const} */ {
+  // Style guide.
+
   // ❌ import { type T } from 'module'
   // ✅ import type { T } from 'module'
+  // Hint: though this rule works only on TypeScript files, it does not matter to include in JS
+  // project, so I do not add a separate rule for JS.
   'import-x/consistent-type-specifier-style': ['warn', 'prefer-top-level'],
   // Don't add extensions to JS and TS files.
   //
@@ -77,7 +77,8 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
       ],
       'newlines-between': 'always',
 
-      // TODO: This should be set to never, but it fails to create an empty line between non-type and type imports.
+      // TODO: This should be set to never, but it fails to create an empty line between non-type
+      // and type imports.
       'newlines-between-types': 'always',
 
       // ❌ import { Y, X } from 'module'
@@ -101,37 +102,63 @@ const STYLE_GUIDE_RULES = /** @type {const} */ {
 }
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
-const DEFAULT_RULES = /** @type {const} */ {
-  ...HELPFUL_WARNING_RULES,
-  ...MODULE_SYSTEM_RULES,
-  ...STATIC_ANALYSIS_RULES,
-  ...STYLE_GUIDE_RULES
+const NON_NODE_RULES = /** @type {const} */ {
+  'import-x/no-nodejs-modules': 'error'
 }
 
-/** @returns {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
-export function getJsConfig() {
-  return {
-    plugins: { 'import-x': importX },
-    rules: DEFAULT_RULES
-  }
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const DEV_OVERRIDES_RULES = /** @type {const} */ {
+  'import-x/no-extraneous-dependencies': 'off'
 }
 
 /**
- * @param {string} projectRoot
- * @returns {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config}
+ * @typedef Options
+ * @prop {string} projectRoot The root directory of the project
+ * @prop {boolean} [node] Whether the runtime is Node.js
+ * @prop {boolean} [browser] Whether the runtime is a browser
  */
-export function getTsConfig(projectRoot) {
-  return {
-    plugins: { 'import-x': importX },
-    rules: DEFAULT_RULES,
-    languageOptions: {
-      parser: tsParser
-    },
-    // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
-    // We need to use the eslint-import-resolver-typescript plugin to resolve them.
-    settings: {
-      'import-x/resolver-next': [createTypeScriptImportResolver({ project: projectRoot })],
-      'import-x/internal-regex': '^@/'
-    }
+
+/**
+ * @param {Options} options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getJsConfigs(options) {
+  const rules = { ...DEFAULT_RULES }
+  if (!options.node) {
+    Object.assign(rules, NON_NODE_RULES)
   }
+  return [[{ plugins: { 'import-x': importX }, rules }], [{ rules: DEV_OVERRIDES_RULES }]]
+}
+
+/**
+ * @param {Options} options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getTsConfigs(options) {
+  const rules = { ...DEFAULT_RULES }
+  if (!options.node) {
+    Object.assign(rules, NON_NODE_RULES)
+  }
+
+  return [
+    [
+      {
+        plugins: { 'import-x': importX },
+        rules,
+        languageOptions: {
+          parser: tsParser
+        },
+        // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
+        // We need to use the eslint-import-resolver-typescript plugin to resolve them.
+        settings: {
+          'import-x/resolver-next': [
+            createTypeScriptImportResolver({ project: options.projectRoot })
+          ],
+          // TODO: parse tsconfig.json to get the baseUrl and paths.
+          'import-x/internal-regex': '^@/'
+        }
+      }
+    ],
+    [{ rules: DEV_OVERRIDES_RULES }]
+  ]
 }

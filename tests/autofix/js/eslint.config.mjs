@@ -1,3 +1,5 @@
+// @ts-check
+
 import { getConfigForJs } from '../../../index.mjs'
 
 export default getConfigForJs(

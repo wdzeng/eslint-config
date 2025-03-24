@@ -166,22 +166,40 @@ function toWarningRules(c, prefix) {
   return tsEslint.config(configs, { rules: ret })
 }
 
-/** @return {import('typescript-eslint').ConfigArray} */
-export function getJsConfigs() {
-  return tsEslint.config(toWarningRules(eslint.configs.recommended, 'no-unnecessary-'), {
-    rules: ESLINT_RECOMMENDED_OVERRIDE_RULES
-  })
+/**
+ * @typedef Options
+ * @prop {string} projectRoot The root directory of the project
+ * @prop {boolean} [node] Whether the runtime is Node.js
+ * @prop {boolean} [browser] Whether the runtime is a browser
+ */
+
+/**
+ * @param {Options} _options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getJsConfigs(_options) {
+  return [
+    tsEslint.config(toWarningRules(eslint.configs.recommended, 'no-unnecessary-'), {
+      rules: ESLINT_RECOMMENDED_OVERRIDE_RULES
+    }),
+    []
+  ]
 }
 
-/** @return {import('typescript-eslint').ConfigArray} */
-export function getTsConfigs() {
-  return tsEslint.config({
-    extends: [
-      getJsConfigs(),
+/**
+ * @param {Options} options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getTsConfigs(options) {
+  const [jsConfig, jsDevConfig] = getJsConfigs(options)
+  return [
+    tsEslint.config(
+      jsConfig,
       toWarningRules(tsEslint.configs.eslintRecommended, '@typescript-eslint/no-unnecessary-'),
       toWarningRules(tsEslint.configs.strictTypeChecked, '@typescript-eslint/no-unnecessary-'),
-      toWarningRules(tsEslint.configs.stylisticTypeChecked)
-    ],
-    rules: TS_RECOMMENDED_OVERRIDE_RULES
-  })
+      toWarningRules(tsEslint.configs.stylisticTypeChecked),
+      { rules: TS_RECOMMENDED_OVERRIDE_RULES }
+    ),
+    jsDevConfig
+  ]
 }

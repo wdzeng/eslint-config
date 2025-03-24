@@ -1,6 +1,5 @@
 // @ts-check
-
-// See https://github.com/sindresorhus/eslint-plugin-unicorn#rules for rules.
+// https://github.com/sindresorhus/eslint-plugin-unicorn#rules
 
 // The import-x plugin fails to parse a file that imports JSON, so suppress the following rules.
 // eslint-disable-next-line import-x/namespace, import-x/default, import-x/no-named-as-default, import-x/no-named-as-default-member
@@ -51,14 +50,6 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/no-useless-promise-resolve-reject': 'warn',
   'unicorn/prefer-top-level-await': 'warn',
 
-  // DOM-related.
-  'unicorn/prefer-dom-node-append': 'warn',
-  'unicorn/prefer-dom-node-dataset': 'warn',
-  'unicorn/prefer-dom-node-remove': 'warn',
-  'unicorn/prefer-dom-node-text-content': 'warn',
-  'unicorn/prefer-event-target': 'warn',
-  'unicorn/prefer-modern-dom-apis': 'warn',
-
   // Regex-related.
   'unicorn/better-regex': 'warn',
   'unicorn/prefer-regexp-test': 'warn',
@@ -72,7 +63,6 @@ const DEFAULT_RULES = /** @type {const} */ {
   // Import/export-related.
   'unicorn/prefer-export-from': 'warn',
   'unicorn/prefer-module': 'error',
-  'unicorn/prefer-node-protocol': 'warn',
 
   // Set-related.
   // 'unicorn/prefer-set-has': 'warn', // this may impact performance
@@ -122,15 +112,48 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/text-encoding-identifier-case': 'warn'
 }
 
-/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
-const config = {
-  // Add this language options according to the docs. See
-  // https://github.com/sindresorhus/eslint-plugin-unicorn?tab=readme-ov-file#usage/
-  languageOptions: {
-    globals: globals.builtin
-  },
-  plugins: { unicorn },
-  rules: DEFAULT_RULES
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const NODE_ONLY_RULES = {
+  'unicorn/prefer-node-protocol': 'warn'
 }
 
-export default config
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const BROWSER_ONLY_RULES = {
+  'unicorn/prefer-dom-node-append': 'warn',
+  'unicorn/prefer-dom-node-dataset': 'warn',
+  'unicorn/prefer-dom-node-remove': 'warn',
+  'unicorn/prefer-dom-node-text-content': 'warn',
+  'unicorn/prefer-event-target': 'warn',
+  'unicorn/prefer-modern-dom-apis': 'warn'
+}
+
+/**
+ * @typedef Options
+ * @prop {string} projectRoot The root directory of the project
+ * @prop {boolean} [node] Whether the runtime is Node.js
+ * @prop {boolean} [browser] Whether the runtime is a browser
+ */
+
+/**
+ * @param {Options} options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getConfigs(options) {
+  const rules = { ...DEFAULT_RULES }
+  if (options.node) {
+    Object.assign(rules, NODE_ONLY_RULES)
+  }
+  if (options.browser) {
+    Object.assign(rules, BROWSER_ONLY_RULES)
+  }
+  const config = {
+    // Add this language options according to the docs. See
+    // https://github.com/sindresorhus/eslint-plugin-unicorn?tab=readme-ov-file#usage/
+    languageOptions: {
+      globals: globals.builtin
+    },
+    plugins: { unicorn },
+    rules: rules
+  }
+  return [[config], []]
+}

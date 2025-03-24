@@ -1,11 +1,10 @@
 // @ts-check
-
 // See https://github.com/eslint-community/eslint-plugin-n#-rules.
 
 import n from 'eslint-plugin-n'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
-const DEFAULT_RULES = /** @types {const} */ {
+const DEFAULT_RULES = /** @type {const} */ {
   // Import/export-related.
   'n/no-extraneous-import': 'error',
   'n/no-extraneous-require': 'error',
@@ -28,6 +27,12 @@ const DEFAULT_RULES = /** @types {const} */ {
   'n/process-exit-as-throw': 'warn'
 }
 
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const DEV_OVERRIDES_RULES = /** @type {const} */ {
+  'n/no-unpublished-import': 'off',
+  'n/no-unpublished-require': 'off'
+}
+
 /**
  * Don't enable 'n/no-unpublished-{import,require}' in TypeScript projects because these two rules
  * don't work well with TypeScript. The two rules require the import file name must have file name
@@ -40,18 +45,41 @@ const JS_ONLY_RULES = /** @type {const} */ {
   'n/no-missing-require': 'error'
 }
 
-/** @return {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
-export function getJsConfig() {
-  return {
-    plugins: { n },
-    rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES }
-  }
+/**
+ * @typedef Options
+ * @prop {string} projectRoot The root directory of the project
+ * @prop {boolean} [node] Whether the runtime is Node.js
+ * @prop {boolean} [browser] Whether the runtime is a browser
+ */
+
+/**
+ * @param {Options} _options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getJsConfigs(_options) {
+  return [
+    [
+      {
+        plugins: { n },
+        rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES }
+      }
+    ],
+    [{ rules: DEV_OVERRIDES_RULES }]
+  ]
 }
 
-/** @return {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
-export function getTsConfig() {
-  return {
-    plugins: { n },
-    rules: DEFAULT_RULES
-  }
+/**
+ * @param {Options} _options
+ * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ */
+export function getTsConfigs(_options) {
+  return [
+    [
+      {
+        plugins: { n },
+        rules: DEFAULT_RULES
+      }
+    ],
+    [{ rules: DEV_OVERRIDES_RULES }]
+  ]
 }

@@ -1,8 +1,5 @@
 // @ts-check
 
-// Hint: we cannot write this file in TypeScript because eslint-plugin-import is not typed as of
-// v2.31.
-
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -12,12 +9,12 @@ import tsEslint from 'typescript-eslint'
 
 import { getJsConfigs, getTsConfigs } from './presets/builtin.mjs'
 import {
-  getJsConfig as getImportXJsConfig,
-  getTsConfig as getImportXTsConfig
+  getJsConfigs as getImportXJsConfigs,
+  getTsConfigs as getImportXTsConfigs
 } from './presets/import-x.mjs'
-import { getJsConfig as getNJsConfig, getTsConfig as getNTsConfig } from './presets/n.mjs'
+import { getJsConfigs as getNJsConfigs, getTsConfigs as getNTsConfigs } from './presets/n.mjs'
 import prettierConfigs from './presets/prettier.mjs'
-import unicornConfig from './presets/unicorn.mjs'
+import { getConfigs as getUnicornConfigs } from './presets/unicorn.mjs'
 
 /**
  * @typedef Options
@@ -66,42 +63,28 @@ function requireValidOptions(options) {
   }
 }
 
-/**
- * Gets the ESLint config for non-production files.
- * @param {string} projectRoot the root directory of the project
- * @returns {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} the config object
- */
-function getNonProductionFilesConfig(projectRoot) {
-  // Enable n/no-unpublished-import in production files only. If the project has a "src" directory
-  // at the root, we believe files under that are production files. Otherwise, we exclude test and
-  // configuration files only.
+function getNonProductionFilePaths(projectRoot) {
+  // If the project has a "src" directory at the root, we believe files under that are production
+  // files. Otherwise, we exclude test and configuration files only.
   if (fs.existsSync(path.join(projectRoot, 'src'))) {
-    return {
-      name: 'non-production-files',
-      files: [
-        // Test files everywhere
-        '**/*.test.{js,cjs,mjs,ts,cts,mts}',
-        // Config files at the project root directory
-        '*.config.{js,cjs,mjs,ts,cts,mts}',
-        '.*rc.{js,cjs,mjs,ts,cts,mts}'
-      ],
-      rules: { 'n/no-unpublished-import': 'off' }
-    }
-  }
-
-  return {
-    name: 'non-production-files',
-    files: [
+    return [
       // Test files everywhere
-      'test/**/*.{js,cjs,mjs,ts,cts,mts}',
-      'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
       '**/*.test.{js,cjs,mjs,ts,cts,mts}',
       // Config files at the project root directory
       '*.config.{js,cjs,mjs,ts,cts,mts}',
       '.*rc.{js,cjs,mjs,ts,cts,mts}'
-    ],
-    rules: { 'n/no-unpublished-import': 'off' }
+    ]
   }
+
+  return [
+    // Test files everywhere
+    'test/**/*.{js,cjs,mjs,ts,cts,mts}',
+    'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
+    '**/*.test.{js,cjs,mjs,ts,cts,mts}',
+    // Config files at the project root directory
+    '*.config.{js,cjs,mjs,ts,cts,mts}',
+    '.*rc.{js,cjs,mjs,ts,cts,mts}'
+  ]
 }
 
 /**
@@ -129,20 +112,24 @@ export function getConfigForJs(userRules, options) {
 
   const globalIgnoresConfig = options.ignores ? globalIgnores(options.ignores) : {}
   const languageOptionsConfig = { languageOptions }
-  const eslintBuiltinConfigs = getJsConfigs()
-  const nConfig = getNJsConfig()
-  const importXConfig = getImportXJsConfig()
+  const [builtinConfigs, builtinDevConfigs] = getJsConfigs(options)
+  const [nConfigs, nDevConfigs] = getNJsConfigs(options)
+  const [importXConfigs, importXDevConfigs] = getImportXJsConfigs(options)
+  const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
   const userCustomConfig = userRules ? { rules: userRules } : {}
-  const nonProductionFilesConfig = getNonProductionFilesConfig(lintOptions.projectRoot)
+  const nonProductionFilesConfig = tsEslint.config({
+    extends: [builtinDevConfigs, nDevConfigs, importXDevConfigs, unicornDevConfigs],
+    files: getNonProductionFilePaths(options.projectRoot)
+  })
 
   // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
   return tsEslint.config(
     globalIgnoresConfig,
     languageOptionsConfig,
-    eslintBuiltinConfigs,
-    nConfig,
-    unicornConfig,
-    importXConfig,
+    builtinConfigs,
+    nConfigs,
+    importXConfigs,
+    unicornConfigs,
     userCustomConfig,
     nonProductionFilesConfig,
     prettierConfigs
@@ -181,20 +168,24 @@ export function getConfigForTs(userRules, options) {
 
   const globalIgnoresConfig = options.ignores ? globalIgnores(options.ignores) : {}
   const languageOptionsConfig = { languageOptions }
-  const eslintBuiltinsAndTsConfig = getTsConfigs()
-  const nConfig = getNTsConfig()
-  const importXConfig = getImportXTsConfig(options.projectRoot)
+  const [builtinConfigs, builtinDevConfigs] = getTsConfigs(options)
+  const [nConfigs, nDevConfigs] = getNTsConfigs(options)
+  const [importXConfigs, importXDevConfigs] = getImportXTsConfigs(options)
+  const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
   const userCustomConfig = userRules ? { rules: userRules } : {}
-  const nonProductionFilesConfig = getNonProductionFilesConfig(options.projectRoot)
+  const nonProductionFilesConfig = tsEslint.config({
+    extends: [builtinDevConfigs, nDevConfigs, importXDevConfigs, unicornDevConfigs],
+    files: getNonProductionFilePaths(options.projectRoot)
+  })
 
   // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
   return tsEslint.config(
     globalIgnoresConfig,
     languageOptionsConfig,
-    eslintBuiltinsAndTsConfig,
-    nConfig,
-    unicornConfig,
-    importXConfig,
+    builtinConfigs,
+    nConfigs,
+    importXConfigs,
+    unicornConfigs,
     userCustomConfig,
     nonProductionFilesConfig,
     prettierConfigs
