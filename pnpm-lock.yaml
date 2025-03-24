@@ -18,6 +18,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.26.1
         version: 8.26.1(eslint@9.22.0)(typescript@5.8.2)
+      '@vitest/eslint-plugin':
+        specifier: ^1.1.38
+        version: 1.1.38(@typescript-eslint/utils@8.26.1(eslint@9.22.0)(typescript@5.8.2))(eslint@9.22.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@20.17.24))
       eslint-import-resolver-typescript:
         specifier: ^3.9.1
         version: 3.9.1(eslint-plugin-import-x@4.9.1(eslint@9.22.0)(typescript@5.8.2))(eslint-plugin-import@2.31.0)(eslint@9.22.0)
@@ -577,6 +580,19 @@ packages:
     resolution: {integrity: sha512-hewo/UMGP1a7O6FG/ThcPzSJdm/WwrYDNkdGgWl6M18H6K6MSitklomWpT9MUtT5KGj++QJb06va/14QBC4pvw==}
     cpu: [x64]
     os: [win32]
+
+  '@vitest/eslint-plugin@1.1.38':
+    resolution: {integrity: sha512-KcOTZyVz8RiM5HyriiDVrP1CyBGuhRxle+lBsmSs6NTJEO/8dKVAq+f5vQzHj1/Kc7bYXSDO6yBe62Zx0t5iaw==}
+    peerDependencies:
+      '@typescript-eslint/utils': ^8.24.0
+      eslint: '>= 8.57.0'
+      typescript: '>= 5.0.0'
+      vitest: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vitest:
+        optional: true
 
   '@vitest/expect@3.0.9':
     resolution: {integrity: sha512-5eCqRItYgIML7NNVgJj6TVCmdzE7ZVgJhruW0ziSQV4V7PvLkDL1bBkBdcTs/VuIz0IxPb5da1IDSqc1TR9eig==}
@@ -2548,6 +2564,14 @@ snapshots:
 
   '@unrs/rspack-resolver-binding-win32-x64-msvc@1.2.2':
     optional: true
+
+  '@vitest/eslint-plugin@1.1.38(@typescript-eslint/utils@8.26.1(eslint@9.22.0)(typescript@5.8.2))(eslint@9.22.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@20.17.24))':
+    dependencies:
+      '@typescript-eslint/utils': 8.26.1(eslint@9.22.0)(typescript@5.8.2)
+      eslint: 9.22.0
+    optionalDependencies:
+      typescript: 5.8.2
+      vitest: 3.0.9(@types/node@20.17.24)
 
   '@vitest/expect@3.0.9':
     dependencies:

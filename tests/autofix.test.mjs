@@ -15,18 +15,19 @@ function runTestGroup(ext) {
     const lintResults = await linter.lintFiles([
       path.resolve(import.meta.dirname, `autofix/${ext}/**.in.${ext}`)
     ])
-    /** @type {[string, string | undefined][]} */
+    /** @type {[string, string | undefined, string][]} */
     const testInputs = lintResults.map((r) => {
-      const testName = r.filePath.split('/').reverse()[0].slice(0, -`.in.${ext}`.length)
-      return [testName, r.output]
+      let testName = r.filePath.split('/').at(-1).slice(0, -`.in.${ext}`.length)
+      if (testName.endsWith('.test')) {
+        testName = testName.slice(0, -'.test'.length)
+      }
+      const ansPath = r.filePath.replace('.in.', '.ans.')
+      return [testName, r.output, ansPath]
     })
 
-    test.for(testInputs)('%s', async ([fileName, lintOutput]) => {
-      const expected = await fs.readFile(
-        path.resolve(import.meta.dirname, `autofix/${ext}`, `${fileName}.ans.${ext}`),
-        'utf8'
-      )
-      expect(lintOutput).toEqual(expected)
+    test.each(testInputs)('%s', async (_testName, lintOutput, ansPath) => {
+      const expectOutput = await fs.readFile(ansPath, 'utf8')
+      expect(lintOutput).toEqual(expectOutput)
     })
   })
 }
