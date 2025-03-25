@@ -35,6 +35,14 @@ const DEFAULT_RULES = /** @type {const} */ {
   'vitest/padding-around-describe-blocks': 'warn'
 }
 
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const TS_RULES = /** @type {const} */ {
+  // Disable this rule in TypeScript, because it conflicts with the mocking functions. Hint: we
+  // should use vitest/unbound-method, but that rule is not yet implemented. See
+  // https://github.com/vitest-dev/eslint-plugin-vitest/issues/359.
+  '@typescript-eslint/unbound-method': 'off'
+}
+
 /**
  * @param {string[]} testFilePaths
  * @return {import('typescript-eslint').ConfigArray}
@@ -66,10 +74,7 @@ export function getTsConfigs(testFilePaths) {
     {
       name:'vitest',
       files: testFilePaths,
-      plugins: {
-        vitest
-      },
-      rules: DEFAULT_RULES,
+      rules: Object.assign({}, DEFAULT_RULES, TS_RULES),
       settings: {
         vitest: {
           typecheck: true
