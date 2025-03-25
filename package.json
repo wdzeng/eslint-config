@@ -63,8 +63,8 @@
   },
   "pnpm": {
     "overrides": {
-      "is-core-module": "npm:@nolyfill/is-core-module@^1",
-      "string.prototype.trimend": "npm:@nolyfill/string.prototype.trimend@^1"
+      "hasown": "npm:@nolyfill/hasown@^1",
+      "isarray": "npm:@nolyfill/isarray@^1"
     }
   }
 }
