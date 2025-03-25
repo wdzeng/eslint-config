@@ -3,6 +3,8 @@
 
 import vitest from '@vitest/eslint-plugin'
 
+export const CONFIG_NAME = 'vitest'
+
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
   'vitest/consistent-test-it': ['warn', { fn: 'test', withinDescribe: 'test' }],
@@ -50,11 +52,9 @@ const TS_RULES = /** @type {const} */ {
 export function getJsConfigs(testFilePaths) {
   return [
     {
-      name:'vitest',
+      name: CONFIG_NAME,
       files: testFilePaths,
-      plugins: {
-        vitest
-      },
+      plugins: { vitest },
       rules: DEFAULT_RULES,
       languageOptions: {
         globals: {
@@ -72,8 +72,9 @@ export function getJsConfigs(testFilePaths) {
 export function getTsConfigs(testFilePaths) {
   return [
     {
-      name:'vitest',
+      name: CONFIG_NAME,
       files: testFilePaths,
+      plugins: { vitest },
       rules: Object.assign({}, DEFAULT_RULES, TS_RULES),
       settings: {
         vitest: {
