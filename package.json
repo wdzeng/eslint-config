@@ -7,6 +7,7 @@
   "main": "index.mjs",
   "files": [
     "index.mjs",
+    "index.d.ts",
     "presets/**/*.mjs"
   ],
   "repository": {

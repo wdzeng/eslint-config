@@ -192,7 +192,7 @@ export function getConfigForTs(userRules, options) {
   const [testFilePaths, nonTestFilePaths] = getNonProductionFilePaths(options.projectRoot)
 
   const globalIgnoresConfig = options.ignores ? globalIgnores(options.ignores) : {}
-  const languageOptionsConfig = { languageOptions }
+  const languageOptionsConfig = { name: 'language-options', languageOptions }
   const [builtinConfigs, builtinDevConfigs] = getTsConfigs(options)
   const [nConfigs, nDevConfigs] = getNTsConfigs(options)
   const [importXConfigs, importXDevConfigs] = getImportXTsConfigs(options)
