@@ -127,6 +127,13 @@ const BROWSER_ONLY_RULES = {
   'unicorn/prefer-modern-dom-apis': 'warn'
 }
 
+/** @satisfies {import('eslint').Linter.RulesRecord} */
+const DEV_OVERRIDES_RULES = /** @type {const} */ {
+  // Allow non-global functions. This is useful to declare helper functions under a describe
+  // section.
+  'unicorn/consistent-function-scoping': 'off'
+}
+
 /**
  * @typedef Options
  * @prop {string} projectRoot The root directory of the project
@@ -155,5 +162,5 @@ export function getConfigs(options) {
     plugins: { unicorn },
     rules: rules
   }
-  return [[config], []]
+  return [[config], [{ rules: DEV_OVERRIDES_RULES }]]
 }
