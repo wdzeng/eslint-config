@@ -1,7 +1,6 @@
 // @ts-check
 /* eslint-disable unicorn/consistent-function-scoping */
 
-import assert from 'node:assert'
 import path from 'node:path'
 
 import tsEslint from 'typescript-eslint'
@@ -10,14 +9,12 @@ import { describe, test } from 'vitest'
 import { getConfigForJs, getConfigForTs } from '../index.mjs'
 
 /**
- * @param {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} configFile
+ * @param {import('typescript-eslint').ConfigArray} eslintConfig
  * @returns {import('eslint').Linter.RulesRecord}
  */
-function getAllRules(configFile) {
-  assert(!(configFile instanceof Promise))
-
+function getAllRules(eslintConfig) {
   const ret = /** @type {import('eslint').Linter.RulesRecord} */ {}
-  for (const config of configFile) {
+  for (const config of eslintConfig) {
     if (config.rules) {
       Object.assign(ret, config.rules)
     }
@@ -27,23 +24,27 @@ function getAllRules(configFile) {
   return ret
 }
 
+/** @returns {import('typescript-eslint').ConfigArray} */
 function getJsConfig() {
   // TODO: create another tiny project to test.
-  return getConfigForJs({}, { projectRoot: path.resolve(import.meta.dirname, 'autofix/js') })
+  return /** @type {import('typescript-eslint').ConfigArray} */ (
+    getConfigForJs({}, { projectRoot: path.resolve(import.meta.dirname, 'autofix/js') })
+  )
 }
 
+/** @returns {import('typescript-eslint').ConfigArray} */
 function getTsConfig() {
   // TODO: create another tiny project to test.
-  return getConfigForTs({}, { projectRoot: path.resolve(import.meta.dirname, 'autofix/ts') })
+  return /** @type {import('typescript-eslint').ConfigArray} */ (
+    getConfigForTs({}, { projectRoot: path.resolve(import.meta.dirname, 'autofix/ts') })
+  )
 }
 
 describe('Any rule that has name no-unnecessary-* should be set to warning level', () => {
   const EXCEPTED_RULES = ['unicorn/no-unnecessary-await']
 
-  /** @param {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} configs */
+  /** @param {import('typescript-eslint').ConfigArray} configs */
   function check(configs) {
-    assert(!(configs instanceof Promise))
-
     const rules = getAllRules(configs)
     for (const [ruleName, settings] of Object.entries(rules)) {
       if (!/^.*\/no-unnecessary-/.test(ruleName)) {
@@ -83,10 +84,8 @@ test('Any rule from typescript-eslint stylistic-type-checked preset should be se
 })
 
 describe('Any rule from prettier should be set to warning level', () => {
-  /** @param {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} configs */
+  /** @param {import('typescript-eslint').ConfigArray} configs */
   function check(configs) {
-    assert(!(configs instanceof Promise))
-
     const rules = getAllRules(configs)
     for (const [ruleName, settings] of Object.entries(rules)) {
       if (ruleName.startsWith('prettier/')) {
