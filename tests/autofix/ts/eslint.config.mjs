@@ -15,6 +15,6 @@ const configs = getConfigForTs(
 // Modify the recognized test file patterns so we could test the test files for vitest.
 //
 // @ts-expect-error: the config file is an array
-configs.find(c => c.name ==='vitest').files = ['**/*.test.in.ts']
+configs.find((c) => c.name === 'vitest').files = ['**/*.test.in.ts']
 
 export default configs

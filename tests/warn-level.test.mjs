@@ -1,5 +1,4 @@
 // @ts-check
-/* eslint-disable unicorn/consistent-function-scoping */
 
 import path from 'node:path'
 
