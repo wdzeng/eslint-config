@@ -21,6 +21,9 @@ importers:
       '@vitest/eslint-plugin':
         specifier: ^1.1.38
         version: 1.1.38(@typescript-eslint/utils@8.28.0(eslint@9.23.0)(typescript@5.8.2))(eslint@9.23.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@20.17.24))
+      eslint-config-prettier:
+        specifier: ^10.1.1
+        version: 10.1.1(eslint@9.23.0)
       eslint-import-resolver-typescript:
         specifier: ^4.2.5
         version: 4.2.5(eslint-plugin-import-x@4.9.3(eslint@9.23.0)(typescript@5.8.2))(eslint-plugin-import@2.31.0)(eslint@9.23.0)
@@ -3028,7 +3031,6 @@ snapshots:
   eslint-config-prettier@10.1.1(eslint@9.23.0):
     dependencies:
       eslint: 9.23.0
-    optional: true
 
   eslint-import-resolver-node@0.3.9:
     dependencies:
