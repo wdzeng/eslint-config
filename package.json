@@ -21,23 +21,23 @@
     "clean": "rm -rf tests/autofix/js/backup tests/autofix/ts/backup"
   },
   "dependencies": {
-    "@eslint/js": "^9.22.0",
-    "@typescript-eslint/parser": "^8.26.1",
+    "@eslint/js": "^9.23.0",
+    "@typescript-eslint/parser": "^8.28.0",
     "@vitest/eslint-plugin": "^1.1.38",
-    "eslint-import-resolver-typescript": "^3.9.1",
-    "eslint-plugin-import-x": "^4.9.1",
-    "eslint-plugin-n": "^17.16.2",
+    "eslint-import-resolver-typescript": "^4.2.5",
+    "eslint-plugin-import-x": "^4.9.3",
+    "eslint-plugin-n": "^17.17.0",
     "eslint-plugin-path-alias": "^2.1.0",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-unicorn": "^57.0.0",
+    "eslint-plugin-prettier": "^5.2.5",
+    "eslint-plugin-unicorn": "^58.0.0",
     "globals": "^16.0.0",
-    "typescript-eslint": "^8.26.1"
+    "typescript-eslint": "^8.28.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1",
     "@types/node": "^20.17.24",
-    "@typescript-eslint/utils": "^8.26.1",
-    "eslint": "^9.22.0",
+    "@typescript-eslint/utils": "^8.28.0",
+    "eslint": "^9.23.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
