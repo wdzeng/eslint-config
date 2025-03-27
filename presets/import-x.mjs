@@ -1,4 +1,3 @@
-// @ts-check
 // https://github.com/un-ts/eslint-plugin-import-x?tab=readme-ov-file#rules
 
 import tsParser from '@typescript-eslint/parser'

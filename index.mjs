@@ -1,5 +1,3 @@
-// @ts-check
-
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -68,6 +66,7 @@ function requireValidOptions(options) {
   const requiredKeys = ['projectRoot']
   const missingKeys = []
   for (const k of requiredKeys) {
+    // @ts-expect-error: it's OK to use the key here
     if (!(k in options) || options[k] === undefined) {
       missingKeys.push(k)
     }
@@ -176,7 +175,7 @@ export function getConfigForTs(userRules, options) {
       ecmaVersion: options.ecmaVersion,
       tsconfigRootDir: options.projectRoot,
       projectService: {
-        // Use allowDefaultProject so that it does not give false errors for JS files.
+        // TODO: should we add typescript files here?
         allowDefaultProject: ['*.js', '*.mjs', '*.cjs']
       }
     },

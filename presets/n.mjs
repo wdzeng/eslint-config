@@ -1,4 +1,3 @@
-// @ts-check
 // See https://github.com/eslint-community/eslint-plugin-n#-rules.
 
 import n from 'eslint-plugin-n'

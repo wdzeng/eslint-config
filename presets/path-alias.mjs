@@ -1,6 +1,6 @@
-// @ts-check
 // https://github.com/msfragala/eslint-plugin-path-alias
 
+// @ts-expect-error: this package does not have type definitions
 import pathAlias from 'eslint-plugin-path-alias'
 
 /**

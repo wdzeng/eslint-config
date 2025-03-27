@@ -1,5 +1,3 @@
-// @ts-check
-
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import tsEslint from 'typescript-eslint'
 

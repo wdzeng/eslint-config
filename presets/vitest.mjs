@@ -1,4 +1,3 @@
-// @ts-check
 // https://github.com/vitest-dev/eslint-plugin-vitest?tab=readme-ov-file#rules
 
 import vitest from '@vitest/eslint-plugin'

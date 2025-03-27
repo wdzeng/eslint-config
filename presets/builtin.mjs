@@ -1,5 +1,3 @@
-// @ts-check
-
 import eslint from '@eslint/js'
 import tsEslint from 'typescript-eslint'
 
@@ -144,7 +142,7 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
  * @returns {import('typescript-eslint').ConfigArray}
  */
 function toWarningRules(c, prefix) {
-  const ret = {}
+  const ret = /** @type {import('eslint').Linter.RulesRecord} */ ({})
   const configs = Array.isArray(c) ? c : [c]
   for (const config of configs) {
     const { rules } = config

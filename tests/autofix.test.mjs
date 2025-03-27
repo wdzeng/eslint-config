@@ -4,6 +4,7 @@ import path from 'node:path'
 import eslint from 'eslint'
 import { describe, expect, test } from 'vitest'
 
+/** @param {string} ext */
 function runTestGroup(ext) {
   describe(`[${ext}] autofix`, async () => {
     const linter = new eslint.ESLint({
@@ -17,6 +18,7 @@ function runTestGroup(ext) {
     ])
     /** @type {[string, string | undefined, string][]} */
     const testInputs = lintResults.map((r) => {
+      // @ts-expect-error: path will not be undefined
       let testName = r.filePath.split('/').at(-1).slice(0, -`.in.${ext}`.length)
       if (testName.endsWith('.test')) {
         testName = testName.slice(0, -'.test'.length)

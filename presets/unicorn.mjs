@@ -1,4 +1,3 @@
-// @ts-check
 // https://github.com/sindresorhus/eslint-plugin-unicorn#rules
 
 // The import-x plugin fails to parse a file that imports JSON, so suppress the following rules.

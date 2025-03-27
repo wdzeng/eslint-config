@@ -1,5 +1,3 @@
-// @ts-check
-
 import tsEslint from 'typescript-eslint'
 
 import { getConfigForJs, getConfigForTs } from './index.mjs'
