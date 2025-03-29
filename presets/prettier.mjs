@@ -2,16 +2,11 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import tsEslint from 'typescript-eslint'
 
 /** @type {import('typescript-eslint').ConfigArray} */
-const configs = tsEslint.config({
-  extends: [prettierRecommended],
+export default tsEslint.config(prettierRecommended, {
   rules: {
     'curly': ['warn', 'all'],
     'no-tabs': ['warn', { allowIndentationTabs: false }],
     'quotes': ['warn', 'single', { allowTemplateLiterals: false, avoidEscape: true }],
-
-    // This must be put at the end
-    'prettier/prettier': 'warn'
+    'prettier/prettier': 'warn' // This must be put at the end
   }
 })
-
-export default configs
