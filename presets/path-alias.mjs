@@ -2,6 +2,7 @@
 
 // @ts-expect-error: this package does not have type definitions
 import pathAlias from 'eslint-plugin-path-alias'
+import tsEslint from 'typescript-eslint'
 
 /**
  * @typedef Options
@@ -16,16 +17,10 @@ import pathAlias from 'eslint-plugin-path-alias'
  */
 export function getConfigs(_options) {
   return [
-    [
-      {
-        plugins: {
-          'path-alias': pathAlias
-        },
-        rules: {
-          'path-alias/no-relative': ['warn']
-        }
-      }
-    ],
+    tsEslint.config(
+      { plugins: { 'path-alias': pathAlias } },
+      { rules: { 'path-alias/no-relative': ['warn'] } }
+    ),
     []
   ]
 }

@@ -8,6 +8,7 @@ interface Options {
   node?: boolean
   browser?: boolean
   vitest?: boolean
+  testFiles?: string[]
 }
 
 export function getConfigForJs(

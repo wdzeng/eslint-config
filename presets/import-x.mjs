@@ -3,6 +3,7 @@
 import tsParser from '@typescript-eslint/parser'
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 import importX from 'eslint-plugin-import-x'
+import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -126,7 +127,10 @@ export function getJsConfigs(options) {
   if (!options.node) {
     Object.assign(rules, NON_NODE_RULES)
   }
-  return [[{ plugins: { 'import-x': importX }, rules }], [{ rules: DEV_OVERRIDES_RULES }]]
+  return [
+    tsEslint.config({ plugins: { 'import-x': importX } }, { rules }),
+    [{ rules: DEV_OVERRIDES_RULES }]
+  ]
 }
 
 /**
@@ -140,13 +144,10 @@ export function getTsConfigs(options) {
   }
 
   return [
-    [
+    tsEslint.config(
       {
         plugins: { 'import-x': importX },
-        rules,
-        languageOptions: {
-          parser: tsParser
-        },
+        languageOptions: { parser: tsParser },
         // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
         // We need to use the eslint-import-resolver-typescript plugin to resolve them.
         settings: {
@@ -156,8 +157,9 @@ export function getTsConfigs(options) {
           // TODO: parse tsconfig.json to get the baseUrl and paths.
           'import-x/internal-regex': '^@/'
         }
-      }
-    ],
+      },
+      { rules }
+    ),
     [{ rules: DEV_OVERRIDES_RULES }]
   ]
 }

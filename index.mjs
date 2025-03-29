@@ -1,6 +1,3 @@
-import fs from 'node:fs'
-import path from 'node:path'
-
 import { globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import tsEslint from 'typescript-eslint'
@@ -27,9 +24,10 @@ import {
  * @prop {boolean} [node] Whether the runtime is Node.js
  * @prop {boolean} [browser] Whether the runtime is a browser
  * @prop {boolean} [vitest] Whether the project uses Vitest
+ * @prop {string[]} [testFiles] The glob patterns of test code
  */
 
-/** @type {Required<Omit<Options, 'projectRoot'>>} */
+/** @type {Required<Omit<Options, 'projectRoot' | 'sourceCode' | 'testFiles'>>} */
 const DEFAULT_OPTIONS = {
   ecmaVersion: 2022,
   ignores: ['out/**', 'dist/**', 'build/**', 'coverage/**'],
@@ -50,7 +48,8 @@ function requireValidOptions(options) {
     'ignores',
     'node',
     'vitest',
-    'projectRoot'
+    'projectRoot',
+    'testFiles'
   ])
 
   const unknownKeys = []
@@ -77,32 +76,41 @@ function requireValidOptions(options) {
 }
 
 /**
- * Gets the ESLint configuration for JavaScript project.
- * @param {string} projectRoot project roots
+ * @param {Options} options
  * @returns {[string[], string[]]} A pair of test paths and non-test paths
  */
-function getNonProductionFilePaths(projectRoot) {
-  // If the project has a "src" directory at the root, we believe files under that are production
-  // files. Otherwise, we exclude test and configuration files only.
-  if (fs.existsSync(path.join(projectRoot, 'src'))) {
-    return [
-      // Test files everywhere
-      ['**/*.test.{js,cjs,mjs,ts,cts,mts}'],
-      // Config files at the project root directory
-      ['*.config.{js,cjs,mjs,ts,cts,mts}', '.*rc.{js,cjs,mjs,ts,cts,mts}']
-    ]
+function getNonProductionFilePaths(options) {
+  const CONFIG_FILES = ['*.config.{js,cjs,mjs,ts,cts,mts}', '.*rc.{js,cjs,mjs,ts,cts,mts}']
+  const TEST_FILES = [
+    '**/*.test.{js,cjs,mjs,ts,cts,mts}',
+    '**/*.spec.{js,cjs,mjs,ts,cts,mts}',
+    'test/**/*.{js,cjs,mjs,ts,cts,mts}',
+    'tests/**/*.{js,cjs,mjs,ts,cts,mts}'
+  ]
+
+  return [options.testFiles ?? TEST_FILES, CONFIG_FILES]
+}
+
+/**
+ * @param {import('eslint').Linter.RulesRecord} [userRules]
+ * @returns {[import('eslint').Linter.RulesRecord, import('eslint').Linter.RulesRecord]} */
+function getUserCustomRules(userRules) {
+  if (!userRules) {
+    return [{}, {}]
   }
 
-  return [
-    // Test files everywhere
-    [
-      'test/**/*.{js,cjs,mjs,ts,cts,mts}',
-      'tests/**/*.{js,cjs,mjs,ts,cts,mts}',
-      '**/*.test.{js,cjs,mjs,ts,cts,mts}'
-    ],
-    // Config files at the project root directory
-    ['*.config.{js,cjs,mjs,ts,cts,mts}', '.*rc.{js,cjs,mjs,ts,cts,mts}']
-  ]
+  /** @type {import('eslint').Linter.RulesRecord} */
+  const userCustomRules = {}
+  /** @type {import('eslint').Linter.RulesRecord} */
+  const userCustomTestSRules = {}
+  for (const [k, v] of Object.entries(userRules)) {
+    if (k.startsWith('vitest/')) {
+      userCustomTestSRules[k] = v
+    } else {
+      userCustomRules[k] = v
+    }
+  }
+  return [userCustomRules, userCustomTestSRules]
 }
 
 /**
@@ -128,7 +136,8 @@ export function getConfigForJs(userRules, options) {
     Object.assign(languageOptions.globals, globals.browser)
   }
 
-  const [testFilePaths, nonTestFilePaths] = getNonProductionFilePaths(options.projectRoot)
+  const [testFilePaths, nonTestFilePaths] = getNonProductionFilePaths(options)
+  const [userCustomRules, userCustomTestRules] = getUserCustomRules(userRules)
 
   const globalIgnoresConfig = options.ignores ? globalIgnores(options.ignores) : {}
   const languageOptionsConfig = { languageOptions }
@@ -136,12 +145,15 @@ export function getConfigForJs(userRules, options) {
   const [nConfigs, nDevConfigs] = getNJsConfigs(options)
   const [importXConfigs, importXDevConfigs] = getImportXJsConfigs(options)
   const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
-  const userCustomConfig = userRules ? { rules: userRules } : {}
   const vitestConfigs = options.vitest ? getVitestJsConfigs(testFilePaths) : []
   const nonProductionFilesConfig = tsEslint.config({
     extends: [builtinDevConfigs, nDevConfigs, importXDevConfigs, unicornDevConfigs],
     files: [...testFilePaths, ...nonTestFilePaths]
   })
+  const userCustomConfig = { rules: userCustomRules }
+  const userCustomTestConfig = options.vitest
+    ? { files: testFilePaths, rules: userCustomTestRules }
+    : {}
 
   // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
   return tsEslint.config(
@@ -151,9 +163,10 @@ export function getConfigForJs(userRules, options) {
     nConfigs,
     importXConfigs,
     unicornConfigs,
-    userCustomConfig,
     vitestConfigs,
     nonProductionFilesConfig,
+    userCustomConfig,
+    userCustomTestConfig,
     prettierConfigs
   )
 }
@@ -188,7 +201,8 @@ export function getConfigForTs(userRules, options) {
     Object.assign(languageOptions.globals, globals.browser)
   }
 
-  const [testFilePaths, nonTestFilePaths] = getNonProductionFilePaths(options.projectRoot)
+  const [testFilePaths, nonTestFilePaths] = getNonProductionFilePaths(options)
+  const [userCustomRules, userCustomTestRules] = getUserCustomRules(userRules)
 
   const globalIgnoresConfig = options.ignores ? globalIgnores(options.ignores) : {}
   const languageOptionsConfig = { name: 'language-options', languageOptions }
@@ -197,7 +211,6 @@ export function getConfigForTs(userRules, options) {
   const [importXConfigs, importXDevConfigs] = getImportXTsConfigs(options)
   const [pathAliasConfigs, pathAliasDevConfigs] = getPathAliasConfigs(options)
   const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
-  const userCustomConfig = userRules ? { rules: userRules } : {}
   const vitestConfigs = options.vitest ? getVitestTsConfigs(testFilePaths) : []
   const nonProductionFilesConfig = tsEslint.config({
     extends: [
@@ -209,6 +222,10 @@ export function getConfigForTs(userRules, options) {
     ],
     files: [...testFilePaths, ...nonTestFilePaths]
   })
+  const userCustomConfig = { rules: userCustomRules }
+  const userCustomTestConfig = options.vitest
+    ? { files: testFilePaths, rules: userCustomTestRules }
+    : {}
 
   // https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects
   return tsEslint.config(
@@ -219,9 +236,10 @@ export function getConfigForTs(userRules, options) {
     importXConfigs,
     pathAliasConfigs,
     unicornConfigs,
-    userCustomConfig,
     vitestConfigs,
     nonProductionFilesConfig,
+    userCustomConfig,
+    userCustomTestConfig,
     prettierConfigs
   )
 }

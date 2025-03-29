@@ -1,6 +1,6 @@
 import { getConfigForTs } from '../../../index.mjs'
 
-const configs = getConfigForTs(
+export default getConfigForTs(
   {}, // No custom rules.
   {
     browser: false,
@@ -8,13 +8,7 @@ const configs = getConfigForTs(
     node: true,
     vitest: true,
     ignores: ['eslint.config.mjs'],
-    projectRoot: import.meta.dirname
+    projectRoot: import.meta.dirname,
+    testFiles: ['**/*.test.in.ts']
   }
 )
-
-// Modify the recognized test file patterns so we could test the test files for vitest.
-//
-// @ts-expect-error: the config file is an array
-configs.find((c) => c.name === 'vitest').files = ['**/*.test.in.ts']
-
-export default configs

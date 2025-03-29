@@ -1,8 +1,7 @@
 // https://github.com/vitest-dev/eslint-plugin-vitest?tab=readme-ov-file#rules
 
 import vitest from '@vitest/eslint-plugin'
-
-export const CONFIG_NAME = 'vitest'
+import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -49,19 +48,16 @@ const TS_RULES = /** @type {const} */ {
  * @return {import('typescript-eslint').ConfigArray}
  */
 export function getJsConfigs(testFilePaths) {
-  return [
+  return tsEslint.config(
     {
-      name: CONFIG_NAME,
-      files: testFilePaths,
       plugins: { vitest },
-      rules: DEFAULT_RULES,
-      languageOptions: {
-        globals: {
-          ...vitest.environments.env.globals
-        }
-      }
+      languageOptions: { globals: { ...vitest.environments.env.globals } }
+    },
+    {
+      files: testFilePaths,
+      rules: DEFAULT_RULES
     }
-  ]
+  )
 }
 
 /**
@@ -69,22 +65,15 @@ export function getJsConfigs(testFilePaths) {
  * @return {import('typescript-eslint').ConfigArray}
  */
 export function getTsConfigs(testFilePaths) {
-  return [
+  return tsEslint.config(
     {
-      name: CONFIG_NAME,
-      files: testFilePaths,
       plugins: { vitest },
-      rules: Object.assign({}, DEFAULT_RULES, TS_RULES),
-      settings: {
-        vitest: {
-          typecheck: true
-        }
-      },
-      languageOptions: {
-        globals: {
-          ...vitest.environments.env.globals
-        }
-      }
+      settings: { vitest: { typecheck: true } },
+      languageOptions: { globals: { ...vitest.environments.env.globals } }
+    },
+    {
+      files: testFilePaths,
+      rules: { ...DEFAULT_RULES, ...TS_RULES }
     }
-  ]
+  )
 }

@@ -4,6 +4,7 @@
 // eslint-disable-next-line import-x/namespace, import-x/default, import-x/no-named-as-default, import-x/no-named-as-default-member
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
+import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -152,14 +153,12 @@ export function getConfigs(options) {
   if (options.browser) {
     Object.assign(rules, BROWSER_ONLY_RULES)
   }
-  const config = {
+  const config = tsEslint.config(
     // Add this language options according to the docs. See
     // https://github.com/sindresorhus/eslint-plugin-unicorn?tab=readme-ov-file#usage/
-    languageOptions: {
-      globals: globals.builtin
-    },
-    plugins: { unicorn },
-    rules: rules
-  }
-  return [[config], [{ rules: DEV_OVERRIDES_RULES }]]
+    { languageOptions: { globals: globals.builtin }, plugins: { unicorn } },
+    { rules: rules }
+  )
+
+  return [config, [{ rules: DEV_OVERRIDES_RULES }]]
 }

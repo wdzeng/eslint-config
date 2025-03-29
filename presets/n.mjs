@@ -1,6 +1,7 @@
 // See https://github.com/eslint-community/eslint-plugin-n#-rules.
 
 import n from 'eslint-plugin-n'
+import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -57,12 +58,7 @@ const JS_ONLY_RULES = /** @type {const} */ {
  */
 export function getJsConfigs(_options) {
   return [
-    [
-      {
-        plugins: { n },
-        rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES }
-      }
-    ],
+    tsEslint.config({ plugins: { n } }, { rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES } }),
     [{ rules: DEV_OVERRIDES_RULES }]
   ]
 }
@@ -73,12 +69,7 @@ export function getJsConfigs(_options) {
  */
 export function getTsConfigs(_options) {
   return [
-    [
-      {
-        plugins: { n },
-        rules: DEFAULT_RULES
-      }
-    ],
+    tsEslint.config({ plugins: { n } }, { rules: DEFAULT_RULES }),
     [{ rules: DEV_OVERRIDES_RULES }]
   ]
 }
