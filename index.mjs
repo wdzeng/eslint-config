@@ -16,19 +16,8 @@ import {
   getTsConfigs as getVitestTsConfigs
 } from './presets/vitest.mjs'
 
-/**
- * @typedef Options
- * @prop {string} projectRoot The root directory of the project
- * @prop {import('eslint').Linter.EcmaVersion} [ecmaVersion] The ECMAScript version to lint for
- * @prop {string[]} [ignores] Glob patterns to ignore
- * @prop {boolean} [node] Whether the runtime is Node.js
- * @prop {boolean} [browser] Whether the runtime is a browser
- * @prop {boolean} [vitest] Whether the project uses Vitest
- * @prop {string[]} [testFiles] The glob patterns of test code
- */
-
-/** @type {Required<Omit<Options, 'projectRoot' | 'sourceCode' | 'testFiles'>>} */
-const DEFAULT_OPTIONS = {
+/** @satisfies {Required<Omit<import('./index.d.ts').Options, 'projectRoot' | 'testFiles'>>} */
+const DEFAULT_OPTIONS = /** @type {const} */ {
   ecmaVersion: 2022,
   ignores: ['out/**', 'dist/**', 'build/**', 'coverage/**'],
   node: true,
@@ -38,8 +27,8 @@ const DEFAULT_OPTIONS = {
 
 /**
  * Ensures the options object is valid.
- * @param {object} options the options object
- * @returns {asserts options is Options}
+ * @param {import('./index.d.ts').Options} options the options object
+ * @returns {asserts options is import('./index.d.ts').Options}
  */
 function requireValidOptions(options) {
   const allowedKeys = new Set([
@@ -76,7 +65,7 @@ function requireValidOptions(options) {
 }
 
 /**
- * @param {Options} options
+ * @param {import('./index.d.ts').Options} options
  * @returns {[string[], string[]]} A pair of test paths and non-test paths
  */
 function getNonProductionFilePaths(options) {
@@ -116,7 +105,7 @@ function getUserCustomRules(userRules) {
 /**
  * Gets the ESLint configuration for JavaScript project.
  * @param {import('eslint').Linter.RulesRecord | undefined} userRules user's custom rules
- * @param {Options} options lint options
+ * @param {import('./index.d.ts').Options} options lint options
  * @returns {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile}
  */
 export function getConfigForJs(userRules, options) {
@@ -174,7 +163,7 @@ export function getConfigForJs(userRules, options) {
 /**
  * Gets the ESLint configuration for the TypeScript project.
  * @param {import('eslint').Linter.RulesRecord | undefined} userRules user's custom rules
- * @param {Options} options lint options
+ * @param {import('./index.d.ts').Options} options lint options
  * @returns {import('typescript-eslint').ConfigArray}
  */
 export function getConfigForTs(userRules, options) {
