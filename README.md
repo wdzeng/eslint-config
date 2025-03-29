@@ -3,15 +3,16 @@
 These are my custom rules for [ESLint](https://eslint.org/). Run linter + formatter (ESLint +
 Prettier) two in one.
 
-This configuration selects rules from the following plugins.
+This configuration selects rules from the following sources.
 
 - [`eslint`](https://eslint.org/)
 - [`typescript-eslint`](https://typescript-eslint.io/)
-- [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n)
+- [`n`](https://github.com/eslint-community/eslint-plugin-n)
 - [`unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn)
 - [`import-x`](https://github.com/import-js/eslint-plugin-import-x)
-- [`prettier`](https://github.com/prettier/eslint-plugin-prettier)
 - [`vitest`](https://github.com/vitest-dev/eslint-plugin-vitest)
+- [`path-alias`](https://github.com/msfragala/eslint-plugin-path-alias)
+- [`prettier`](https://github.com/prettier/eslint-plugin-prettier)
 
 ## Setup with JavaScript Project
 
@@ -30,15 +31,16 @@ export default getConfigForJs(
   // custom rules
   {
     'my-custom-rule-1': 'warn',
-    'my-custom-rule-2': 'warn'
+    'my-custom-rule-2': ['warn', { foo: 'bar' }]
   },
   // options
   {
-    node: true, // whether in Node.js
-    browser: false, // whether in browser
-    ecmaVersion: 2022, // ECMAScript version
-    ignores: ['build', 'dist', 'test/examples/**/*.js'], // ignore files
-    projectRoot: import.meta.dirname // project root dir
+    projectRoot: import.meta.dirname // project root directory
+    ignores: ['build', 'dist', 'test/examples/**/*.ts'], // global ignore files
+    ecmaVersion: 2022, // ECMAScript version (default 2022)
+    node: true, // whether in Node.js (default true)
+    browser: false, // whether in browser (default false)
+    vitest: false // whether to use vitest to run unit tests (default false)
   }
 )
 ```
@@ -49,19 +51,13 @@ Lint your codebase using ESLint:
 npx eslint --fix
 ```
 
-> [!NOTE]  
-> Also add a .prettierrc in your project. Prettier rules are also applied.
-
 ## Setup with TypeScript Project
 
 Install the required packages by running the following command in your shell:
 
 ```shell
-pnpm add -D typescript@~5.5 eslint prettier github:wdzeng/eslint-config
+pnpm add -D eslint prettier typescript github:wdzeng/eslint-config
 ```
-
-> [!NOTE]  
-> TypeScript 5.6 is not supported, as an dependency conflicts with it.
 
 Declare a `eslint.config.mjs` file in your project and add the following JavaScript code:
 
@@ -72,15 +68,16 @@ export default getConfigForTs(
   // custom rules
   {
     'my-custom-rule-1': 'warn',
-    'my-custom-rule-2': 'warn'
+    'my-custom-rule-2': ['warn', { foo: 'bar' }]
   },
   // options
   {
-    node: true, // whether in Node.js
-    browser: false, // whether in browser
-    ecmaVersion: 2022, // ECMAScript version
-    ignores: ['build', 'dist', 'test/examples/**/*.ts'], // ignore files
-    projectRoot: import.meta.dirname // project root dir
+    projectRoot: import.meta.dirname // project root directory
+    ignores: ['build', 'dist', 'test/examples/**/*.ts'], // global ignore files
+    ecmaVersion: 2022, // ECMAScript version (default 2022)
+    node: true, // whether in Node.js (default true)
+    browser: false, // whether in browser (default false)
+    vitest: false // whether to use vitest to run unit tests (default false)
   }
 )
 ```
