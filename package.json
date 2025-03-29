@@ -44,9 +44,11 @@
     "vitest": "^3.0.9"
   },
   "peerDependencies": {
+    "@vitest/eslint-plugin": ">=1.1.26",
     "eslint": ">=9.20",
     "eslint-plugin-import-x": ">=4.9",
     "eslint-plugin-n": ">=17.11",
+    "eslint-plugin-path-alias": ">=2.1",
     "eslint-plugin-prettier": ">=5.1",
     "eslint-plugin-unicorn": ">=57",
     "prettier": ">=3",
