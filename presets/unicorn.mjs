@@ -11,7 +11,6 @@ const DEFAULT_RULES = /** @type {const} */ {
   // Array-related.
   'unicorn/no-array-for-each': 'warn',
   'unicorn/no-array-method-this-argument': 'error',
-  'unicorn/no-array-push-push': 'warn',
   'unicorn/no-for-loop': 'warn',
   'unicorn/no-new-array': 'warn',
   'unicorn/no-useless-length-check': 'warn',
@@ -24,6 +23,7 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/prefer-at': 'warn',
   'unicorn/prefer-includes': 'warn',
   'unicorn/prefer-negative-index': 'warn',
+  'unicorn/prefer-single-call': 'warn',
   'unicorn/prefer-spread': 'warn',
 
   // String-related.
