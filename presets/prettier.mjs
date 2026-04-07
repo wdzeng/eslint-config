@@ -1,8 +1,8 @@
+import { defineConfig } from 'eslint/config'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
-import tsEslint from 'typescript-eslint'
 
-/** @type {import('typescript-eslint').ConfigArray} */
-export default tsEslint.config(prettierRecommended, {
+/** @type {import('eslint/config').Config[]} */
+export default defineConfig(prettierRecommended, {
   rules: {
     'curly': ['warn', 'all'],
     'no-tabs': ['warn', { allowIndentationTabs: false }],

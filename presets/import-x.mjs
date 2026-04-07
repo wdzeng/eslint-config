@@ -1,9 +1,9 @@
 // https://github.com/un-ts/eslint-plugin-import-x?tab=readme-ov-file#rules
 
 import tsParser from '@typescript-eslint/parser'
+import { defineConfig } from 'eslint/config'
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
-import importX from 'eslint-plugin-import-x'
-import tsEslint from 'typescript-eslint'
+import importXPlugin from 'eslint-plugin-import-x'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -120,22 +120,21 @@ const DEV_OVERRIDES_RULES = /** @type {const} */ {
 
 /**
  * @param {Options} options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getJsConfigs(options) {
   const rules = { ...DEFAULT_RULES }
   if (!options.node) {
     Object.assign(rules, NON_NODE_RULES)
   }
-  return [
-    tsEslint.config({ plugins: { 'import-x': importX } }, { rules }),
-    [{ rules: DEV_OVERRIDES_RULES }]
-  ]
+  const regularConfig = defineConfig({ plugins: { 'import-x': importXPlugin } }, { rules })
+  const devOverrideConfig = { rules: DEV_OVERRIDES_RULES }
+  return [regularConfig, devOverrideConfig]
 }
 
 /**
  * @param {Options} options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getTsConfigs(options) {
   const rules = { ...DEFAULT_RULES }
@@ -143,23 +142,22 @@ export function getTsConfigs(options) {
     Object.assign(rules, NON_NODE_RULES)
   }
 
-  return [
-    tsEslint.config(
-      {
-        plugins: { 'import-x': importX },
-        languageOptions: { parser: tsParser },
-        // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
-        // We need to use the eslint-import-resolver-typescript plugin to resolve them.
-        settings: {
-          'import-x/resolver-next': [
-            createTypeScriptImportResolver({ project: options.projectRoot })
-          ],
-          // TODO: parse tsconfig.json to get the baseUrl and paths.
-          'import-x/internal-regex': '^@/'
-        }
-      },
-      { rules }
-    ),
-    [{ rules: DEV_OVERRIDES_RULES }]
-  ]
+  const regularConfig = defineConfig(
+    {
+      plugins: { 'import-x': importXPlugin },
+      languageOptions: { parser: tsParser },
+      // The eslint-plugin-import-x cannot resolve TypeScript path aliases defined in tsconfig.json.
+      // We need to use the eslint-import-resolver-typescript plugin to resolve them.
+      settings: {
+        'import-x/resolver-next': [
+          createTypeScriptImportResolver({ project: options.projectRoot })
+        ],
+        // TODO: parse tsconfig.json to get the baseUrl and paths.
+        'import-x/internal-regex': '^@/'
+      }
+    },
+    { rules }
+  )
+  const devOverrideConfig = { rules: DEV_OVERRIDES_RULES }
+  return [regularConfig, devOverrideConfig]
 }

@@ -1,7 +1,7 @@
 // See https://github.com/eslint-community/eslint-plugin-n#-rules.
 
+import { defineConfig } from 'eslint/config'
 import n from 'eslint-plugin-n'
-import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -54,22 +54,23 @@ const JS_ONLY_RULES = /** @type {const} */ {
 
 /**
  * @param {Options} _options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getJsConfigs(_options) {
-  return [
-    tsEslint.config({ plugins: { n } }, { rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES } }),
-    [{ rules: DEV_OVERRIDES_RULES }]
-  ]
+  const regularConfig = defineConfig(
+    { plugins: { n } },
+    { rules: { ...DEFAULT_RULES, ...JS_ONLY_RULES } }
+  )
+  const devOverrideConfig = { rules: DEV_OVERRIDES_RULES }
+  return [regularConfig, devOverrideConfig]
 }
 
 /**
  * @param {Options} _options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getTsConfigs(_options) {
-  return [
-    tsEslint.config({ plugins: { n } }, { rules: DEFAULT_RULES }),
-    [{ rules: DEV_OVERRIDES_RULES }]
-  ]
+  const regularConfig = defineConfig({ plugins: { n } }, { rules: DEFAULT_RULES })
+  const devOverrideConfig = { rules: DEV_OVERRIDES_RULES }
+  return [regularConfig, devOverrideConfig]
 }

@@ -1,7 +1,7 @@
 // https://github.com/vitest-dev/eslint-plugin-vitest?tab=readme-ov-file#rules
 
 import vitest from '@vitest/eslint-plugin'
-import tsEslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -45,10 +45,10 @@ const TS_RULES = /** @type {const} */ {
 
 /**
  * @param {string[]} testFilePaths
- * @return {import('typescript-eslint').ConfigArray}
+ * @return {import('eslint/config').Config[]}
  */
 export function getJsConfigs(testFilePaths) {
-  return tsEslint.config(
+  return defineConfig(
     {
       plugins: { vitest },
       languageOptions: { globals: { ...vitest.environments.env.globals } }
@@ -62,10 +62,10 @@ export function getJsConfigs(testFilePaths) {
 
 /**
  * @param {string[]} testFilePaths
- * @return {import('typescript-eslint').ConfigArray}
+ * @return {import('eslint/config').Config[]}
  */
 export function getTsConfigs(testFilePaths) {
-  return tsEslint.config(
+  return defineConfig(
     {
       plugins: { vitest },
       settings: { vitest: { typecheck: true } },

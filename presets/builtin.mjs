@@ -1,4 +1,5 @@
 import eslint from '@eslint/js'
+import { defineConfig } from 'eslint/config'
 import tsEslint from 'typescript-eslint'
 
 /**
@@ -132,9 +133,9 @@ const TS_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
 }
 
 /**
- * @param {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config | import('typescript-eslint').ConfigArray} c
+ * @param {import('eslint/config').Config | import('eslint/config').Config[]} c
  * @param {string} [prefix]
- * @returns {import('typescript-eslint').ConfigArray}
+ * @returns {import('eslint/config').Config[]}
  */
 function toWarningRules(c, prefix) {
   const ret = /** @type {import('eslint').Linter.RulesRecord} */ ({})
@@ -156,7 +157,7 @@ function toWarningRules(c, prefix) {
       }
     }
   }
-  return tsEslint.config(configs, { rules: ret })
+  return defineConfig(configs, { rules: ret })
 }
 
 /**
@@ -168,31 +169,33 @@ function toWarningRules(c, prefix) {
 
 /**
  * @param {Options} _options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getJsConfigs(_options) {
-  return [
-    tsEslint.config(toWarningRules(eslint.configs.recommended, 'no-unnecessary-'), {
-      rules: ESLINT_RECOMMENDED_OVERRIDE_RULES
-    }),
-    []
-  ]
+  const eslintRecommendedRulesButWarning = toWarningRules(
+    eslint.configs.recommended,
+    'no-unnecessary-'
+  )
+  const myEslintRulesSelection = {
+    rules: ESLINT_RECOMMENDED_OVERRIDE_RULES
+  }
+  const regularConfigs = defineConfig(eslintRecommendedRulesButWarning, myEslintRulesSelection)
+  const devOverrideConfigs = {} // Empty config
+  return [regularConfigs, devOverrideConfigs]
 }
 
 /**
  * @param {Options} options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getTsConfigs(options) {
   const [jsConfig, jsDevConfig] = getJsConfigs(options)
-  return [
-    tsEslint.config(
-      jsConfig,
-      toWarningRules(tsEslint.configs.eslintRecommended, '@typescript-eslint/no-unnecessary-'),
-      toWarningRules(tsEslint.configs.strictTypeChecked, '@typescript-eslint/no-unnecessary-'),
-      toWarningRules(tsEslint.configs.stylisticTypeChecked),
-      { rules: TS_RECOMMENDED_OVERRIDE_RULES }
-    ),
-    jsDevConfig
-  ]
+  const regularConfig = defineConfig(
+    jsConfig,
+    toWarningRules(tsEslint.configs.eslintRecommended, '@typescript-eslint/no-unnecessary-'),
+    toWarningRules(tsEslint.configs.strictTypeChecked, '@typescript-eslint/no-unnecessary-'),
+    toWarningRules(tsEslint.configs.stylisticTypeChecked),
+    { rules: TS_RECOMMENDED_OVERRIDE_RULES }
+  )
+  return [regularConfig, jsDevConfig]
 }

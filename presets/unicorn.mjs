@@ -1,10 +1,10 @@
 // https://github.com/sindresorhus/eslint-plugin-unicorn#rules
 
+import { defineConfig } from 'eslint/config'
 // The import-x plugin fails to parse a file that imports JSON, so suppress the following rules.
 // eslint-disable-next-line import-x/namespace, import-x/default, import-x/no-named-as-default, import-x/no-named-as-default-member
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
-import tsEslint from 'typescript-eslint'
 
 /** @satisfies {import('eslint').Linter.RulesRecord} */
 const DEFAULT_RULES = /** @type {const} */ {
@@ -148,7 +148,7 @@ const DEV_OVERRIDES_RULES = /** @type {const} */ {
 
 /**
  * @param {Options} options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getConfigs(options) {
   const rules = { ...DEFAULT_RULES }
@@ -158,12 +158,14 @@ export function getConfigs(options) {
   if (options.browser) {
     Object.assign(rules, BROWSER_ONLY_RULES)
   }
-  const config = tsEslint.config(
+
+  const regularConfig = defineConfig(
     // Add this language options according to the docs. See
     // https://github.com/sindresorhus/eslint-plugin-unicorn?tab=readme-ov-file#usage/
     { languageOptions: { globals: globals.builtin }, plugins: { unicorn } },
     { rules: rules }
   )
 
-  return [config, [{ rules: DEV_OVERRIDES_RULES }]]
+  const devOverrideConfig = { rules: DEV_OVERRIDES_RULES }
+  return [regularConfig, devOverrideConfig]
 }

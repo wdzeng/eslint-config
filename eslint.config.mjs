@@ -1,35 +1,31 @@
-import tsEslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 
 import { getConfigForJs, getConfigForTs } from './index.mjs'
 
-const generalConfigs = /** @type {import('typescript-eslint').ConfigArray} */ (
-  getConfigForJs(
-    {
-      // We add file extensions to import JS and TS files in this project.
-      'import-x/extensions': ['error', 'ignorePackages']
-    },
-    {
-      browser: false,
-    ecmaVersion: 2023,
-      ignores: ['tests/**/*.js', 'tests/**/*.ts'],
-      node: true,
-      projectRoot: import.meta.dirname
-    }
-  )
-)
-
-let tsConfigs = /** @type {import('typescript-eslint').ConfigArray} */ (
-  getConfigForTs(undefined, {
+const generalConfigs = getConfigForJs(
+  {
+    // We add file extensions to import JS and TS files in this project.
+    'import-x/extensions': ['error', 'ignorePackages']
+  },
+  {
     browser: false,
-    ecmaVersion: 2022,
+    ecmaVersion: 2023,
+    ignores: ['tests/**/*.js', 'tests/**/*.ts'],
     node: true,
     projectRoot: import.meta.dirname
-  })
+  }
 )
 
-tsConfigs = tsEslint.config({
+let tsConfigs = getConfigForTs(undefined, {
+  browser: false,
+  ecmaVersion: 2023,
+  node: true,
+  projectRoot: import.meta.dirname
+})
+
+tsConfigs = defineConfig({
   extends: [tsConfigs],
   files: ['index.d.ts']
 })
 
-export default tsEslint.config(generalConfigs, tsConfigs)
+export default defineConfig(generalConfigs, tsConfigs)

@@ -1,5 +1,5 @@
-import type { TSESLint } from '@typescript-eslint/utils'
 import type { Linter } from 'eslint'
+import type { Config } from 'eslint/config'
 
 interface Options {
   projectRoot: string
@@ -14,9 +14,9 @@ interface Options {
 export function getConfigForJs(
   userRules: Linter.RulesRecord | undefined,
   options: Options
-): TSESLint.FlatConfig.ConfigFile
+): Config[]
 
 export function getConfigForTs(
   userRules: Linter.RulesRecord | undefined,
   options: Options
-): TSESLint.FlatConfig.ConfigFile
+): Config[]

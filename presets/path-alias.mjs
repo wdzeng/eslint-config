@@ -1,8 +1,8 @@
 // https://github.com/msfragala/eslint-plugin-path-alias
 
+import { defineConfig } from 'eslint/config'
 // @ts-expect-error: this package does not have type definitions
 import pathAlias from 'eslint-plugin-path-alias'
-import tsEslint from 'typescript-eslint'
 
 /**
  * @typedef Options
@@ -13,14 +13,13 @@ import tsEslint from 'typescript-eslint'
 
 /**
  * @param {Options} _options
- * @return {[import('typescript-eslint').ConfigArray, import('typescript-eslint').ConfigArray]}
+ * @return {[import('eslint/config').Config[], import('eslint/config').Config]}
  */
 export function getConfigs(_options) {
-  return [
-    tsEslint.config(
-      { plugins: { 'path-alias': pathAlias } },
-      { rules: { 'path-alias/no-relative': ['warn'] } }
-    ),
-    []
-  ]
+  const regularConfig = defineConfig(
+    { plugins: { 'path-alias': pathAlias } },
+    { rules: { 'path-alias/no-relative': 'warn' } }
+  )
+  const devOverrideConfig = {} // Empty config
+  return [regularConfig, devOverrideConfig]
 }
