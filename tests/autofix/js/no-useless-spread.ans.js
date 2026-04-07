@@ -21,7 +21,3 @@ for (const e of set) {
 export function* g() {
   yield* f2()
 }
-
-export function h(arr) {
-  return arr.map((x) => x * 2)
-}
