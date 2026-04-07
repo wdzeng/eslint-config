@@ -11,8 +11,12 @@ const DEFAULT_RULES = /** @type {const} */ {
   // Array-related.
   'unicorn/no-array-for-each': 'warn',
   'unicorn/no-array-method-this-argument': 'error',
+  'unicorn/no-array-reverse': 'warn',
+  'unicorn/no-array-sort': 'warn',
   'unicorn/no-for-loop': 'warn',
   'unicorn/no-new-array': 'warn',
+  'unicorn/no-unnecessary-slice-end': 'warn',
+  // 'unicorn/no-useless-iterator-to-array': 'warn', // Require v64; enable this once we are using newer EcmaScript target version.
   'unicorn/no-useless-length-check': 'warn',
   'unicorn/no-useless-spread': 'warn',
   'unicorn/prefer-array-find': 'warn',
@@ -104,6 +108,7 @@ const DEFAULT_RULES = /** @type {const} */ {
   'unicorn/prefer-blob-reading-methods': 'warn',
   'unicorn/prefer-json-parse-buffer': 'warn',
   'unicorn/prefer-keyboard-event-key': 'warn',
+  'unicorn/prefer-bigint-literals': 'warn',
   'unicorn/prefer-number-properties': ['error', { checkInfinity: true, checkNaN: true }],
   'unicorn/prefer-object-from-entries': 'warn',
   'unicorn/prefer-prototype-methods': 'error',

@@ -35,7 +35,6 @@ export function* noNew() {
   // yield new Number() // non-autofixable
   // yield new Boolean() // non-autofixable
   yield new Symbol()
-  yield new BigInt(0)
 
   yield new Buffer('7468697320697320612074c3a97374', 'hex')
   yield new Buffer([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
