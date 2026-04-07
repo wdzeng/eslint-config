@@ -56,12 +56,12 @@
     "typescript-eslint": ">=8.3"
   },
   "engines": {
-    "node": "^20.18.3 || ^22.12 || >=v23.1"
+    "node": ">=24"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "^24.14.1",
+      "version": ">=24",
       "onFail": "error"
     }
   }
