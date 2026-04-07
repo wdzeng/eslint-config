@@ -1,5 +1,4 @@
 // Please also update JS/TS test if you are changing this file.
-/* eslint-disable capitalized-comments */
 
 export function* preferCharAt(str, i) {
   // TODO: some auto-fixings are not working (commented); check if they will be fixed in the future.

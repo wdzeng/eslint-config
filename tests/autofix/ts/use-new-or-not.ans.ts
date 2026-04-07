@@ -1,5 +1,4 @@
 // Please also update JS/TS test if you are changing this file.
-/* eslint-disable capitalized-comments */
 
 export function* shouldAddNew() {
   // yield Object() // Don't need to autofix this; it's unrealistic

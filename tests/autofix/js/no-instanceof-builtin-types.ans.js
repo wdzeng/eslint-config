@@ -1,6 +1,5 @@
 // Please also update JS/TS test if you are changing this file.
 /* eslint-disable no-unused-expressions */
-/* eslint-disable capitalized-comments */
 
 export default function (foo) {
   // TODO: some auto-fixings are not working (commented); check if they will be fixed in the future.

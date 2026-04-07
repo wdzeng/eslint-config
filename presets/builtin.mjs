@@ -9,11 +9,6 @@ import tsEslint from 'typescript-eslint'
  */
 const ESLINT_RECOMMENDED_OVERRIDE_RULES = /** @type {const} */ {
   // Styles.
-  'capitalized-comments': [
-    'warn',
-    'always',
-    { ignoreConsecutiveComments: true, ignorePattern: 'cspell:' }
-  ],
   'curly': ['warn', 'all'],
   'dot-notation': 'warn',
   'linebreak-style': ['error', 'unix'],
