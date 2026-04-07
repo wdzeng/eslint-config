@@ -37,7 +37,7 @@ export default getConfigForJs(
   {
     projectRoot: import.meta.dirname // project root directory
     ignores: ['build', 'dist', 'test/examples/**/*.ts'], // global ignore files
-    ecmaVersion: 2022, // ECMAScript version (default 2022)
+    ecmaVersion: 2023, // ECMAScript version (default 2023)
     node: true, // whether in Node.js (default true)
     browser: false, // whether in browser (default false)
     vitest: false // whether to use vitest to run unit tests (default false)
@@ -74,7 +74,7 @@ export default getConfigForTs(
   {
     projectRoot: import.meta.dirname // project root directory
     ignores: ['build', 'dist', 'test/examples/**/*.ts'], // global ignore files
-    ecmaVersion: 2022, // ECMAScript version (default 2022)
+    ecmaVersion: 2023, // ECMAScript version (default 2023)
     node: true, // whether in Node.js (default true)
     browser: false, // whether in browser (default false)
     vitest: false // whether to use vitest to run unit tests (default false)

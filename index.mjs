@@ -18,7 +18,7 @@ import {
 
 /** @satisfies {Required<Omit<import('./index.d.ts').Options, 'projectRoot' | 'testFiles'>>} */
 const DEFAULT_OPTIONS = /** @type {const} */ {
-  ecmaVersion: 2022,
+  ecmaVersion: 2023,
   ignores: ['out/**', 'dist/**', 'build/**', 'coverage/**'],
   node: true,
   browser: false,

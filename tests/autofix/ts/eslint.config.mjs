@@ -4,7 +4,7 @@ export default getConfigForTs(
   {}, // No custom rules.
   {
     browser: false,
-    ecmaVersion: 2022,
+    ecmaVersion: 2023,
     node: true,
     vitest: true,
     ignores: ['eslint.config.mjs'],

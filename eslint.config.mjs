@@ -10,7 +10,7 @@ const generalConfigs = /** @type {import('typescript-eslint').ConfigArray} */ (
     },
     {
       browser: false,
-      ecmaVersion: 2022,
+    ecmaVersion: 2023,
       ignores: ['tests/**/*.js', 'tests/**/*.ts'],
       node: true,
       projectRoot: import.meta.dirname
