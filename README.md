@@ -11,7 +11,6 @@ This configuration selects rules from the following sources.
 - [`unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn)
 - [`import-x`](https://github.com/import-js/eslint-plugin-import-x)
 - [`vitest`](https://github.com/vitest-dev/eslint-plugin-vitest)
-- [`path-alias`](https://github.com/msfragala/eslint-plugin-path-alias)
 - [`prettier`](https://github.com/prettier/eslint-plugin-prettier)
 
 ## Setup with JavaScript Project
@@ -106,6 +105,5 @@ along with the package.
 - `eslint-plugin-unicorn` >=57: to support the `eslint-plugin-unicorn/consistent-date-clone`,
   `eslint-plugin-unicorn/no-accessor-recursion`, `eslint-plugin-unicorn/no-named-default`, and
   `eslint-plugin-unicorn/no-instanceof-builtins` rules.
-- `eslint-plugin-path-alias` >=2: to automatic support for TypeScript paths and package imports.
 - `@vitest/eslint-plugin` >=v1.1.26: to support the `prefer-strict-boolean-matchers` rule.
 - `eslint-plugin-prettier` >=5.1: to use the provided recommended rule set.

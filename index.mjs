@@ -7,7 +7,6 @@ import {
   getTsConfigs as getImportXTsConfigs
 } from './presets/import-x.mjs'
 import { getJsConfigs as getNJsConfigs, getTsConfigs as getNTsConfigs } from './presets/n.mjs'
-import { getConfigs as getPathAliasConfigs } from './presets/path-alias.mjs'
 import prettierConfigs from './presets/prettier.mjs'
 import { getConfigs as getUnicornConfigs } from './presets/unicorn.mjs'
 import {
@@ -196,7 +195,6 @@ export function getConfigForTs(userRules, options) {
   const [builtinConfigs, builtinDevConfigs] = getTsConfigs(options)
   const [nConfigs, nDevConfigs] = getNTsConfigs(options)
   const [importXConfigs, importXDevConfigs] = getImportXTsConfigs(options)
-  const [pathAliasConfigs, pathAliasDevConfigs] = getPathAliasConfigs(options)
   const [unicornConfigs, unicornDevConfigs] = getUnicornConfigs(options)
   const vitestConfigs = options.vitest ? getVitestTsConfigs(testFilePaths) : []
   const nonProductionFilesConfig = defineConfig({
@@ -204,7 +202,6 @@ export function getConfigForTs(userRules, options) {
       builtinDevConfigs,
       nDevConfigs,
       importXDevConfigs,
-      pathAliasDevConfigs,
       unicornDevConfigs
     ],
     files: [...testFilePaths, ...nonTestFilePaths]
@@ -220,7 +217,6 @@ export function getConfigForTs(userRules, options) {
     builtinConfigs,
     nConfigs,
     importXConfigs,
-    pathAliasConfigs,
     unicornConfigs,
     vitestConfigs,
     nonProductionFilesConfig,
